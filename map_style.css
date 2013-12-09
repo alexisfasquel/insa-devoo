@@ -5,10 +5,37 @@ graph
 
 node 
 {
-    size: 5px;
+    size: 8px;
     fill-color: rgb(255, 255, 255);
     stroke-mode: plain;
     stroke-color: rgb(180, 180, 180);
+}
+
+node.warehouse
+{
+    size: 15px;
+    fill-color: blue;
+}
+
+node.green 
+{
+    size: 12px;
+    fill-color: green;
+}
+node.magenta
+{
+    size: 12px;
+    fill-color: magenta;
+}
+node.cyan
+{
+    size: 12px;
+    fill-color: cyan;
+}
+
+node:clicked 
+{
+    fill-color: red;
 }
 
 edge 
@@ -20,11 +47,6 @@ edge
     shadow-color: rgb(180, 180, 180);
     shadow-width: 2px;
     shadow-offset: 0px;
-}
-
-node:clicked 
-{
-    fill-color: red;
 }
 
 edge.avenue 
@@ -45,4 +67,17 @@ edge.boulevard
     shadow-width: 2px;
     shadow-offset: 0px;
     fill-color: rgb(255, 220, 0); 
+}
+
+edge.green 
+{
+    fill-color: green;
+}
+edge.magenta
+{
+    fill-color: magenta;
+}
+edge.cyan
+{
+    fill-color: cyan;
 }

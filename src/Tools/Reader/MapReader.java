@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package Tools;
+package Tools.Reader;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,15 +23,13 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 
 
-public class PlanReader extends DefaultHandler{
+public class MapReader extends DefaultHandler{
     
     private PlanHandler mPlanHandler = new PlanHandler();
     private File mFile;
     
-    public PlanReader(String filePath) {
-        SAXParserFactory fabrique = SAXParserFactory.newInstance();
+    public MapReader(String filePath) {
         mFile = new File(filePath);
-        
     }
     
     public void process() throws ParserConfigurationException, SAXException, IOException {
@@ -146,6 +144,5 @@ public class PlanReader extends DefaultHandler{
             public int getNodeIdR() {
                 return mNodeIdFinish;
             }        
-
         }
 }
