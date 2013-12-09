@@ -14,6 +14,7 @@ import Tools.Tsp.TSP;
 import View.MainWindow;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,7 +41,7 @@ public class Area{
     
     MultiGraph mGraph;
     
-    private String mWareHouseId;
+    private Node mWareHouse;
     private List<Itinary> mTour;
     
     public Area() {
@@ -51,6 +52,8 @@ public class Area{
         mGraph.addAttribute("ui.antialias");
         mGraph.addAttribute("ui.stylesheet", "url('./map_style.css')");
         
+        mTour = new ArrayList<>();
+        
         mAstar = new AStar(mGraph);
         
         mAstar.setCosts(new TimeCost());
@@ -58,6 +61,21 @@ public class Area{
     
     public MultiGraph getGraph() {
         return mGraph;
+    }
+    
+    public void setWareHouse(String wareHouseId) {
+        mWareHouse = mGraph.getNode(wareHouseId);
+        mWareHouse.setAttribute("ui.class", "warehouse");
+    }
+    
+    public Itinary addItinary(Date start, Date end) {
+        Itinary itinary = new Itinary(start, end, mTour.size());
+        mTour.add(itinary);
+        return itinary;
+    }
+    
+    public void addDelivery(Itinary itinary, String idClient, String adress) {
+        itinary.addDeliveryPoint(mGraph.getNode(adress), idClient);
     }
     
     public void loadMap(String filePath) {
@@ -92,37 +110,22 @@ public class Area{
         }
     }
     
-    public void loadTour(String filePath) {
+    public void loadDeliveries(String filePath) {
         DeliveryLoader deliveryReader = new DeliveryLoader("livraison.xml", this);
         try {
             deliveryReader.process();
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        Node node = mGraph.getNode(mWareHouseId);
-        node.setAttribute("ui.class", "warehouse");
-        
-        for (int i = 0; i < mTour.size(); i++) {
-            List<DeliveryPoint> deliveries = mTour.get(i).getDeliveryPoints();
-            for (int j = 0; j < deliveries.size(); j++) {
-                node = mGraph.getNode(deliveries.get(j).getAdress());
-                node.setAttribute("ui.class", TEST[i]);
-            }
-        }
     }
     
-    public void setTour(String wareHouseId, List<Itinary> tour) {
-        mWareHouseId = wareHouseId;
-        mTour = tour;
-    }
+    
+    
     //TODO Transfor NullPointerException into our own exception
     public void computeRoadMap() throws NullPointerException {
         if (mTour == null) {
             throw new NullPointerException();
         }
-        
-       
         ArrayList<ArrayList<Integer>> succ = new ArrayList<ArrayList<Integer>>();
         
         int maxArcCost = 0;
@@ -147,7 +150,7 @@ public class Area{
         for (int i = 0; i < mTour.size(); i++) {
             
             // Getting the list of deliveryPoint of the current time frame
-            List<DeliveryPoint> timeFrame = mTour.get(i).getDeliveryPoints();
+            List<Node> timeFrame = mTour.get(i).getDeliveries();
             
             //If we' looping over the first time frame...
             if (i == 0) {
@@ -155,7 +158,7 @@ public class Area{
                 ArrayList<Integer> succTmp = new ArrayList<>();
                 for (int j = 0; j < timeFrame.size(); j++) {
                     succTmp.add(j+offset);
-                    mAstar.compute(mWareHouseId, timeFrame.get(j).getAdress());
+                    mAstar.compute(mWareHouse.getId(), timeFrame.get(j).getId());
                     Path path = mAstar.getShortestPath();
                     int cost = (int)(double)path.getPathWeight("time");
                     costs[0][j+offset] = cost;
@@ -170,12 +173,12 @@ public class Area{
             }
             // Now, for each delivery point..
             for (int j = 0; j < timeFrame.size(); j++) {
-                DeliveryPoint dp = timeFrame.get(j);
+                Node dp = timeFrame.get(j);
                 ArrayList<Integer> succJ = succ.get(j+offset);
                 // If we're at the last itinary of the tour, we'll have to add the warehouse as a succesor
                 if (i == mTour.size() - 1) {
                     succJ.add(0);
-                    mAstar.compute(dp.getAdress(), mWareHouseId);
+                    mAstar.compute(dp.getId(), mWareHouse.getId());
                     Path path = mAstar.getShortestPath();
                     int cost = (int)(double)path.getPathWeight("time");
                     costs[j+offset][0] = cost;
@@ -187,11 +190,11 @@ public class Area{
                     }
                 } else { // If not the last itinary...
                     // Then we add as successors each delivery point from the next itinary
-                    List<DeliveryPoint> nextTimeFrame = mTour.get(i+1).getDeliveryPoints();
+                    List<Node> nextTimeFrame = mTour.get(i+1).getDeliveries();
                     for (int k = 0; k < nextTimeFrame.size(); k++) {
                         int id = k + offset + timeFrame.size();
                         succJ.add(id);
-                        mAstar.compute(dp.getAdress(), nextTimeFrame.get(k).getAdress());
+                        mAstar.compute(dp.getId(), nextTimeFrame.get(k).getId());
                         Path path = mAstar.getShortestPath();
                         int cost = (int)(double)path.getPathWeight("time");
                         System.out.println(j+offset + "->" + id + " : " + path.getRoot().getId() + "->" + path.getNodePath().get(path.getNodeCount()-1).getId());
@@ -210,7 +213,7 @@ public class Area{
                     if (j != k) {
                         succJ.add(k+offset);
                         
-                        mAstar.compute(dp.getAdress(), timeFrame.get(k).getAdress());
+                        mAstar.compute(dp.getId(), timeFrame.get(k).getId());
                         Path path = mAstar.getShortestPath();
                         System.out.println((j+offset) + "->" + (k+offset) + " : " + path.getRoot().getId() + "->" + path.getNodePath().get(path.getNodeCount()-1).getId());
                         int cost = (int)(double)path.getPathWeight("time");
@@ -232,32 +235,25 @@ public class Area{
         TSP solver = new TSP(g);
         SolutionState solve = solver.solve(10000, nbVertices*maxArcCost);
         int[] next = solver.getNext();
-        
+        int[] solution = new int[next.length+1];
+        System.arraycopy(next, 0, solution, 1, next.length);
+        solution[0] = 0;
         System.out.println("TESTST");
         
         //Translating the solution into smth usefull
-        offset = 0;
+        offset = 1;
         for (int i = 0; i < mTour.size(); i++) {
             Itinary itinary = mTour.get(i);
             int size = itinary.getDeliveryNb();
-            int[] order = new int[size];
-            Path[] directions = new Path[size];
+            List<Path> directions = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                order[j] = next[j+offset] - offset - 1;
-                
-                directions[j] = paths[next[j+offset]][next[j+offset+1]];
-                //yepSystem.out.println(next[j+offset] + "->" + next[j+offset+1] + " : " + directions[j].getRoot().getId() + "->" + directions[j].getNodePath().get(directions[j].getNodeCount()-1).getId());
                 if(j+offset == 0) {
-                    Path p = paths[0][next[j+offset]];
-                    List<Edge> direction = p.getEdgePath();
-                    for (int l = 0; l < direction.size(); l++) {
-                        direction.get(l).setAttribute("ui.class", "green");
-                    }
+                    
                 }
+                directions.add(paths[solution[j+offset]][solution[j+offset+1]]);
             }
             offset += size;
-            itinary.order(order);
-            itinary.addDirections(directions);
+            itinary.setDirections(directions);
         }
         
         

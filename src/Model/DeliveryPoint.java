@@ -6,45 +6,30 @@
 
 package Model;
 
-import org.graphstream.graph.Path;
 
 /**
  *
  * @author Aleks
  */
 public class DeliveryPoint {
-   private String mId;
-   private String mClientId;
-   private String mAdress;
+   private final String mClientId;
+   private final Itinary mItinary;
    
-   private Path mDirection;
-   
-   public DeliveryPoint(String id, String clientId, String adress){
+   public DeliveryPoint(String clientId, Itinary itinary){
        super();
-       mId = id;
        mClientId = clientId;
-       mAdress = adress;
+       mItinary = itinary;
    }
    
-   public String getId(){
-       return mId;
-   }
-
-    public String getNclient() {
+    public final String getNclient() {
         return mClientId;
     }
-
-    public String getAdress() {
-        return mAdress;
+    
+    public final Itinary getItinary() {
+        return mItinary;
     }
 
-    public Path getDirection() {
-        return mDirection;
-    }
-
-    public void setDirection(Path direction) {
-        mDirection = direction;
-    }
+   
     
     
    

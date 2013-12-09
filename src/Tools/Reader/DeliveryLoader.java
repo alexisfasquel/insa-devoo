@@ -25,14 +25,12 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class DeliveryLoader {
     
-    private final DeliveryHandler mDeliveryHandler = new DeliveryHandler();
+    private final DeliveryHandler mDeliveryHandler;
     private final File mFile;
-    
-    private Area mArea;
     
     public DeliveryLoader(String filePath, Area area) {
         mFile = new File(filePath);
-        mArea = area;
+        mDeliveryHandler = new DeliveryHandler(area);
     }
     
     public void process() throws ParserConfigurationException, SAXException, IOException {
@@ -40,30 +38,25 @@ public class DeliveryLoader {
         SAXParser parseur = fabrique.newSAXParser();
         parseur.parse(mFile, mDeliveryHandler);  
         
-        mArea.setTour(mDeliveryHandler.wareHouseId, mDeliveryHandler.mTour);
     }
     
     
     public static class DeliveryHandler extends DefaultHandler{
         
+        private Area mArea;
         
+        private Itinary mItinary;
         
-        private String wareHouseId = null;
-        private Itinary mItinary = null;
-        private List<Itinary> mTour;
-        
-        private int index = 0;
-        
-        public DeliveryHandler(){
+        public DeliveryHandler(Area area){
             super();
-            mTour = new ArrayList<>();
+            mArea = area;
         }
    
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
             
             if (qName.equals("Entrepot")) {
-                wareHouseId = attributes.getValue("adresse");
+                mArea.setWareHouse(attributes.getValue("adresse"));
                 
             } else if(qName.equals("Plage")) {
                 Date start;
@@ -78,8 +71,7 @@ public class DeliveryLoader {
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
                     start = sdf.parse(attributes.getValue("heureDebut"));
                     end = sdf.parse(attributes.getValue("heureFin"));
-                    mItinary = new Itinary(start, end, index);
-                    index++;
+                    mItinary = mArea.addItinary(start, end);
                     
                 } catch(ParseException e) {
                     //TODO Handle Exception
@@ -91,18 +83,29 @@ public class DeliveryLoader {
                     String cliendId = attributes.getValue("client");
                     String deliveryAdress = attributes.getValue("adresse");
                     
-                    mItinary.addDeliveryPoint(new DeliveryPoint(deliveryId, cliendId, deliveryAdress));
+                    mArea.addDelivery(mItinary, cliendId, deliveryAdress);
             }
         }
-            
-        @Override
-        public void endElement(String uri, String localName, String qName) throws SAXException {
-            
-            if (qName.equals("Plage")) {
-                mTour.add(mItinary);
-                mItinary = null;
-            }
-        }       
     }
+    
+    /*private static class Delivery {
+        private final String mAdress;
+        private final String mIdClient;
+
+        public Delivery(String adress, String idClient) {
+            mAdress = adress;
+            mIdClient = idClient;
+        }
+        
+        public String getAdress() {
+            return mAdress;
+        }
+
+        public String getIdClient() {
+            return mIdClient;
+        }
+        
+        
+    }*/
 }
 
