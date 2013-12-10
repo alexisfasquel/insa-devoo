@@ -68,7 +68,7 @@ public class Itinary {
     
     void setDirections(List<Path> directions) {
         mRoadMap = directions;
-        for (int i = 0; i < mDelivery.size(); i++) {
+        for (int i = 0; i < mRoadMap.size(); i++) {
             List<Edge> direction = mRoadMap.get(i).getEdgePath();
             for (int j = 0; j < direction.size(); j++) {
                 direction.get(j).setAttribute("ui.class", mColor);

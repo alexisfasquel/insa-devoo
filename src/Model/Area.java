@@ -241,16 +241,16 @@ public class Area{
         System.out.println("TESTST");
         
         //Translating the solution into smth usefull
-        offset = 1;
+        offset = 0;
         for (int i = 0; i < mTour.size(); i++) {
             Itinary itinary = mTour.get(i);
             int size = itinary.getDeliveryNb();
             List<Path> directions = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                if(j+offset == 0) {
-                    
-                }
                 directions.add(paths[solution[j+offset]][solution[j+offset+1]]);
+            }
+            if(i == mTour.size() - 1) {
+                directions.add(paths[solution[nbVertices-1]][solution[nbVertices]]);
             }
             offset += size;
             itinary.setDirections(directions);
