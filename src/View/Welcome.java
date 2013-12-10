@@ -6,10 +6,8 @@
 
 package View;
 
-import Controller.MainController;
-import Model.Area;
+import Controller.Controller;
 import java.awt.BorderLayout;
-import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -26,75 +24,88 @@ import org.graphstream.ui.swingViewer.Viewer;
  */
 public class Welcome extends JFrame {
     
-    private MainController mController;
-    private JPanel mContentF;
-    private JPanel mButtonsF;
+    private Controller mController;
+    private View mMap;
+    private JPanel mButtonsPanel;
     private JButton mButLoadPlan;
     private JButton mButLoadDelivery;
-    private MultiGraph mGraph;
-    //private JFileChooser mFcArea;
-    //private JFileChooser mFcDeliveries;
+    private JButton mButComputeItinary;
+ 
     
     
-  public Welcome (MainController pController) {
-      
-      this.setTitle("Bouton");
-      this.setSize(300, 300);
-      this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      this.setLocationRelativeTo(null);
-            //On définit le layout à utiliser sur le content pane
-      this.setLayout(new BorderLayout());
-      
-      
-      // On instancie les élèments de notre fenêtre.
-      
-      mController = pController;
-      mContentF = new JPanel();
-      mButtonsF = new JPanel();
-      mButLoadDelivery = new JButton(" Charger livraisons");
-      mButLoadDelivery.setEnabled(false);
-      mButLoadPlan = new JButton("Charger Plan");
-      
-      
-      this.getContentPane().add(mContentF, BorderLayout.CENTER);
-      this.getContentPane().add(mButtonsF, BorderLayout.EAST);
-      
-      mButtonsF.add(mButLoadPlan);
-      mButtonsF.add(mButLoadDelivery);
-      
-      
-     final JFrame frame = this;
-     mButLoadPlan.addActionListener(new ActionListener() {
-          
-          @Override
-          public void actionPerformed(ActionEvent e) {
-               JFileChooser mFcArea = new JFileChooser();
-               
-               int retval = mFcArea.showOpenDialog(frame);
-               if (retval == JFileChooser.APPROVE_OPTION){
-                   
-                   mGraph = mController.loadPlan(mFcArea.getSelectedFile().getName());
-                   Viewer v = new Viewer(mGraph, Viewer.ThreadingModel.GRAPH_IN_SWING_THREAD);
-                   View view = v.getDefaultView();
-                   view.setMouseManager(new PlanMouseManager());
-                   mContentF.add(view);
-                   
-                   mButLoadDelivery.setEnabled(true);
-                   
-                   }
-          }
-      });
-      
-      
-      
-      
-      
-      
-      this.setVisible(true);
-      
-}
 
-  
+    public Welcome(Controller controller, MultiGraph graph) {
+        mController = controller;
+        
+        this.setTitle("Bouton");
+        this.setSize(500, 500);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        //On définit le layout à utiliser sur le content pane
+        this.setLayout(new BorderLayout());
+      
+      
+        // On instancie les élèments de notre fenêtre.
+        mButtonsPanel = new JPanel();
+        mButLoadDelivery = new JButton(" Charger livraisons");
+        mButLoadDelivery.setEnabled(false);
+        mButLoadPlan = new JButton("Charger Plan");
+        mButComputeItinary = new JButton("Calculer la tournée");
+        mButComputeItinary.setEnabled(false);
+        
+        // Initing and adding the graph viewer
+        Viewer v = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_SWING_THREAD);
+        mMap = v.addDefaultView(false);
+        mMap.setMouseManager(new MapMouseManager());
 
+        mButtonsPanel.add(mButLoadPlan);
+        mButtonsPanel.add(mButLoadDelivery);
+        mButtonsPanel.add(mButComputeItinary);
+        
+        this.getContentPane().add(mButtonsPanel, BorderLayout.PAGE_START);
+        
+        this.getContentPane().add(mMap, BorderLayout.CENTER);
+      
+        final JFrame frame = this;
+        mButLoadPlan.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser mFcArea = new JFileChooser();
+
+                int retval = mFcArea.showOpenDialog(frame);
+                if (retval == JFileChooser.APPROVE_OPTION){
+
+                    mController.loadPlan(mFcArea.getSelectedFile().getName());
+                    mButLoadDelivery.setEnabled(true);
+
+                }
+             }
+        });
+        
+        mButLoadDelivery.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser mFcArea = new JFileChooser();
+
+                int retval = mFcArea.showOpenDialog(frame);
+                if (retval == JFileChooser.APPROVE_OPTION){
+                    mController.loadDeliveries(mFcArea.getSelectedFile().getName());  
+                    mButComputeItinary.setEnabled(true);
+                }
+            }
+        });
+        
+        mButComputeItinary.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mController.computeRoadMap();
+            }
+        });
+      
+        this.setVisible(true);
+    }
    
 }

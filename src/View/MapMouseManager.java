@@ -14,9 +14,9 @@ import org.graphstream.ui.swingViewer.util.DefaultMouseManager;
  *
  * @author Aleks
  */
-public class PlanMouseManager extends DefaultMouseManager{
+public class MapMouseManager extends DefaultMouseManager{
 
-    public PlanMouseManager() {
+    public MapMouseManager() {
         super();
     }
 

@@ -11,13 +11,10 @@ import Tools.Reader.MapReader;
 import Tools.Tsp.RegularGraph;
 import Tools.Tsp.SolutionState;
 import Tools.Tsp.TSP;
-import View.MainWindow;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import org.graphstream.algorithm.AStar;
 import org.graphstream.algorithm.AStar.Costs;
@@ -78,14 +75,13 @@ public class Area{
         itinary.addDeliveryPoint(mGraph.getNode(adress), idClient);
     }
     
-    public void loadMap(String filePath) {
-        MapReader planReader = new MapReader("plan.xml");
+    public void loadMap(String filePath) 
+            throws LoadingException {
         
-        try {
-            planReader.process();
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        MapReader planReader = new MapReader(filePath);
+        
+        planReader.process();
+        
         List<MapReader.Node> nodes = planReader.getNodes();
         for (int i = 0; i < nodes.size(); i++) {
             Node aNode = mGraph.addNode(String.valueOf(nodes.get(i).getId()));
@@ -93,7 +89,7 @@ public class Area{
         }
         List<MapReader.Edge> edges = planReader.getEdges();
         for (int i = 0; i < edges.size(); i++) {
-            try {
+            
                 Edge edge = mGraph.addEdge(String.valueOf(i), String.valueOf(edges.get(i).getNodeIdL()), String.valueOf(edges.get(i).getNodeIdR()), true);
                 //edge.addAttribute("ui.label", (int)edges.get(i).getweight());
                 if(edges.get(i).getweight() > 110) {
@@ -104,19 +100,14 @@ public class Area{
                     edge.addAttribute("ui.class", "avenue" );    
                 }
                 edge.setAttribute("time", edges.get(i).getweight());
-            } catch(Exception e) {
-                
-            }
         }
     }
     
-    public void loadDeliveries(String filePath) {
-        DeliveryLoader deliveryReader = new DeliveryLoader("livraison.xml", this);
-        try {
-            deliveryReader.process();
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void loadDeliveries(String filePath) throws LoadingException{
+        
+        DeliveryLoader deliveryReader = new DeliveryLoader(filePath, this);
+        deliveryReader.process();
+        
     }
     
     
@@ -160,6 +151,9 @@ public class Area{
                     succTmp.add(j+offset);
                     mAstar.compute(mWareHouse.getId(), timeFrame.get(j).getId());
                     Path path = mAstar.getShortestPath();
+                    if(Path == null) {
+                            System.exit(0);
+                        }
                     int cost = (int)(double)path.getPathWeight("time");
                     costs[0][j+offset] = cost;
                     paths[0][j+offset] = path;
@@ -180,6 +174,9 @@ public class Area{
                     succJ.add(0);
                     mAstar.compute(dp.getId(), mWareHouse.getId());
                     Path path = mAstar.getShortestPath();
+                    if(Path == null) {
+                            System.exit(0);
+                        }
                     int cost = (int)(double)path.getPathWeight("time");
                     costs[j+offset][0] = cost;
                     paths[j+offset][0] = path;
@@ -196,6 +193,9 @@ public class Area{
                         succJ.add(id);
                         mAstar.compute(dp.getId(), nextTimeFrame.get(k).getId());
                         Path path = mAstar.getShortestPath();
+                        if(Path == null) {
+                            System.exit(0);
+                        }
                         int cost = (int)(double)path.getPathWeight("time");
                         System.out.println(j+offset + "->" + id + " : " + path.getRoot().getId() + "->" + path.getNodePath().get(path.getNodeCount()-1).getId());
                         costs[j+offset][id] = cost;
@@ -215,6 +215,9 @@ public class Area{
                         
                         mAstar.compute(dp.getId(), timeFrame.get(k).getId());
                         Path path = mAstar.getShortestPath();
+                        if(Path == null) {
+                            System.exit(0);
+                        }
                         System.out.println((j+offset) + "->" + (k+offset) + " : " + path.getRoot().getId() + "->" + path.getNodePath().get(path.getNodeCount()-1).getId());
                         int cost = (int)(double)path.getPathWeight("time");
                         costs[j+offset][k+offset] = cost;
