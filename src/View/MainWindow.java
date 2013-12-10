@@ -20,7 +20,9 @@ public class MainWindow extends JFrame{
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    
+    
+    /* public static void main(String[] args) {
 
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
          
@@ -39,5 +41,9 @@ public class MainWindow extends JFrame{
 
     public MainWindow() {
     }
+<<<<<<< Updated upstream
     
+=======
+    */
+>>>>>>> Stashed changes
 }

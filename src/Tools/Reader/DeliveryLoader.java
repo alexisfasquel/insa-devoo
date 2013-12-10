@@ -1,7 +1,10 @@
 
 package Tools.Reader;
 
+<<<<<<< Updated upstream
 import Controller.SaxHandler;
+=======
+>>>>>>> Stashed changes
 import Model.Area;
 import Model.DeliveryPoint;
 import Model.Itinary;
@@ -29,6 +32,7 @@ public class DeliveryLoader {
     private final DeliveryHandler mDeliveryHandler;
     private final File mFile;
     
+<<<<<<< Updated upstream
     public DeliveryLoader(String filePath, Area area) throws Exception {
         try{
                 mFile = new File(filePath);
@@ -59,6 +63,18 @@ public class DeliveryLoader {
                 
                 
         //Pas erreur si  mauvais nom fichier
+=======
+    public DeliveryLoader(String filePath, Area area) {
+        mFile = new File(filePath);
+        mDeliveryHandler = new DeliveryHandler(area);
+    }
+    
+    public void process() throws ParserConfigurationException, SAXException, IOException {
+        SAXParserFactory fabrique = SAXParserFactory.newInstance();
+        SAXParser parseur = fabrique.newSAXParser();
+        parseur.parse(mFile, mDeliveryHandler);  
+        
+>>>>>>> Stashed changes
     }
     
     
@@ -83,6 +99,13 @@ public class DeliveryLoader {
                 Date start;
                 Date end;
 
+<<<<<<< Updated upstream
+=======
+                //Exemple on how to use Date
+                //Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+                //calendar.setTime(date);   // assigns calendar to given date 
+                //int hour = calendar.get(Calendar.HOUR);...
+>>>>>>> Stashed changes
                 
                 try {
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -91,13 +114,19 @@ public class DeliveryLoader {
                     mItinary = mArea.addItinary(start, end);
                     
                 } catch(ParseException e) {
+<<<<<<< Updated upstream
                       System.out.println("Erreur de parssage sur l'heure de début ou de fin");
+=======
+                    //TODO Handle Exception
+                    Logger.getGlobal().log(Level.SEVERE, e.getMessage());
+>>>>>>> Stashed changes
                 }
                 
             } else if(qName.equals("Livraison")) {
                     String deliveryId = attributes.getValue("id");
                     String cliendId = attributes.getValue("client");
                     String deliveryAdress = attributes.getValue("adresse");
+<<<<<<< Updated upstream
              
                     mArea.addDelivery(mItinary, cliendId, deliveryAdress);
             }
@@ -105,6 +134,11 @@ public class DeliveryLoader {
 		//erreur, on peut lever une exception
 		//System.out.println("Balise "+qName+" inconnue.");
 	}
+=======
+                    
+                    mArea.addDelivery(mItinary, cliendId, deliveryAdress);
+            }
+>>>>>>> Stashed changes
         }
     }
     

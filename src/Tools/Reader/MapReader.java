@@ -28,6 +28,7 @@ public class MapReader extends DefaultHandler{
     private PlanHandler mPlanHandler = new PlanHandler();
     private File mFile;
     
+<<<<<<< Updated upstream
     public MapReader(String filePath) throws Exception {
      try{
         mFile = new File(filePath);
@@ -52,6 +53,16 @@ public class MapReader extends DefaultHandler{
 			System.out.println("Le fichier n'est pas trouvable");
                         throw new SAXException("Le fichier n'est pas trouvable");
 	}
+=======
+    public MapReader(String filePath) {
+        mFile = new File(filePath);
+    }
+    
+    public void process() throws ParserConfigurationException, SAXException, IOException {
+        SAXParserFactory fabrique = SAXParserFactory.newInstance();
+        SAXParser parseur = fabrique.newSAXParser();
+        parseur.parse(mFile, mPlanHandler);
+>>>>>>> Stashed changes
         
     }
     
