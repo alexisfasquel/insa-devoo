@@ -1,6 +1,7 @@
 
 package Tools.Reader;
 
+import Controller.SaxHandler;
 import Model.Area;
 import Model.DeliveryPoint;
 import Model.Itinary;
@@ -28,16 +29,36 @@ public class DeliveryLoader {
     private final DeliveryHandler mDeliveryHandler;
     private final File mFile;
     
-    public DeliveryLoader(String filePath, Area area) {
-        mFile = new File(filePath);
-        mDeliveryHandler = new DeliveryHandler(area);
+    public DeliveryLoader(String filePath, Area area) throws Exception {
+        try{
+                mFile = new File(filePath);
+                mDeliveryHandler = new DeliveryHandler(area);
+        }
+        catch(Exception pce){
+                        System.out.println("Le fichier est un string null");
+                        throw new Exception("Le fichier est un string null");
+			
+        }
     }
     
     public void process() throws ParserConfigurationException, SAXException, IOException {
-        SAXParserFactory fabrique = SAXParserFactory.newInstance();
-        SAXParser parseur = fabrique.newSAXParser();
-        parseur.parse(mFile, mDeliveryHandler);  
-        
+        try{
+            SAXParserFactory fabrique = SAXParserFactory.newInstance();
+            SAXParser parseur = fabrique.newSAXParser();
+            SaxHandler gestionnaire = new SaxHandler();
+            parseur.parse(mFile, mDeliveryHandler);  
+        }
+        catch(SAXException se){
+			System.out.println("Erreur de parsing");
+			System.out.println("une balise manque");
+                        throw new SAXException("Erreur de parssage une balise est manquante");
+        }catch(IOException ioe){
+			System.out.println("Le fichier n'est pas trouvable");
+                        throw new SAXException("Le fichier n'est pas trouvable");
+	}
+                
+                
+        //Pas erreur si  mauvais nom fichier
     }
     
     
@@ -62,10 +83,6 @@ public class DeliveryLoader {
                 Date start;
                 Date end;
 
-                //Exemple on how to use Date
-                //Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-                //calendar.setTime(date);   // assigns calendar to given date 
-                //int hour = calendar.get(Calendar.HOUR);...
                 
                 try {
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -74,17 +91,20 @@ public class DeliveryLoader {
                     mItinary = mArea.addItinary(start, end);
                     
                 } catch(ParseException e) {
-                    //TODO Handle Exception
-                    Logger.getGlobal().log(Level.SEVERE, e.getMessage());
+                      System.out.println("Erreur de parssage sur l'heure de début ou de fin");
                 }
                 
             } else if(qName.equals("Livraison")) {
                     String deliveryId = attributes.getValue("id");
                     String cliendId = attributes.getValue("client");
                     String deliveryAdress = attributes.getValue("adresse");
-                    
+             
                     mArea.addDelivery(mItinary, cliendId, deliveryAdress);
             }
+            else{
+		//erreur, on peut lever une exception
+		//System.out.println("Balise "+qName+" inconnue.");
+	}
         }
     }
     

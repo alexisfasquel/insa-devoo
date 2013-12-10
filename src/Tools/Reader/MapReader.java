@@ -28,14 +28,30 @@ public class MapReader extends DefaultHandler{
     private PlanHandler mPlanHandler = new PlanHandler();
     private File mFile;
     
-    public MapReader(String filePath) {
+    public MapReader(String filePath) throws Exception {
+     try{
         mFile = new File(filePath);
+    }catch(Exception pce){
+                        System.out.println("Le fichier est un string null");
+                        throw new Exception("Le fichier est un string null");
+			
+        }
     }
     
     public void process() throws ParserConfigurationException, SAXException, IOException {
-        SAXParserFactory fabrique = SAXParserFactory.newInstance();
+       try{
+           SAXParserFactory fabrique = SAXParserFactory.newInstance();
+       
         SAXParser parseur = fabrique.newSAXParser();
         parseur.parse(mFile, mPlanHandler);
+       } catch(SAXException se){
+			System.out.println("Erreur de parsing");
+			System.out.println("une balise manque");
+                        throw new SAXException("Erreur de parssage une balise est manquante");
+        }catch(IOException ioe){
+			System.out.println("Le fichier n'est pas trouvable");
+                        throw new SAXException("Le fichier n'est pas trouvable");
+	}
         
     }
     
