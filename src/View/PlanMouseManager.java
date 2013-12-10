@@ -24,4 +24,5 @@ public class PlanMouseManager extends DefaultMouseManager{
     protected void elementMoving(GraphicElement element, MouseEvent event) {
     
     }
+    
 }
