@@ -6,6 +6,7 @@
 
 package Model;
 
+import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,12 +19,15 @@ import static org.junit.Assert.*;
  * @author admin
  */
 public class DeliveryPointTest {
+     String mClientId;
+     Itinary mItinary;
+     DeliveryPoint dp;
     
     public DeliveryPointTest() {
     }
     
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() {        
     }
     
     @AfterClass
@@ -32,6 +36,10 @@ public class DeliveryPointTest {
     
     @Before
     public void setUp() {
+       mClientId="mClientId";
+       Date date = new Date();
+       mItinary=new Itinary(date, date, 0);
+       dp = new DeliveryPoint(mClientId, mItinary);
     }
     
     @After
@@ -44,12 +52,12 @@ public class DeliveryPointTest {
     @Test
     public void testGetNclient() {
         System.out.println("getNclient");
-        DeliveryPoint instance = null;
-        String expResult = "";
-        String result = instance.getNclient();
-        assertEquals(expResult, result);
+        String expResult = "mClientId";
+        String result = dp.getNclient();
+        assertEquals("mClientId", dp.getNclient());
+
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -58,12 +66,11 @@ public class DeliveryPointTest {
     @Test
     public void testGetItinary() {
         System.out.println("getItinary");
-        DeliveryPoint instance = null;
-        Itinary expResult = null;
-        Itinary result = instance.getItinary();
+        Itinary expResult = mItinary;
+        Itinary result = dp.getItinary();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
     
 }
