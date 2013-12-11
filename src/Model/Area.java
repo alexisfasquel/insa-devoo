@@ -11,18 +11,16 @@ import Tools.Reader.MapReader;
 import Tools.Tsp.RegularGraph;
 import Tools.Tsp.SolutionState;
 import Tools.Tsp.TSP;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import javax.xml.parsers.ParserConfigurationException;
 import org.graphstream.algorithm.AStar;
 import org.graphstream.algorithm.AStar.Costs;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
 import org.graphstream.graph.implementations.MultiGraph;
-import org.xml.sax.SAXException;
 
 /**
  *
@@ -133,7 +131,8 @@ public class Area{
             }
         }
         
-	int[][] costs = new int[nbVertices][nbVertices]; 
+	int[][] costs = new int[nbVertices][nbVertices];
+        
         Path[][] paths = new Path[nbVertices][nbVertices];
         
         //Offset to compute the index through the double loop
@@ -151,9 +150,6 @@ public class Area{
                     succTmp.add(j+offset);
                     mAstar.compute(mWareHouse.getId(), timeFrame.get(j).getId());
                     Path path = mAstar.getShortestPath();
-                    if(Path == null) {
-                            System.exit(0);
-                        }
                     int cost = (int)(double)path.getPathWeight("time");
                     costs[0][j+offset] = cost;
                     paths[0][j+offset] = path;
@@ -174,9 +170,6 @@ public class Area{
                     succJ.add(0);
                     mAstar.compute(dp.getId(), mWareHouse.getId());
                     Path path = mAstar.getShortestPath();
-                    if(Path == null) {
-                            System.exit(0);
-                        }
                     int cost = (int)(double)path.getPathWeight("time");
                     costs[j+offset][0] = cost;
                     paths[j+offset][0] = path;
@@ -193,9 +186,6 @@ public class Area{
                         succJ.add(id);
                         mAstar.compute(dp.getId(), nextTimeFrame.get(k).getId());
                         Path path = mAstar.getShortestPath();
-                        if(Path == null) {
-                            System.exit(0);
-                        }
                         int cost = (int)(double)path.getPathWeight("time");
                         System.out.println(j+offset + "->" + id + " : " + path.getRoot().getId() + "->" + path.getNodePath().get(path.getNodeCount()-1).getId());
                         costs[j+offset][id] = cost;
@@ -215,9 +205,6 @@ public class Area{
                         
                         mAstar.compute(dp.getId(), timeFrame.get(k).getId());
                         Path path = mAstar.getShortestPath();
-                        if(Path == null) {
-                            System.exit(0);
-                        }
                         System.out.println((j+offset) + "->" + (k+offset) + " : " + path.getRoot().getId() + "->" + path.getNodePath().get(path.getNodeCount()-1).getId());
                         int cost = (int)(double)path.getPathWeight("time");
                         costs[j+offset][k+offset] = cost;
@@ -231,6 +218,14 @@ public class Area{
                 }
             }
             offset += timeFrame.size();
+        }
+        
+        for (int i = 0; i < costs.length; i++) {
+            for (int j = 0; j < costs[0].length; j++) {
+                if(costs[i][j] == 0) {
+                    costs[i][j] = maxArcCost + 1;
+                }
+            }
         }
         
         //Computing solution
