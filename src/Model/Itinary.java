@@ -7,8 +7,6 @@
 package Model;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.graphstream.graph.Edge;
@@ -69,9 +67,8 @@ public class Itinary {
     void setDirections(List<Path> directions) {
         mRoadMap = directions;
         for (int i = 0; i < mRoadMap.size(); i++) {
-            List<Edge> direction = mRoadMap.get(i).getEdgePath();
-            for (int j = 0; j < direction.size(); j++) {
-                direction.get(j).setAttribute("ui.class", mColor);
+            for (Edge edge: mRoadMap.get(i).getEachEdge()) {
+                edge.addAttribute("ui.class", mColor);
             }
         }
     }

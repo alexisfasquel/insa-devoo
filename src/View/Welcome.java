@@ -53,11 +53,13 @@ public class Welcome extends JFrame {
         mButComputeItinary = new JButton("Calculer la tournée");
         mButComputeItinary.setEnabled(false);
         
-        // Initing and adding the graph viewer
+        //Initing and adding the graph viewer
         Viewer v = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_SWING_THREAD);
+        
         mMap = v.addDefaultView(false);
+        
         mMap.setMouseManager(new MapMouseManager());
-
+        
         mButtonsPanel.add(mButLoadPlan);
         mButtonsPanel.add(mButLoadDelivery);
         mButtonsPanel.add(mButComputeItinary);

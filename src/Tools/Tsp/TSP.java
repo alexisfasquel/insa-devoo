@@ -40,7 +40,24 @@ public class TSP {
 		int[][] cost = graph.getCost();
 		next = new int[n];
 		Solver solver = new Solver();
-
+                
+                System.out.println("Cout max : " + maxCost) ;
+                System.out.println("Cout min : " + minCost) ;
+                
+                for (int i = 0; i < graph.getNbVertices(); i++) {
+                    System.out.print("Successeur de " + i + " :");
+                    for (int j = 0; j < graph.getNbSucc(i); j++) {
+                        System.out.print(graph.getSucc(i)[j] + " ");
+                    }
+                    System.out.println("");
+                    for (int j = 0; j < cost[0].length; j++) {
+                        if(cost[i][j] == 0) {
+                            cost[i][j] = maxCost + 1;
+                        }
+                        System.out.println(i + "->" + j + ": " + cost[i][j]);
+                    }
+                }
+                
 		// Create variables
 		// xNext[i] = vertex visited after i
 		IntVar[] xNext = new IntVar[n];

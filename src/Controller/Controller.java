@@ -26,7 +26,7 @@ public class Controller {
     }
     private void startApp() {
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-        new Welcome (this, mArea.getGraph());
+        new Welcome (this, mArea.getGraph());    
     }
     
     

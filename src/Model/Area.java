@@ -12,7 +12,6 @@ import Tools.Tsp.RegularGraph;
 import Tools.Tsp.SolutionState;
 import Tools.Tsp.TSP;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.graphstream.algorithm.AStar;
@@ -30,8 +29,9 @@ import org.graphstream.graph.implementations.MultiGraph;
 
 public class Area{
     
+    private static final int MAX_TIME = 10000;
     private static final String[] TEST = {"green", "magenta", "cyan"};
-     
+    
     private AStar mAstar;
     
     MultiGraph mGraph;
@@ -60,7 +60,7 @@ public class Area{
     
     public void setWareHouse(String wareHouseId) {
         mWareHouse = mGraph.getNode(wareHouseId);
-        mWareHouse.setAttribute("ui.class", "warehouse");
+        mWareHouse.addAttribute("ui.class", "warehouse");
     }
     
     public Itinary addItinary(Date start, Date end) {
@@ -97,7 +97,7 @@ public class Area{
                 } else {
                     edge.addAttribute("ui.class", "avenue" );    
                 }
-                edge.setAttribute("time", edges.get(i).getweight());
+                edge.addAttribute("time", edges.get(i).getweight());
         }
     }
     
@@ -108,8 +108,6 @@ public class Area{
         
     }
     
-    
-    
     //TODO Transfor NullPointerException into our own exception
     public void computeRoadMap() throws NullPointerException {
         if (mTour == null) {
@@ -118,7 +116,7 @@ public class Area{
         ArrayList<ArrayList<Integer>> succ = new ArrayList<ArrayList<Integer>>();
         
         int maxArcCost = 0;
-	int minArcCost = 1000;
+	int minArcCost = 1000000;
         
         //Init the number of vertice and the list by computing the total of delivery point of the tour
         int nbVertices = 1; // Not forgetting the warehouse 
@@ -155,7 +153,8 @@ public class Area{
                     paths[0][j+offset] = path;
                     if(maxArcCost < cost) {
                         maxArcCost = cost;
-                    } else if (minArcCost > cost) {
+                    }
+                    if (minArcCost > cost) {
                         minArcCost = cost;
                     }
                 }
@@ -175,7 +174,8 @@ public class Area{
                     paths[j+offset][0] = path;
                     if(maxArcCost < cost) {
                         maxArcCost = cost;
-                    } else if (minArcCost > cost) {
+                    }
+                    if (minArcCost > cost) {
                         minArcCost = cost;
                     }
                 } else { // If not the last itinary...
@@ -187,12 +187,12 @@ public class Area{
                         mAstar.compute(dp.getId(), nextTimeFrame.get(k).getId());
                         Path path = mAstar.getShortestPath();
                         int cost = (int)(double)path.getPathWeight("time");
-                        System.out.println(j+offset + "->" + id + " : " + path.getRoot().getId() + "->" + path.getNodePath().get(path.getNodeCount()-1).getId());
                         costs[j+offset][id] = cost;
                         paths[j+offset][id] = path;
                         if(maxArcCost < cost) {
                             maxArcCost = cost;
-                        } else if (minArcCost > cost) {
+                        }
+                        if (minArcCost > cost) {
                             minArcCost = cost;
                         }
                     }
@@ -205,13 +205,13 @@ public class Area{
                         
                         mAstar.compute(dp.getId(), timeFrame.get(k).getId());
                         Path path = mAstar.getShortestPath();
-                        System.out.println((j+offset) + "->" + (k+offset) + " : " + path.getRoot().getId() + "->" + path.getNodePath().get(path.getNodeCount()-1).getId());
                         int cost = (int)(double)path.getPathWeight("time");
                         costs[j+offset][k+offset] = cost;
                         paths[j+offset][k+offset] = path;
                         if(maxArcCost < cost) {
                             maxArcCost = cost;
-                        } else if (minArcCost > cost) {
+                        }
+                        if (minArcCost > cost) {
                             minArcCost = cost;
                         }
                     }
@@ -220,23 +220,33 @@ public class Area{
             offset += timeFrame.size();
         }
         
-        for (int i = 0; i < costs.length; i++) {
+        /*for (int i = 0; i < costs.length; i++) {
             for (int j = 0; j < costs[0].length; j++) {
                 if(costs[i][j] == 0) {
                     costs[i][j] = maxArcCost + 1;
                 }
+                System.out.println(i + "->" + j + ": " + costs[i][j]);
             }
         }
+        System.out.println("Min cost:" + minArcCost + " et Max cost:" + maxArcCost);*/
         
         //Computing solution
         RegularGraph g = new RegularGraph(nbVertices, minArcCost, maxArcCost, costs, succ);
         TSP solver = new TSP(g);
-        SolutionState solve = solver.solve(10000, nbVertices*maxArcCost);
+        SolutionState solve = solver.solve(MAX_TIME, maxArcCost*nbVertices);
         int[] next = solver.getNext();
         int[] solution = new int[next.length+1];
-        System.arraycopy(next, 0, solution, 1, next.length);
-        solution[0] = 0;
-        System.out.println("TESTST");
+        
+        
+        
+        for (int i = 0; i < next.length; i++) {
+            solution[i] = i;
+            solution[i+1] = next[i];
+        }
+        
+        for (int i = 0; i < solution.length; i++) {
+            System.out.println(solution[i]);
+        }
         
         //Translating the solution into smth usefull
         offset = 0;
@@ -267,7 +277,7 @@ public class Area{
         @Override
         public double cost(Node node, Edge edge, Node node1) {
             if(edge.getSourceNode().equals(node))
-                return 10000000; 
+                return Integer.MAX_VALUE; 
             return edge.getAttribute("time");
         }
         
