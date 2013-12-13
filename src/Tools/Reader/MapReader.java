@@ -5,10 +5,13 @@
  */
 
 package Tools.Reader;
+import Model.LoadingException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -28,32 +31,25 @@ public class MapReader extends DefaultHandler{
     private PlanHandler mPlanHandler = new PlanHandler();
     private File mFile;
     
-    public MapReader(String filePath) throws Exception {
-     try{
+    public MapReader(String filePath) {
         mFile = new File(filePath);
-    }catch(Exception pce){
-                        System.out.println("Le fichier est un string null");
-                        throw new Exception("Le fichier est un string null");
-			
-        }
     }
     
-    public void process() throws ParserConfigurationException, SAXException, IOException {
-       try{
-           SAXParserFactory fabrique = SAXParserFactory.newInstance();
-       
-        SAXParser parseur = fabrique.newSAXParser();
-        parseur.parse(mFile, mPlanHandler);
-       } catch(SAXException se){
-			System.out.println("Erreur de parsing");
-			System.out.println("une balise manque");
-                        throw new SAXException("Erreur de parssage une balise est manquante");
-        }catch(IOException ioe){
-			System.out.println("Le fichier n'est pas trouvable");
-                        throw new SAXException("Le fichier n'est pas trouvable");
-	}
-        
+    public void process() throws LoadingException {
+        try {
+            SAXParserFactory fabrique = SAXParserFactory.newInstance();
+            SAXParser parseur = fabrique.newSAXParser();
+            parseur.parse(mFile, mPlanHandler);
+        } catch (SAXException ex) {
+            throw new LoadingException("Error");
+        } catch (IOException ex) {
+            throw new LoadingException("Error");
+        } catch (ParserConfigurationException ex) {
+            throw new LoadingException("Error");
+        }
+              
     }
+
     
     public List<Node> getNodes() {
         return mPlanHandler.mNodes;
@@ -85,20 +81,15 @@ public class MapReader extends DefaultHandler{
                mNodes.add(id, mNode);
 
            } else if(qName.equals("TronconSortant")) {
+    
+                String name = attributes.getValue("nomRue");
+                double speed = Float.parseFloat(attributes.getValue("vitesse").replace(",", "."));
+                double lenght = Float.parseFloat(attributes.getValue("longueur").replace(",", "."));
+                int destination = Integer.parseInt(attributes.getValue("destination"));
 
-                    try{
-                            String name = attributes.getValue("nomRue");
-                            double speed = Float.parseFloat(attributes.getValue("vitesse").replace(",", "."));
-                            double lenght = Float.parseFloat(attributes.getValue("longueur").replace(",", "."));
-                            int destination = Integer.parseInt(attributes.getValue("destination"));
-                            
-                            Edge edge = new Edge(mNode.getId(), destination, name, speed, lenght);
-                            mEdges.add(edge);
-                            
-                    }catch(Exception e){
-                            //erreur, le contenu de id n'est pas un entier
-                            throw new SAXException(e);
-                    }
+                Edge edge = new Edge(mNode.getId(), destination, name, speed, lenght);
+                mEdges.add(edge);
+                     
             }
         }
 

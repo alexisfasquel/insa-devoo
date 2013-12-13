@@ -53,7 +53,11 @@ public class Itinary {
         intersection.setAttribute("ui.class", mColor);
         return mDelivery.add(intersection);
     }
-    
+       public void RemoveDeliveryPoint(Node intersection, String idClient) {
+        DeliveryPoint dp = new DeliveryPoint(idClient, this);
+        intersection.removeAttribute("delivery");
+        intersection.removeAttribute("ui.class");
+    }
     public List<Node> getDeliveries() {
         return mDelivery;
     }

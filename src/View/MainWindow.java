@@ -7,6 +7,7 @@
 package View;
 
 import Model.Area;
+import Model.LoadingException;
 import javax.swing.JFrame;
 import org.graphstream.ui.swingViewer.Viewer;
 
@@ -20,7 +21,7 @@ public class MainWindow extends JFrame{
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws LoadingException {
 
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
          
