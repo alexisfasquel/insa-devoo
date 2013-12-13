@@ -30,7 +30,7 @@ public class Itinary {
     public static final int MAGENTA = 1;
     public static final int CYAN = 2;
     
-    private List<Node> mDelivery;
+    private List<Node> mDeliveries;
     private List<Path> mRoadMap;
     
     private final String mColor;
@@ -38,24 +38,32 @@ public class Itinary {
     public Itinary(Date start, Date end, int colorId){
         mStart = start;
         mEnd = end;
-        mDelivery = new ArrayList<>();
+        mDeliveries = new ArrayList<>();
         mColor = COLORS[colorId];
     }
     
     
     public int getDeliveryNb() {
-        return mDelivery.size();
+        return mDeliveries.size();
+    }
+    
+    public Date getStart() {
+        return mStart;
+    }
+    
+    public Date getEnd() {
+        return mEnd;
     }
     
     public boolean addDeliveryPoint(Node intersection, String idClient) {
         DeliveryPoint dp = new DeliveryPoint(idClient, this);
         intersection.setAttribute("delivery", dp);
         intersection.setAttribute("ui.class", mColor);
-        return mDelivery.add(intersection);
+        return mDeliveries.add(intersection);
     }
     
     public List<Node> getDeliveries() {
-        return mDelivery;
+        return mDeliveries;
     }
     
     /*public void order(int[] order) {

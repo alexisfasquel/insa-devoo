@@ -271,6 +271,11 @@ public class Area{
             return edge.getAttribute("time");
         }
         
+        
+        
     }
     
+    public List<Itinary> getTour() {
+        return mTour;
+    }
 }
