@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import Model.Area;
 
 /**
  *
@@ -33,6 +34,7 @@ public class DijkstraTest {
   
     public DijkstraTest() {
         controller= new Controller();
+
     }
     
     @BeforeClass
