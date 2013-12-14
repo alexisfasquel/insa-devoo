@@ -36,6 +36,7 @@ import org.graphstream.graph.Node;
  */
 public class Welcome extends JFrame {
     
+    private boolean alreadyLoad;
     private Controller mController;
     private Area mArea;
     private View mMap;
@@ -44,6 +45,9 @@ public class Welcome extends JFrame {
     private JButton mButLoadPlan;
     private JButton mButLoadDelivery;
     private JButton mButComputeItinary;
+    private JButton mButUnDo;
+    private JButton mButReDo;
+    private JButton mButDeleteDel;
     private JTable mDelTable;
     private DefaultTableModel mTableModel;
     
@@ -56,7 +60,7 @@ public class Welcome extends JFrame {
      //for each itinary.
         for (int i = 0; i < mArea.getTour().size(); i++) {
             
-            Itinary currentItinary = currentTour.get(0);
+            Itinary currentItinary = currentTour.get(i);
             
             String startTime = currentItinary.getStart().toString();
             String endTime = currentItinary.getEnd().toString();
@@ -66,7 +70,7 @@ public class Welcome extends JFrame {
             //for each delivery within current itinary.
             for (int j = 0; j < currentItinary.getDeliveryNb(); j++) {
                 
-               Node address = currentItinary.getDeliveries().get(1);
+               Node address = currentItinary.getDeliveries().get(j);
                
                
                String deliveryAddress = address.getId();
@@ -91,7 +95,7 @@ public class Welcome extends JFrame {
         mController = controller;
         mArea = pArea;
         
-        this.setTitle("Bouton");
+        this.setTitle("Welcome");
         this.setSize(1000, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -102,17 +106,25 @@ public class Welcome extends JFrame {
         // On instancie les élèments de notre fenêtre.
         mButtonsPanel = new JPanel();
         mListPanel = new JPanel();
+        
         mButLoadDelivery = new JButton(" Charger livraisons");
         mButLoadDelivery.setEnabled(false);
         mButLoadPlan = new JButton("Charger Plan");
         mButComputeItinary = new JButton("Calculer la tournée");
         mButComputeItinary.setEnabled(false);
-
-        
+        mButUnDo = new JButton("UnDo");
+        mButUnDo.setEnabled(false);
+        mButReDo = new JButton("Redo");
+        mButReDo.setEnabled(false);
+        mButDeleteDel = new JButton("Supprimer Livraison");
+        mButDeleteDel.setEnabled(false);
+                
+                
+       // Table
        String colNames[] = {"idClient", "adresse", "Début plage horaire", "Fin plage horaire"};
      
         
-       final DefaultTableModel mTableModel = new DefaultTableModel(colNames, 10);
+       final DefaultTableModel mTableModel = new DefaultTableModel(colNames, 0);
        JTable mDelTable = new JTable(mTableModel);
        JScrollPane scrollpane = new JScrollPane(mDelTable);
        
@@ -130,7 +142,10 @@ public class Welcome extends JFrame {
         mButtonsPanel.add(mButLoadPlan);
         mButtonsPanel.add(mButLoadDelivery);
         mButtonsPanel.add(mButComputeItinary);
-        
+        mButtonsPanel.add(mButReDo);
+        mButtonsPanel.add(mButUnDo);
+        mButtonsPanel.add(mButDeleteDel);   
+                
         this.getContentPane().add(mButtonsPanel, BorderLayout.PAGE_START);
         
         this.getContentPane().add(mMap, BorderLayout.CENTER);
@@ -166,9 +181,18 @@ public class Welcome extends JFrame {
 
                 int retval = mFcArea.showOpenDialog(frame);
                 if (retval == JFileChooser.APPROVE_OPTION){
+                    
+                    if ( alreadyLoad ) {
                     mController.loadDeliveries(mFcArea.getSelectedFile().getName());  
                     mButComputeItinary.setEnabled(true);
-            
+                    
+                    mTableModel.setRowCount(0);
+                    
+                    }
+                    else {
+                        mController.loadDeliveries(mFcArea.getSelectedFile().getName());  
+                        mButComputeItinary.setEnabled(true);
+                    }
                     
                     fillTable(mTableModel);
                    
@@ -177,14 +201,39 @@ public class Welcome extends JFrame {
             }
         });
         
+        
+        
         mButComputeItinary.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                    
                 mController.computeRoadMap();
             }
         });
+        
+        mButReDo.addActionListener(new ActionListener() { 
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            
+               mController.reDo(); 
+                
+            }
+        });
       
+        
+        mButUnDo.addActionListener(new ActionListener() { 
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            
+               mController.unDo(); 
+                
+            }
+        });
+        
+        
         this.setVisible(true);
         }
     
