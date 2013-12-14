@@ -47,8 +47,8 @@ public class Welcome extends JFrame {
     private JTable mDelTable;
     private DefaultTableModel mTableModel;
     
-    /*
-    public void fillTable() {
+    
+    public void fillTable(DefaultTableModel pTableModel) {
     
     List<Itinary> currentTour = mArea.getTour();
     
@@ -75,14 +75,14 @@ public class Welcome extends JFrame {
                String idClient = delPt.getNclient();
                
                String[] tempRow = {idClient, deliveryAddress, startTime, endTime};
-               mTableModel.addRow(tempRow);
-               
+               pTableModel.addRow(tempRow);
+     
                
                     
             }
         }
     }
-    */
+    
 
 
         
@@ -142,8 +142,6 @@ public class Welcome extends JFrame {
         
         // Gerstion des action.
         
-        
-        
         mButLoadPlan.addActionListener(new ActionListener() {
 
             @Override
@@ -172,38 +170,8 @@ public class Welcome extends JFrame {
                     mButComputeItinary.setEnabled(true);
             
                     
-                    //fillTable();
-                    
-                    List<Itinary> currentTour = mArea.getTour();
-    
-    
-                    //for each itinary.
-                    for (int i = 0; i < mArea.getTour().size(); i++) {
-            
-                        Itinary currentItinary = currentTour.get(i);
-            
-                        String startTime = currentItinary.getStart().toString();
-                        String endTime = currentItinary.getEnd().toString();
-            
-            
-            
-                        //for each delivery within current itinary.
-                        for (int j = 0; j < currentItinary.getDeliveryNb(); j++) {
-                
-                            Node address = currentItinary.getDeliveries().get(j);
-               
-               
-                            String deliveryAddress = address.getId();
-
-                            DeliveryPoint delPt = address.getAttribute("delivery");
-                            String idClient = delPt.getNclient();
-
-                            String[] tempRow = {idClient, deliveryAddress, startTime, endTime};
-                            mTableModel.addRow(tempRow);
-                            
-                        }
-                    }
-                    
+                    fillTable(mTableModel);
+                   
             
                 }
             }
