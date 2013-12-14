@@ -60,6 +60,7 @@ public class Area{
     
     public void setWareHouse(String wareHouseId) {
         mWareHouse = mGraph.getNode(wareHouseId);
+        mWareHouse.addAttribute("warehouse");
         mWareHouse.addAttribute("ui.class", "warehouse");
     }
     
@@ -82,14 +83,13 @@ public class Area{
         
         List<MapReader.Node> nodes = planReader.getNodes();
         for (int i = 0; i < nodes.size(); i++) {
-            Node aNode = mGraph.addNode(String.valueOf(nodes.get(i).getId()));
-            aNode.addAttribute("xy", nodes.get(i).getX(), nodes.get(i).getY());
+            Node node = mGraph.addNode(String.valueOf(nodes.get(i).getId()));
+            node.addAttribute("xy", nodes.get(i).getX(), nodes.get(i).getY());
         }
         List<MapReader.Edge> edges = planReader.getEdges();
         for (int i = 0; i < edges.size(); i++) {
             
                 Edge edge = mGraph.addEdge(String.valueOf(i), String.valueOf(edges.get(i).getNodeIdL()), String.valueOf(edges.get(i).getNodeIdR()), true);
-                //edge.addAttribute("ui.label", (int)edges.get(i).getweight());
                 if(edges.get(i).getweight() > 110) {
                     edge.addAttribute("ui.class", "boulevard" );    
                 } else if(edges.get(i).getweight() < 80) {

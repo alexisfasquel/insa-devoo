@@ -10,6 +10,10 @@
             <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Controller/Controller.java</file>
             <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Tools/Reader/DeliveryLoader.java</file>
             <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Model/Area.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Model/DeliveryPoint.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/View/MapMouseManager.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/map_style.css</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Tools/Tsp/TSP.java</file>
         </group>
     </open-files>
 </project-private>

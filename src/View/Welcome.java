@@ -64,7 +64,7 @@ public class Welcome extends JFrame {
         mButtonsPanel.add(mButLoadDelivery);
         mButtonsPanel.add(mButComputeItinary);
         
-        this.getContentPane().add(mButtonsPanel, BorderLayout.PAGE_START);
+        this.getContentPane().add(mButtonsPanel, BorderLayout.PAGE_END);
         
         this.getContentPane().add(mMap, BorderLayout.CENTER);
       

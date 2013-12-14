@@ -47,8 +47,8 @@ public class Itinary {
     
     public boolean addDeliveryPoint(Node intersection, String idClient) {
         DeliveryPoint dp = new DeliveryPoint(idClient, this);
-        intersection.setAttribute("delivery", dp);
-        intersection.setAttribute("ui.class", mColor);
+        intersection.addAttribute("delivery", dp);
+        intersection.addAttribute("ui.class", mColor);
         return mDelivery.add(intersection);
     }
     
@@ -69,6 +69,10 @@ public class Itinary {
         for (int i = 0; i < mRoadMap.size(); i++) {
             for (Edge edge: mRoadMap.get(i).getEachEdge()) {
                 edge.addAttribute("ui.class", mColor);
+            }
+            Node root = mRoadMap.get(i).getRoot();
+            if(root.getAttribute("warehouse") == null) {
+                root.addAttribute("ui.label", "Test");
             }
         }
     }
