@@ -12,6 +12,7 @@ import Tools.Tsp.RegularGraph;
 import Tools.Tsp.SolutionState;
 import Tools.Tsp.TSP;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.graphstream.algorithm.AStar;
@@ -98,6 +99,7 @@ public class Area{
                     edge.addAttribute("ui.class", "avenue" );    
                 }
                 edge.addAttribute("time", edges.get(i).getweight());
+
         }
     }
     
@@ -220,15 +222,6 @@ public class Area{
             offset += timeFrame.size();
         }
         
-        /*for (int i = 0; i < costs.length; i++) {
-            for (int j = 0; j < costs[0].length; j++) {
-                if(costs[i][j] == 0) {
-                    costs[i][j] = maxArcCost + 1;
-                }
-                System.out.println(i + "->" + j + ": " + costs[i][j]);
-            }
-        }
-        System.out.println("Min cost:" + minArcCost + " et Max cost:" + maxArcCost);*/
         
         //Computing solution
         RegularGraph g = new RegularGraph(nbVertices, minArcCost, maxArcCost, costs, succ);

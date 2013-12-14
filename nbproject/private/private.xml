@@ -5,11 +5,22 @@
         <group>
             <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Tools/Tsp/Graph.java</file>
             <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/View/Welcome.java</file>
+<<<<<<< HEAD
             <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Model/Itinary.java</file>
             <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Tools/Tsp/RegularGraph.java</file>
             <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Controller/Controller.java</file>
             <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Tools/Reader/DeliveryLoader.java</file>
             <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Model/Area.java</file>
+=======
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Tools/Tsp/RegularGraph.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Controller/Controller.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Tools/Reader/MapReader.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Model/Area.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Model/LoadingException.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Model/DeliveryPoint.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/View/MapMouseManager.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Tools/Tsp/TSP.java</file>
+>>>>>>> origin/eleo
         </group>
     </open-files>
 </project-private>
