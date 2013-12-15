@@ -71,14 +71,13 @@ public class Controller {
     public void unDo() {
         
         // TO DOOOOO !!!!
-
-    public void addDelivery(){
-     Node node = Toolkit.randomNode(mArea.getGraph());
-     Itinary itinéraire =mArea.GetItinary().get(0);
-     add.Do(itinéraire, node, "12");
-     
-     
     }
+    
+    public void addDelivery(){
+        Node node = Toolkit.randomNode(mArea.getGraph());
+        Itinary itinéraire =mArea.GetItinary().get(0);
+        add.Do(itinéraire, node, "12");
+     }
     
     public static void main(String[] args){
         Controller mController = new Controller();
