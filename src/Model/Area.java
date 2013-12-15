@@ -108,6 +108,10 @@ public class Area{
         
     }
     
+    public List<Itinary> GetItinary(){
+        return mTour;
+    }
+    
     
     
     //TODO Transfor NullPointerException into our own exception
