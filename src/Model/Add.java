@@ -14,18 +14,28 @@ import org.graphstream.graph.Node;
  */
 public class Add extends Command {
     
-    public void Do(Itinary itinary,Node intersection, String idClient){
+    public Add(Area area){
+        mArea = area;
+    }
+    
+    public boolean Do(Itinary itinary,Node intersection, String idClient){
+       if( !CheckIfDeliveryNode( intersection)){
         itinary.addDeliveryPoint(intersection,idClient);
         mArea.computeRoadMap();
-        mCommandList.AddComandRedo(this);
+        mCommandList.AddComandUndo(this);
+        return true;
+    }else{
+            return false;
+            }
     }
     
     public void Undo(Itinary itinary,Node intersection, String idClient){
-          itinary.RemoveDeliveryPoint(intersection, idClient);
+          itinary.RemoveDeliveryPoint(intersection);
           mArea.computeRoadMap();
           mCommandList.RemoveComandUndo();
           mCommandList.AddComandRedo(this);
     }
 
+  
     
 }

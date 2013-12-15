@@ -110,6 +110,11 @@ public class Area{
         
     }
     
+    public List<Itinary> GetItinary(){
+        return mTour;
+    }
+    
+
     //TODO Transfor NullPointerException into our own exception
     public void computeRoadMap() throws NullPointerException {
         if (mTour == null) {

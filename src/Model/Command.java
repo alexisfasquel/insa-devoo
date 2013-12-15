@@ -14,17 +14,26 @@ import org.graphstream.graph.Node;
  */
 public abstract class Command {
     
+
+    
     protected DeliveryPoint mDeliveryPoint;
     protected Area mArea;
     protected CommandList mCommandList;
     
     abstract public void Undo(Itinary itinary,Node intersection, String idClient);
-    abstract public void Do(Itinary itinary,Node intersection, String idClient);
+    abstract public boolean Do(Itinary itinary,Node intersection, String idClient);
         
-    
-   
-    public Command(){
-        
+        public Command(){
+        mCommandList = new CommandList();
     }
+   
+          public boolean CheckIfDeliveryNode(Node node){
+        DeliveryPoint dp =node.getAttribute("delivery");
+        if(dp == null){
+            return false;
+        }
+        return true;
+    }
+ 
     
 }
