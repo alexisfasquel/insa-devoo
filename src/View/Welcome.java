@@ -27,6 +27,7 @@ import Model.DeliveryPoint;
 import Model.Itinary;
 import java.util.Date;
 import java.util.List;
+import javax.xml.bind.Marshaller.Listener;
 import org.graphstream.graph.Node;
 
 
@@ -126,6 +127,8 @@ public class Welcome extends JFrame {
         
        final DefaultTableModel mTableModel = new DefaultTableModel(colNames, 0);
        JTable mDelTable = new JTable(mTableModel);
+       
+       
        JScrollPane scrollpane = new JScrollPane(mDelTable);
        
        mListPanel.add(scrollpane);
@@ -233,6 +236,10 @@ public class Welcome extends JFrame {
             }
         });
         
+        mTableModel.addListener( SWT.Selection, new Listener() {
+            
+            
+        });
         
         this.setVisible(true);
         }
