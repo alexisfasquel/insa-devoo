@@ -1,2 +1,7 @@
 /build/
 /dist/
+build/built-jar.properties
+
+nbproject/private/private.properties
+
+nbproject/private/private.xml
