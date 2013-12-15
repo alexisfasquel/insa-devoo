@@ -149,9 +149,9 @@ public class Welcome extends JFrame {
         mButtonsPanel.add(mButComputeItinary);
         mButtonsPanel.add(mButReDo);
         mButtonsPanel.add(mButUnDo);
-        mButtonsPanel.add(mButDeleteDel);   
-                
-        this.getContentPane().add(mButtonsPanel, BorderLayout.PAGE_START);
+        mButtonsPanel.add(mButDeleteDel);
+        
+        this.getContentPane().add(mButtonsPanel, BorderLayout.PAGE_END);
         
         this.getContentPane().add(mMap, BorderLayout.CENTER);
         

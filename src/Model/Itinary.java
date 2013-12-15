@@ -59,7 +59,7 @@ public class Itinary {
         intersection.setAttribute("ui.class", mColor);
         return mDeliveries.add(intersection);
     }
-       public void RemoveDeliveryPoint(Node intersection) {
+    public void RemoveDeliveryPoint(Node intersection) {
         intersection.removeAttribute("delivery");
         intersection.removeAttribute("ui.class");
     }
@@ -80,6 +80,10 @@ public class Itinary {
         for (int i = 0; i < mRoadMap.size(); i++) {
             for (Edge edge: mRoadMap.get(i).getEachEdge()) {
                 edge.addAttribute("ui.class", mColor);
+            }
+            Node root = mRoadMap.get(i).getRoot();
+            if(root.getAttribute("warehouse") == null) {
+                root.addAttribute("ui.label", "Test");
             }
         }
     }
