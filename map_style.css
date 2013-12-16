@@ -7,6 +7,14 @@ node
 {
     size: 8px;
     text-mode:hidden;
+    text-background-mode: rounded-box;
+    text-background-color: black;
+    text-alignment: above;
+    text-color: white;
+    text-size: 15px;
+    text-style: bold;
+    text-padding: 3px;
+    text-offset: -10px;
     fill-color: rgb(255, 255, 255);
     stroke-mode: plain;
     stroke-color: rgb(180, 180, 180);
@@ -22,16 +30,19 @@ node.green
 {
     size: 12px;
     fill-color: green;
+    z-index: 4;
 }
 node.magenta
 {
     size: 12px;
     fill-color: magenta;
+    z-index: 4;
 }
 node.cyan
 {
     size: 12px;
     fill-color: cyan;
+    z-index: 4;
 }
 
 node:clicked 

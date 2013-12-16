@@ -88,17 +88,6 @@ public class Itinary {
         return mDeliveries;
     }
     
-    /*public void order(int[] order) {
-    List<Node> tmp = new ArrayList<>();
-    for (int i = 0; i < mDeliveryPoints.size(); i++) {
-    tmp.add(mDeliveryPoints.get(order[i]));
-    }
-    mDeliveryPoints = tmp;
-    }*/
-    
-    
-    
-    
     public void setDirections(List<Path> directions) {
         mRoadMap = directions;
         for (int i = 0; i < mRoadMap.size(); i++) {

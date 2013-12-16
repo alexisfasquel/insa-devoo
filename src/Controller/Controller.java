@@ -60,7 +60,13 @@ public class Controller {
     }
     
     public void computeRoadMap() {
-        mArea.computeRoadMap();
+        try {
+            mArea.computeRoadMap();
+        } catch (Area.NoTourException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Area.AlreadyComputedException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void reDo() {

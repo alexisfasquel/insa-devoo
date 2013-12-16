@@ -36,6 +36,8 @@ public class Area{
     private static final int MAX_TIME = 10000;
     private AStar mAstar;
     
+    private boolean mComputed = false;
+    
     MultiGraph mGraph;
     
     private Node mWareHouse;
@@ -126,10 +128,15 @@ public class Area{
     
 
     //TODO Transfor NullPointerException into our own exception
-    public void computeRoadMap() throws NullPointerException {
+    public void computeRoadMap() throws NoTourException, AlreadyComputedException {
         if (mTour == null) {
-            throw new NullPointerException();
+            throw new NoTourException();
+        } else if (mComputed) {
+            throw new AlreadyComputedException();
         }
+        
+        mComputed = true;
+        
         ArrayList<ArrayList<Integer>> succ = new ArrayList<ArrayList<Integer>>();
         
         int maxArcCost = 0;
@@ -296,4 +303,9 @@ public class Area{
     public List<Itinary> getTour() {
         return mTour;
     }
+    
+    
+    
+    public class AlreadyComputedException extends Exception {}
+    public class NoTourException extends Exception {}
 }
