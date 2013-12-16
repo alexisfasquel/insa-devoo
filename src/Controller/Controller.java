@@ -9,6 +9,9 @@ package Controller;
 import Model.Area;
 import Model.Add;
 import Model.Area;
+import Model.CommandList;
+import Model.Delete;
+import Model.DeliveryPoint;
 import Model.Itinary;
 import Model.LoadingException;
 import View.Welcome;
@@ -27,11 +30,19 @@ public class Controller {
     private Area mArea;
 
     private Add add;
+    private Delete delete;
+    private CommandList  mCommandList;
+    private Node CurrentNodeSelected;
     
     public Controller(){
         mArea = new Area();
-        add = new Add(mArea);
+        mCommandList= new CommandList();
+     }
+
+    public void setCurrentNodeSelected(Node CurrentNodeSelected) {
+        this.CurrentNodeSelected = CurrentNodeSelected;
     }
+    
     private void startApp() {
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 
@@ -64,24 +75,40 @@ public class Controller {
     }
     
     public void reDo() {
-        
-        // TO DOOOOO !!!!
+        mCommandList.Redo();
     }
     
     public void unDo() {
-        
-        // TO DOOOOO !!!!
+        mCommandList.Undo();
     }
     
-    public void addDelivery(){
-        Node node = Toolkit.randomNode(mArea.getGraph());
+    public void addDelivery( ){
+           add = new Add(mArea,mCommandList);
         Itinary itinéraire =mArea.GetItinary().get(0);
-        add.Do(itinéraire, node, "12");
+        add.AddDelivery(itinéraire, CurrentNodeSelected, "12");
+        CheckUndo();
      }
+    public boolean CheckUndo(){
+        if(mCommandList.getStackUndo().size()!=0){
+          return true;  
+        }
+        else{
+            return false;  
+        }
+    }
+    public void DeleteDelivery(){
+            delete = new Delete(mArea,mCommandList);
+          DeliveryPoint dp = CurrentNodeSelected.getAttribute("delivery");
+          delete.DeleteDelivery( CurrentNodeSelected);
+    }
     
     public static void main(String[] args){
         Controller mController = new Controller();
         mController.startApp();
+    }
+    
+    public Node getCurrentNode(){
+        return CurrentNodeSelected;
     }
 
 }

@@ -6,7 +6,16 @@
 
 package View;
 
+import Controller.Controller;
+import Model.DeliveryPoint;
+import Model.Itinary;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.graphicGraph.stylesheet.Selector;
@@ -17,9 +26,15 @@ import org.graphstream.ui.swingViewer.util.DefaultMouseManager;
  * @author Aleks
  */
 public class MapMouseManager extends DefaultMouseManager{
+    private Controller mController;
+    private JButton mButDeleteDel;
+    private JPanel mListPanel;
 
-    public MapMouseManager() {
+    public MapMouseManager(Controller controller, JButton ButDeleteDel,JPanel ListPanel) {
         super();
+        mController = controller;
+        mButDeleteDel = ButDeleteDel;
+        mListPanel = ListPanel;
     }
 
     @Override
@@ -29,8 +44,22 @@ public class MapMouseManager extends DefaultMouseManager{
     protected void mouseButtonPress(MouseEvent event) {}
 
     @Override
-    public void mouseClicked(MouseEvent event) {}
-
+    public void mouseClicked(MouseEvent event) {
+        GraphicElement element = view.findNodeOrSpriteAt(event.getX(), event.getY());
+        if (element != null) {
+            if(element.getSelectorType() == Selector.Type.NODE) {
+                mController.setCurrentNodeSelected((Node) element);
+                 Object attribute = element.getAttribute("delivery");
+                if(attribute == null) {
+                    mListPanel.setVisible(true);
+                    }else{
+                    mButDeleteDel.setEnabled(true);
+                }
+                
+            }
+        }
+    }
+    
     @Override
     public void mouseReleased(MouseEvent event) {}
 

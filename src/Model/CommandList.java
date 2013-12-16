@@ -16,19 +16,39 @@ public class CommandList {
     private Stack StackUndo;
     private Stack StackRedo;
     
+    public CommandList(){
+           StackUndo = new Stack();
+           StackRedo = new Stack();
+    }
+
+    public Stack getStackUndo() {
+        return StackUndo;
+    }
+
+    public Stack getStackRedo() {
+        return StackRedo;
+    }
+    
+    
     public void AddComandUndo(Command command){
          StackUndo.push ( command );
     }
-    
+ 
         public void AddComandRedo(Command command){
          StackRedo.push ( command );
-    }
+        }
         
-            public void RemoveComandUndo(){
-         StackUndo.pop();
-    }
-            
-                public void RemoveComandRedo(){
-         StackRedo.pop();
-    }
+
+        
+                public void Redo(){
+                    Command command;
+                    command = (Command) StackRedo.pop();
+                    command.Redo();
+                }
+                
+                public void Undo(){
+                     Command command;
+                    command = (Command) StackUndo.pop();
+                    command.Undo();
+                }
 }

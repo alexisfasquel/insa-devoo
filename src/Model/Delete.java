@@ -14,25 +14,20 @@ import org.graphstream.graph.Node;
  */
 public class Delete extends Command{
     
-    @Override
-    public boolean Do(Itinary itinary,Node intersection, String idClient){
-         if( CheckIfDeliveryNode( intersection)){
-          itinary.RemoveDeliveryPoint(intersection);
-          mArea.computeRoadMap();
-          mCommandList.AddComandRedo(this);
-          return true;
-         }else
-         {
-             return false;
-         }
+    
+        public Delete(Area area,CommandList commandList){
+        mArea = area;
+        mCommandList = commandList;
     }
     
-    @Override
-    public void Undo(Itinary itinary,Node intersection, String idClient){
-                itinary.addDeliveryPoint(intersection,idClient);
-                mArea.computeRoadMap();
-                mCommandList.RemoveComandUndo();
-                mCommandList.AddComandRedo(this);
+    
+      @Override
+    public void Redo(){
+           DeleteDelivery(mNode);
+    }
+    
+    public void Undo(){
+        AddDelivery(mDeliveryPoint.getItinary(),mNode, mDeliveryPoint.getNclient());
     }
     
 }

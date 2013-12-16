@@ -16,24 +16,45 @@ public abstract class Command {
     
 
     
-    protected DeliveryPoint mDeliveryPoint;
+    protected Node mNode;
     protected Area mArea;
     protected CommandList mCommandList;
+    protected DeliveryPoint mDeliveryPoint;
     
-    abstract public void Undo(Itinary itinary,Node intersection, String idClient);
-    abstract public boolean Do(Itinary itinary,Node intersection, String idClient);
+    abstract public void Undo();
+    abstract public void Redo();
         
-        public Command(){
-        mCommandList = new CommandList();
-    }
+
    
-          public boolean CheckIfDeliveryNode(Node node){
+    public boolean CheckIfDeliveryNode(Node node){
         DeliveryPoint dp =node.getAttribute("delivery");
         if(dp == null){
             return false;
         }
         return true;
     }
+          
+      public boolean AddDelivery(Itinary itinary,Node intersection, String idClient){
+        mNode = intersection;
+       if( !CheckIfDeliveryNode( intersection)){
+        itinary.addDeliveryPoint(intersection,idClient);
+        mDeliveryPoint = intersection.getAttribute("delivery");
+        mArea.computeRoadMap();//Voir si compute road map revient du debut
+        mCommandList.AddComandUndo(this);
+        return true;
+    }else{
+            return false;
+            }
+    }
+    
+    public void DeleteDelivery(Node intersection){
+          DeliveryPoint dp = intersection.getAttribute("delivery");
+          Itinary itinary = dp.getItinary();
+          itinary.RemoveDeliveryPoint(intersection);
+          mArea.computeRoadMap();
+          mCommandList.AddComandRedo(this);
+    }
+    
  
     
 }
