@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 
 package Model;
 
@@ -15,9 +15,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author admin
- */
+*
+* @author Cjaume
+*/
 public class DeliveryPointTest {
      String mClientId;
      Itinary mItinary;
@@ -27,7 +27,7 @@ public class DeliveryPointTest {
     }
     
     @BeforeClass
-    public static void setUpClass() {        
+    public static void setUpClass() {
     }
     
     @AfterClass
@@ -47,30 +47,29 @@ public class DeliveryPointTest {
     }
 
     /**
-     * Test of getNclient method, of class DeliveryPoint.
-     */
+* Test of getNclient method, of class DeliveryPoint.
+     * @throws java.lang.Exception
+*/
     @Test
-    public void testGetNclient() {
+    public void testGetNclient() throws Exception{
         System.out.println("getNclient");
         String expResult = "mClientId";
         String result = dp.getNclient();
         assertEquals("mClientId", dp.getNclient());
 
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
 
     /**
-     * Test of getItinary method, of class DeliveryPoint.
-     */
+* Test of getItinary method, of class DeliveryPoint.
+     * @throws java.lang.Exception
+*/
     @Test
-    public void testGetItinary() {
+    public void testGetItinary() throws Exception {
         System.out.println("getItinary");
         Itinary expResult = mItinary;
         Itinary result = dp.getItinary();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+      
     }
     
 }
