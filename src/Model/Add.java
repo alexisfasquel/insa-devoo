@@ -29,8 +29,8 @@ public class Add extends Command {
             }
     }
     
-    public void Undo(Itinary itinary,Node intersection, String idClient){
-          itinary.RemoveDeliveryPoint(intersection);
+    public void Undo(Itinary itinary, Node intersection, String idClient){
+          itinary.removeDeliveryPoint(intersection);
           mArea.computeRoadMap();
           mCommandList.RemoveComandUndo();
           mCommandList.AddComandRedo(this);

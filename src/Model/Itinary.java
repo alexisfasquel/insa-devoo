@@ -59,23 +59,47 @@ public class Itinary {
         intersection.setAttribute("ui.class", mColor);
         return mDeliveries.add(intersection);
     }
-    public void RemoveDeliveryPoint(Node intersection) {
+    public void removeDeliveryPoint(Node intersection) {
         intersection.removeAttribute("delivery");
         intersection.removeAttribute("ui.class");
     }
+    
+    public void removeDeliveryPoints() {
+        if(mRoadMap != null) {
+            removeDirections();
+        }
+        for (int i = 0; i < mDeliveries.size(); i++) {
+            mDeliveries.get(i).removeAttribute("delivery");
+            mDeliveries.get(i).removeAttribute("ui.class");
+        }
+        mDeliveries = new ArrayList<>();
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("Itinary removed !");
+        super.finalize(); //To change body of generated methods, choose Tools | Templates.
+        
+    }
+    
+    
+    
     public List<Node> getDeliveries() {
         return mDeliveries;
     }
     
     /*public void order(int[] order) {
-        List<Node> tmp = new ArrayList<>();
-        for (int i = 0; i < mDeliveryPoints.size(); i++) {
-            tmp.add(mDeliveryPoints.get(order[i]));
-        }
-        mDeliveryPoints = tmp;
+    List<Node> tmp = new ArrayList<>();
+    for (int i = 0; i < mDeliveryPoints.size(); i++) {
+    tmp.add(mDeliveryPoints.get(order[i]));
+    }
+    mDeliveryPoints = tmp;
     }*/
     
-    void setDirections(List<Path> directions) {
+    
+    
+    
+    public void setDirections(List<Path> directions) {
         mRoadMap = directions;
         for (int i = 0; i < mRoadMap.size(); i++) {
             for (Edge edge: mRoadMap.get(i).getEachEdge()) {
@@ -84,6 +108,19 @@ public class Itinary {
             Node root = mRoadMap.get(i).getRoot();
             if(root.getAttribute("warehouse") == null) {
                 root.addAttribute("ui.label", "Test");
+            }
+        }
+    }
+    
+    private void removeDirections() {
+        
+        for (int i = 0; i < mRoadMap.size(); i++) {
+            for (Edge edge: mRoadMap.get(i).getEachEdge()) {
+                edge.removeAttribute("ui.class");
+            }
+            Node root = mRoadMap.get(i).getRoot();
+            if(root.getAttribute("warehouse") == null) {
+                root.removeAttribute("ui.label");
             }
         }
     }

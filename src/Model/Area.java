@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.graphstream.algorithm.AStar;
 import org.graphstream.algorithm.AStar.Costs;
 import org.graphstream.graph.Edge;
@@ -31,14 +34,17 @@ import org.graphstream.graph.implementations.MultiGraph;
 public class Area{
     
     private static final int MAX_TIME = 10000;
-    private static final String[] TEST = {"green", "magenta", "cyan"};
-    
     private AStar mAstar;
     
     MultiGraph mGraph;
     
     private Node mWareHouse;
     private List<Itinary> mTour;
+    
+    private Node selected;
+    
+    private Stack StackUndo;
+    private Stack StackRedo;
     
     public Area() {
         
@@ -104,7 +110,11 @@ public class Area{
     }
     
     public void loadDeliveries(String filePath) throws LoadingException{
-        
+        System.out.println(filePath);
+        for (int i = 0; i < mTour.size(); i++) {
+            mTour.get(i).removeDeliveryPoints();
+        }
+        mTour = new ArrayList<>();
         DeliveryLoader deliveryReader = new DeliveryLoader(filePath, this);
         deliveryReader.process();
         

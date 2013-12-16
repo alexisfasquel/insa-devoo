@@ -167,7 +167,8 @@ public class Welcome extends JFrame {
                 int retval = mFcArea.showOpenDialog(frame);
                 if (retval == JFileChooser.APPROVE_OPTION){
 
-                    mController.loadPlan(mFcArea.getSelectedFile().getName());
+                    
+                    mController.loadPlan(mFcArea.getSelectedFile().getPath());
                     mButLoadDelivery.setEnabled(true);
 
                 }
@@ -184,14 +185,14 @@ public class Welcome extends JFrame {
                 if (retval == JFileChooser.APPROVE_OPTION){
                     
                     if ( alreadyLoad ) {
-                    mController.loadDeliveries(mFcArea.getSelectedFile().getName());  
-                    mButComputeItinary.setEnabled(true);
+                        mController.loadDeliveries(mFcArea.getSelectedFile().getPath());  
+                        mButComputeItinary.setEnabled(true);
                     
-                    mTableModel.setRowCount(0);
+                        mTableModel.setRowCount(0);
                     
                     }
                     else {
-                        mController.loadDeliveries(mFcArea.getSelectedFile().getName());  
+                        mController.loadDeliveries(mFcArea.getSelectedFile().getPath());  
                         mButComputeItinary.setEnabled(true);
                     }
                     

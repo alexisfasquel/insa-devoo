@@ -17,7 +17,7 @@ public class Delete extends Command{
     @Override
     public boolean Do(Itinary itinary,Node intersection, String idClient){
          if( CheckIfDeliveryNode( intersection)){
-          itinary.RemoveDeliveryPoint(intersection);
+          itinary.removeDeliveryPoint(intersection);
           mArea.computeRoadMap();
           mCommandList.AddComandRedo(this);
           return true;
