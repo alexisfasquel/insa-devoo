@@ -30,4 +30,9 @@ public class Delete extends Command{
         AddDelivery(mDeliveryPoint.getItinary(),mNode, mDeliveryPoint.getNclient());
     }
     
+     public void Do(Node intersection){
+          DeleteDelivery(intersection);
+             mCommandList.AddComandUndo(this);
+     }
+    
 }

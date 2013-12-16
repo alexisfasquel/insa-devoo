@@ -27,7 +27,14 @@ public class Add extends Command {
     public void Undo(){
          DeleteDelivery(mNode);
     }
-
+ 
+    public void Do(Itinary itinary,Node intersection, String idClient){
+      AddDelivery( itinary, intersection,  idClient);
+                 mCommandList.AddComandUndo(this);
+      
+ 
+    }
+      
    
 
   

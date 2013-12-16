@@ -83,13 +83,22 @@ public class Controller {
     }
     
     public void addDelivery( ){
-           add = new Add(mArea,mCommandList);
+        add = new Add(mArea,mCommandList);
         Itinary itinéraire =mArea.GetItinary().get(0);
-        add.AddDelivery(itinéraire, CurrentNodeSelected, "12");
+        add.Do(itinéraire, CurrentNodeSelected, "12");
         CheckUndo();
      }
     public boolean CheckUndo(){
-        if(mCommandList.getStackUndo().size()!=0){
+        if(!mCommandList.getStackUndo().empty()){
+          return true;  
+        }
+        else{
+            return false;  
+        }
+    }
+    
+        public boolean CheckRedo(){
+        if(!mCommandList.getStackRedo().empty()){
           return true;  
         }
         else{
@@ -97,9 +106,10 @@ public class Controller {
         }
     }
     public void DeleteDelivery(){
-            delete = new Delete(mArea,mCommandList);
+          delete = new Delete(mArea,mCommandList);
           DeliveryPoint dp = CurrentNodeSelected.getAttribute("delivery");
-          delete.DeleteDelivery( CurrentNodeSelected);
+          delete.Do( CurrentNodeSelected);
+           CheckUndo();
     }
     
     public static void main(String[] args){

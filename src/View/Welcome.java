@@ -26,8 +26,12 @@ import Model.Itinary;
 import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 import javax.swing.BoxLayout;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import org.graphstream.graph.Node;
 
 
@@ -50,7 +54,7 @@ public class Welcome extends JFrame {
     private JButton mButUnDo;
     private JButton mButReDo;
     private JButton mButDeleteDel;
-    private JButton mButAjout;
+    private JButton mButAdd;
     private JTable mDelTable;
     private JTable mListItinary;
     private DefaultTableModel mTableModel;
@@ -101,7 +105,6 @@ public class Welcome extends JFrame {
         for (int i = 0; i < mArea.getTour().size(); i++) {
             
             Itinary currentItinary = currentTour.get(i);
-            
             String startTime = currentItinary.getStart().toString();
             String endTime = currentItinary.getEnd().toString();
             String[] tempRow = {startTime, endTime};
@@ -111,8 +114,34 @@ public class Welcome extends JFrame {
     }
     
     public void selectionnerNode(Node node){
+        DeliveryPoint dp = node.getAttribute("delivery");
+        for(int i =0;i<mTableModel.getRowCount();i++){
+            if(dp.getNclient()==mTableModel.getValueAt(1, i)){
+                mTableModel.setColumnCount(i);
+            }else{
+                i++;
+            }
+        }
+    }
+    
+    private Node findNode(int index){
+      
+         Object dpSelected = mDelTable.getValueAt(index, 1);
+         List<Itinary> currentTour = mArea.getTour();     
+     //for each itinary.
+        for (int i = 0; i < mArea.getTour().size(); i++) {
+             Itinary currentItinary = currentTour.get(i);
+             for (int j = 0; j < currentItinary.getDeliveryNb(); j++) {
+                DeliveryPoint dp=currentItinary.getDeliveries().get(j).getAttribute("delivery");
+                 if(dp.getNclient() == dpSelected.toString() ){
+                     return currentItinary.getDeliveries().get(j);
+                 }
+            }
             
         }
+        return null;
+        
+    }
 
         
         public Welcome(Controller controller, MultiGraph graph, Area pArea ) {
@@ -145,8 +174,8 @@ public class Welcome extends JFrame {
         mButReDo.setEnabled(false);
         mButDeleteDel = new JButton("Supprimer Livraison");
         mButDeleteDel.setEnabled(false);
-        mButAjout = new JButton("Ajouter Livraison");
-        mButAjout.setEnabled(false);
+        mButAdd = new JButton("Ajouter Livraison");
+        mButAdd.setEnabled(false);
                 
                 
        // Table
@@ -155,7 +184,9 @@ public class Welcome extends JFrame {
      
         
        final DefaultTableModel mTableModel = new DefaultTableModel(colNames, 0);
-       JTable mDelTable = new JTable(mTableModel);
+       final JTable mDelTable = new JTable(mTableModel);
+     
+       
        
        final DefaultTableModel mItinaryModel = new DefaultTableModel(colNames2, 0);
        JTable mItinaryTable = new JTable(mItinaryModel); 
@@ -164,14 +195,14 @@ public class Welcome extends JFrame {
        scrollpane.setSize(20, 20);
        JScrollPane scrollpane2 = new JScrollPane(mItinaryTable);
       
-       //    mItinaryPanel.add(scrollpane2);
+       // mItinaryPanel.add(scrollpane2);
        mListPanel.setLayout(new BorderLayout());
        mListPanel.add(scrollpane,BorderLayout.NORTH);
        mItinaryPanel.setLayout(new BorderLayout());
        mListPanel.add(mItinaryPanel,BorderLayout.LINE_END);
       mItinaryPanel.add(scrollpane2,BorderLayout.LINE_START);
        mItinaryPanel.setVisible(false);
-       mItinaryPanel.add(mButAjout,BorderLayout.SOUTH);
+       mItinaryPanel.add(mButAdd,BorderLayout.SOUTH);
    
        
     
@@ -247,6 +278,82 @@ public class Welcome extends JFrame {
             }
         });
         
+        mDelTable.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("marche");
+                int index;
+                index = mDelTable.getSelectedRow();
+                Node node = findNode(index);
+                mController.setCurrentNodeSelected( node);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+               // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+          
+        })
+               ;
+         mItinaryTable.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                 mButAdd.setEnabled(true);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+              //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+             //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+             //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+              // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+
+        
+        
+        mButAdd.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mController.addDelivery();
+                if(mController.CheckUndo()){
+                mButUnDo.setEnabled(true);
+                mButAdd.setEnabled(false);
+                mItinaryPanel.setVisible(false);
+            }
+            }
+        });
         
         
         mButComputeItinary.addActionListener(new ActionListener() {
@@ -264,6 +371,12 @@ public class Welcome extends JFrame {
             public void actionPerformed(ActionEvent e) {
             
                mController.reDo(); 
+                if(!mController.CheckRedo()){
+                mButReDo.setEnabled(false);
+            }
+                 if(mController.CheckUndo()){
+                mButUnDo.setEnabled(true);
+            }
                 
             }
         });
@@ -275,6 +388,12 @@ public class Welcome extends JFrame {
             public void actionPerformed(ActionEvent e) {
             
                mController.unDo(); 
+               if(mController.CheckRedo()){
+                mButReDo.setEnabled(true);
+            }
+                if(!mController.CheckUndo()){
+                mButUnDo.setEnabled(false);
+            }
                 
             }
         });
@@ -289,13 +408,13 @@ public class Welcome extends JFrame {
             
         });
         
+        
         mItinaryPanel.addComponentListener ( new ComponentAdapter ()
         {
             public void componentShown ( ComponentEvent e )
             {
                 /////Mettre le noeud en avant(Grossir)
                     Node node= mController.getCurrentNode();
-                    selectionnerNode(node);
                     mItinaryModel.setRowCount(0);
                     fillItinaryTable(mItinaryModel);
             }

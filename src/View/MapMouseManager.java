@@ -51,8 +51,9 @@ public class MapMouseManager extends DefaultMouseManager{
                 mController.setCurrentNodeSelected((Node) element);
                  Object attribute = element.getAttribute("delivery");
                 if(attribute == null) {
-                    mListPanel.setVisible(true);
-                    }else{
+                    element.setAttribute("ui.class", "selected");
+                    mListPanel.setVisible(true);                 
+                    }else{  
                     mButDeleteDel.setEnabled(true);
                 }
                 

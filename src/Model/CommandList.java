@@ -44,11 +44,13 @@ public class CommandList {
                     Command command;
                     command = (Command) StackRedo.pop();
                     command.Redo();
+                    StackUndo.push ( command );
                 }
                 
                 public void Undo(){
                      Command command;
                     command = (Command) StackUndo.pop();
                     command.Undo();
+                    StackRedo.push ( command );
                 }
 }

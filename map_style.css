@@ -33,6 +33,11 @@ node.cyan
     size: 12px;
     fill-color: cyan;
 }
+node.selected
+{
+    size: 12px;
+    fill-color: black;
+}
 
 node:clicked 
 {
