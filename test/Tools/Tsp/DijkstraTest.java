@@ -57,7 +57,7 @@ public class DijkstraTest {
      */
     @Test
     public void testExecute() {
-        System.out.println("Dijkstra");
+        /*System.out.println("Dijkstra");
         nodes = new ArrayList<>();
         edges = new ArrayList<>();
         controller.loadPlan("planTestDijkstra.xml");
@@ -69,8 +69,9 @@ public class DijkstraTest {
         for (int i = 0; i < 11; i++) {
             path.add(graph.getNode(Integer.toString(i)), graph.getNode(Integer.toString(i)).getEdgeBetween(graph.getNode(Integer.toString(i+1))));
         }
-        assertEquals(dijkstraPath, path);
-        
+        assertEquals(dijkstraPath, path);*/
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
   
