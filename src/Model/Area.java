@@ -12,9 +12,9 @@ import Tools.Tsp.RegularGraph;
 import Tools.Tsp.SolutionState;
 import Tools.Tsp.TSP;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Stack;
 import org.graphstream.algorithm.AStar;
 import org.graphstream.algorithm.AStar.Costs;
 import org.graphstream.graph.Edge;
@@ -31,14 +31,16 @@ import org.graphstream.graph.implementations.MultiGraph;
 public class Area{
     
     private static final int MAX_TIME = 10000;
-    private static final String[] TEST = {"green", "magenta", "cyan"};
-    
     private AStar mAstar;
+    
+    private boolean mComputed = false;
     
     MultiGraph mGraph;
     
     private Node mWareHouse;
     private List<Itinary> mTour;
+    
+    private Node selected;
     
     public Area() {
         
@@ -74,6 +76,9 @@ public class Area{
     public void addDelivery(Itinary itinary, String idClient, String adress) {
         itinary.addDeliveryPoint(mGraph.getNode(adress), idClient);
     }
+    public void deleteDelivery(Itinary itinary, String adress) {
+        itinary.removeDeliveryPoint(mGraph.getNode(adress));
+    }
     
     public void loadMap(String filePath) 
             throws LoadingException {
@@ -104,7 +109,11 @@ public class Area{
     }
     
     public void loadDeliveries(String filePath) throws LoadingException{
-        
+        System.out.println(filePath);
+        for (int i = 0; i < mTour.size(); i++) {
+            mTour.get(i).removeDeliveryPoints();
+        }
+        mTour = new ArrayList<>();
         DeliveryLoader deliveryReader = new DeliveryLoader(filePath, this);
         deliveryReader.process();
         
@@ -116,10 +125,15 @@ public class Area{
     
 
     //TODO Transfor NullPointerException into our own exception
-    public void computeRoadMap() throws NullPointerException {
+    public void computeRoadMap() throws NoTourException, AlreadyComputedException {
         if (mTour == null) {
-            throw new NullPointerException();
+            throw new NoTourException();
+        } else if (mComputed) {
+            //throw new AlreadyComputedException();
         }
+        
+        mComputed = true;
+        
         ArrayList<ArrayList<Integer>> succ = new ArrayList<ArrayList<Integer>>();
         
         int maxArcCost = 0;
@@ -286,4 +300,9 @@ public class Area{
     public List<Itinary> getTour() {
         return mTour;
     }
+    
+    
+    
+    public class AlreadyComputedException extends Exception {}
+    public class NoTourException extends Exception {}
 }

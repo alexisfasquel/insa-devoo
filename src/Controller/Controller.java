@@ -7,17 +7,13 @@
 package Controller;
 
 import Model.Area;
-import Model.Add;
-import Model.Area;
-import Model.CommandList;
-import Model.Delete;
 import Model.DeliveryPoint;
 import Model.Itinary;
 import Model.LoadingException;
 import View.Welcome;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.graphstream.algorithm.Toolkit;
 import org.graphstream.graph.Node;
 
 
@@ -29,15 +25,15 @@ public class Controller {
     
     private Area mArea;
 
-    private Add add;
-    private Delete delete;
-    private CommandList  mCommandList;
+    private Stack<Command> mDoneStack;
+    private Stack<Command> mUndoneStack;
     private Node CurrentNodeSelected;
     
     public Controller(){
         mArea = new Area();
-        mCommandList= new CommandList();
-     }
+        mUndoneStack = new Stack();
+        mDoneStack = new Stack();
+    }
 
     public void setCurrentNodeSelected(Node CurrentNodeSelected) {
         this.CurrentNodeSelected = CurrentNodeSelected;
@@ -71,45 +67,68 @@ public class Controller {
     }
     
     public void computeRoadMap() {
-        mArea.computeRoadMap();
+        try {
+            mArea.computeRoadMap();
+        } catch (Area.NoTourException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Area.AlreadyComputedException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void reDo() {
-        mCommandList.Redo();
+        Command command = mUndoneStack.pop();
+        try {
+            command.execute();
+        } catch (Area.NoTourException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Area.AlreadyComputedException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        mDoneStack.push(command);
     }
     
     public void unDo() {
-        mCommandList.Undo();
+        Command command = mDoneStack.pop();
+        try {
+            command.reverse();
+        } catch (Area.NoTourException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Area.AlreadyComputedException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        mUndoneStack.push(command);
     }
     
-    public void addDelivery( ){
-        add = new Add(mArea,mCommandList);
-        Itinary itinéraire =mArea.GetItinary().get(0);
-        add.Do(itinéraire, CurrentNodeSelected, "12");
-        CheckUndo();
+    public void addDelivery(int itinary){
+        Add add = new Add(mArea, CurrentNodeSelected, itinary, "tet");
+        try {
+            add.execute();
+        } catch (Area.NoTourException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Area.AlreadyComputedException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        mDoneStack.push(add);
+        
      }
     public boolean CheckUndo(){
-        if(!mCommandList.getStackUndo().empty()){
-          return true;  
-        }
-        else{
-            return false;  
-        }
+        return !mDoneStack.empty();
     }
     
-        public boolean CheckRedo(){
-        if(!mCommandList.getStackRedo().empty()){
-          return true;  
-        }
-        else{
-            return false;  
-        }
+    public boolean CheckRedo(){
+        return !mUndoneStack.empty();
     }
     public void DeleteDelivery(){
-          delete = new Delete(mArea,mCommandList);
-          DeliveryPoint dp = CurrentNodeSelected.getAttribute("delivery");
-          delete.Do( CurrentNodeSelected);
-           CheckUndo();
+        Delete delete = new Delete(mArea, CurrentNodeSelected);
+        try {
+            delete.execute();
+        } catch (Area.AlreadyComputedException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Area.NoTourException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        mDoneStack.push(delete);
     }
     
     public static void main(String[] args){
@@ -117,8 +136,5 @@ public class Controller {
         mController.startApp();
     }
     
-    public Node getCurrentNode(){
-        return CurrentNodeSelected;
-    }
 
 }

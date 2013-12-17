@@ -6,8 +6,11 @@
 
 package Model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
@@ -57,25 +60,45 @@ public class Itinary {
         DeliveryPoint dp = new DeliveryPoint(idClient, this);
         intersection.setAttribute("delivery", dp);
         intersection.setAttribute("ui.class", mColor);
+        intersection.setAttribute("ui.label", "Client ID : " + idClient + "\n");
         return mDeliveries.add(intersection);
     }
-    public void RemoveDeliveryPoint(Node intersection) {
+    public void removeDeliveryPoint(Node intersection) {
+        mDeliveries.remove(intersection);
         intersection.removeAttribute("delivery");
         intersection.removeAttribute("ui.class");
+        intersection.removeAttribute("ui.label");
     }
+    
+    public void removeDeliveryPoints() {
+        if(mRoadMap != null) {
+            removeDirections();
+        }
+        for (int i = 0; i < mDeliveries.size(); i++) {
+            mDeliveries.get(i).removeAttribute("delivery");
+            mDeliveries.get(i).removeAttribute("ui.class");
+            mDeliveries.get(i).removeAttribute("ui.label");
+        }
+        mDeliveries = new ArrayList<>();
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("Itinary removed !");
+        super.finalize(); //To change body of generated methods, choose Tools | Templates.
+        
+    }
+    
+    
+    
     public List<Node> getDeliveries() {
         return mDeliveries;
     }
     
-    /*public void order(int[] order) {
-        List<Node> tmp = new ArrayList<>();
-        for (int i = 0; i < mDeliveryPoints.size(); i++) {
-            tmp.add(mDeliveryPoints.get(order[i]));
+    public void setDirections(List<Path> directions) {
+        if(mRoadMap != null) {
+            removeDirections();
         }
-        mDeliveryPoints = tmp;
-    }*/
-    
-    void setDirections(List<Path> directions) {
         mRoadMap = directions;
         for (int i = 0; i < mRoadMap.size(); i++) {
             for (Edge edge: mRoadMap.get(i).getEachEdge()) {
@@ -83,7 +106,27 @@ public class Itinary {
             }
             Node root = mRoadMap.get(i).getRoot();
             if(root.getAttribute("warehouse") == null) {
-                root.addAttribute("ui.label", "Test");
+                String label = root.getAttribute("ui.label");
+                Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+                calendar.setTime(mStart);   // assigns calendar to given date
+                calendar.add(Calendar.MINUTE, (int)(double)mRoadMap.get(i).getPathWeight("time"));
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                String time = sdf.format(calendar.getTime());
+                label += System.getProperty("line.separator" ) + time;
+                root.setAttribute("ui.label", label);
+            }
+        }
+    }
+    
+    private void removeDirections() {
+        
+        for (int i = 0; i < mRoadMap.size(); i++) {
+            for (Edge edge: mRoadMap.get(i).getEachEdge()) {
+                edge.removeAttribute("ui.class");
+            }
+            Node root = mRoadMap.get(i).getRoot();
+            if(root.getAttribute("warehouse") == null) {
+                root.removeAttribute("ui.label");
             }
         }
     }

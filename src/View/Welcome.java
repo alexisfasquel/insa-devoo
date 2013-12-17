@@ -32,6 +32,8 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import org.graphstream.graph.Node;
 
 
@@ -243,7 +245,8 @@ public class Welcome extends JFrame {
                 int retval = mFcArea.showOpenDialog(frame);
                 if (retval == JFileChooser.APPROVE_OPTION){
 
-                    mController.loadPlan(mFcArea.getSelectedFile().getName());
+                    
+                    mController.loadPlan(mFcArea.getSelectedFile().getPath());
                     mButLoadDelivery.setEnabled(true);
 
                 }
@@ -260,14 +263,14 @@ public class Welcome extends JFrame {
                 if (retval == JFileChooser.APPROVE_OPTION){
                     
                     if ( alreadyLoad ) {
-                    mController.loadDeliveries(mFcArea.getSelectedFile().getName());  
-                    mButComputeItinary.setEnabled(true);
+                        mController.loadDeliveries(mFcArea.getSelectedFile().getPath());  
+                        mButComputeItinary.setEnabled(true);
                     
-                    mTableModel.setRowCount(0);
+                        mTableModel.setRowCount(0);
                     
                     }
                     else {
-                        mController.loadDeliveries(mFcArea.getSelectedFile().getName());  
+                        mController.loadDeliveries(mFcArea.getSelectedFile().getPath());  
                         mButComputeItinary.setEnabled(true);
                     }
                     
@@ -312,46 +315,26 @@ public class Welcome extends JFrame {
           
         })
                ;
-         mItinaryTable.addMouseListener(new MouseListener() {
+        mItinaryTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
             @Override
-            public void mouseClicked(MouseEvent e) {
-                 mButAdd.setEnabled(true);
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-              //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-             //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-             //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-              // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            public void valueChanged(ListSelectionEvent e) {
+                mButAdd.setEnabled(true);
             }
         });
-
         
-        
+        final JTable table = mItinaryTable;
         mButAdd.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                mController.addDelivery();
+                int selectedRow = table.getSelectedRow();
+                mController.addDelivery(selectedRow);
                 if(mController.CheckUndo()){
-                mButUnDo.setEnabled(true);
-                mButAdd.setEnabled(false);
-                mItinaryPanel.setVisible(false);
-            }
+                    mButUnDo.setEnabled(true);
+                    mButAdd.setEnabled(false);
+                    mItinaryPanel.setVisible(false);
+                }
             }
         });
         
@@ -403,6 +386,9 @@ public class Welcome extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mController.DeleteDelivery();   
+                if(mController.CheckUndo()){
+                    mButUnDo.setEnabled(true);
+                }
             }
  
             
@@ -414,7 +400,7 @@ public class Welcome extends JFrame {
             public void componentShown ( ComponentEvent e )
             {
                 /////Mettre le noeud en avant(Grossir)
-                    Node node= mController.getCurrentNode();
+                    //Node node= mController.getCurrentNode();
                     mItinaryModel.setRowCount(0);
                     fillItinaryTable(mItinaryModel);
             }

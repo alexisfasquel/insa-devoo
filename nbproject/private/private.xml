@@ -3,19 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Eleonore/Documents/TP4IF/DevOO/src/Model/Area.java</file>
-            <file>file:/C:/Users/Eleonore/Documents/TP4IF/DevOO/src/Controller/Controller.java</file>
-            <file>file:/C:/Users/Eleonore/Documents/TP4IF/DevOO/src/Model/Itinary.java</file>
-            <file>file:/C:/Users/Eleonore/Documents/TP4IF/DevOO/src/Model/Command.java</file>
-            <file>file:/C:/Users/Eleonore/Documents/TP4IF/DevOO/src/View/PlanMouseManager.java</file>
-            <file>file:/C:/Users/Eleonore/Documents/TP4IF/DevOO/src/View/MainWindow.java</file>
-            <file>file:/C:/Users/Eleonore/Documents/TP4IF/DevOO/src/Model/DeliveryPoint.java</file>
-            <file>file:/C:/Users/Eleonore/Documents/TP4IF/DevOO/src/View/Welcome.java</file>
-            <file>file:/C:/Users/Eleonore/Documents/TP4IF/DevOO/src/Model/Add.java</file>
-            <file>file:/C:/Users/Eleonore/Documents/TP4IF/DevOO/src/Model/Delete.java</file>
-            <file>file:/C:/Users/Eleonore/Documents/TP4IF/DevOO/src/View/MapMouseManager.java</file>
-            <file>file:/C:/Users/Eleonore/Documents/TP4IF/DevOO/src/Tools/Reader/DeliveryLoader.java</file>
-            <file>file:/C:/Users/Eleonore/Documents/TP4IF/DevOO/src/Tools/Reader/MapReader.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/View/Welcome.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Controller/Controller.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Model/CommandList.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Model/Area.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Model/Delete.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Model/Add.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/View/MapMouseManager.java</file>
+            <file>file:/Users/Aleks/NetBeansProjects/DevOO/src/Model/Command.java</file>
         </group>
     </open-files>
 </project-private>
