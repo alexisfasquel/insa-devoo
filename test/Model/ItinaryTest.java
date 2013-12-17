@@ -6,9 +6,12 @@
 
 package Model;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
+import org.graphstream.graph.implementations.MultiGraph;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,10 +21,20 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author admin
+ * @author Cjaume
  */
 public class ItinaryTest {
     
+    private Date mStart;
+    private Date mEnd;
+    public static final int GREEN = 0;
+    public static final int MAGENTA = 1;
+    public static final int CYAN = 2;
+    private Itinary mItinary;
+    private MultiGraph mGraph;
+    
+
+        
     public ItinaryTest() {
     }
     
@@ -35,7 +48,16 @@ public class ItinaryTest {
     
     @Before
     public void setUp() {
+       
+        mStart = new Date(79);
+        mEnd = new Date(80);
+        mItinary = new Itinary(mStart, mEnd, 1);
+        mGraph = new MultiGraph("map");
+       
+        
     }
+    
+    
     
     @After
     public void tearDown() {
@@ -43,59 +65,46 @@ public class ItinaryTest {
 
     /**
      * Test of getDeliveryNb method, of class Itinary.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testGetDeliveryNb() {
+    public void testGetDeliveryNb() throws Exception{
         System.out.println("getDeliveryNb");
-        Itinary instance = null;
         int expResult = 0;
-        int result = instance.getDeliveryNb();
+        int result = mItinary.getDeliveryNb();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
+    
+     /**
+     * Test of getDeliveries method, of class Itinary.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testGetDeliveries() throws Exception {
+        System.out.println("getDeliveries");
+        List<Node> mNode= new ArrayList();
+        List<Node> result = mItinary.getDeliveries();
+        assertEquals(mNode, result);
+        
+    }
+
+    
+    
     /**
      * Test of addDeliveryPoint method, of class Itinary.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testAddDeliveryPoint() {
+    public void testAddDeliveryPoint() throws Exception{
         System.out.println("addDeliveryPoint");
-        Node intersection = null;
-        String idClient = "";
-        Itinary instance = null;
-        boolean expResult = false;
-        boolean result = instance.addDeliveryPoint(intersection, idClient);
+        mGraph.addNode("node");
+        String idClient = "3";
+        boolean expResult = true;
+        boolean result = mItinary.addDeliveryPoint(mGraph.getNode("node"), idClient);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+  
     }
 
-    /**
-     * Test of getDeliveries method, of class Itinary.
-     */
-    @Test
-    public void testGetDeliveries() {
-        System.out.println("getDeliveries");
-        Itinary instance = null;
-        List<Node> expResult = null;
-        List<Node> result = instance.getDeliveries();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setDirections method, of class Itinary.
-     */
-    @Test
-    public void testSetDirections() {
-        System.out.println("setDirections");
-        List<Path> directions = null;
-        Itinary instance = null;
-        instance.setDirections(directions);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
+   
 }
