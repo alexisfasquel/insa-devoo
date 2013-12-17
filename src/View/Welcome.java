@@ -30,6 +30,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.ListSelectionEvent;
@@ -61,6 +62,10 @@ public class Welcome extends JFrame {
     private JTable mListItinary;
     private DefaultTableModel mTableModel;
     
+    public void displayPopup(String message, String title) {
+        
+        JOptionPane.showMessageDialog(this, message, title, JOptionPane.WARNING_MESSAGE);
+    }
     
     public void fillTable(DefaultTableModel pTableModel) {
     
