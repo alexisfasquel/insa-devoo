@@ -106,5 +106,83 @@ public class ItinaryTest {
   
     }
 
+    /**
+     * Test of getStart method, of class Itinary.
+     */
+    @Test
+    public void testGetStart() {
+        System.out.println("getStart");
+        /*Itinary instance = null;
+        Date expResult = null;
+        Date result = instance.getStart();
+        assertEquals(expResult, result);*/
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getEnd method, of class Itinary.
+     */
+    @Test
+    public void testGetEnd() {
+        System.out.println("getEnd");
+       /* Itinary instance = null;
+        Date expResult = null;
+        Date result = instance.getEnd();
+        assertEquals(expResult, result);*/
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of removeDeliveryPoint method, of class Itinary.
+     */
+    @Test
+    public void testRemoveDeliveryPoint() {
+        System.out.println("removeDeliveryPoint");
+       /* Node intersection = null;
+        Itinary instance = null;
+        instance.removeDeliveryPoint(intersection);*/
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of removeDeliveryPoints method, of class Itinary.
+     */
+    @Test
+    public void testRemoveDeliveryPoints() {
+        System.out.println("removeDeliveryPoints");
+        /*Itinary instance = null;
+        instance.removeDeliveryPoints();*/
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of finalize method, of class Itinary.
+     */
+    @Test
+    public void testFinalize() throws Exception {
+        System.out.println("finalize");
+        /*Itinary instance = null;
+        instance.finalize();*/
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setDirections method, of class Itinary.
+     */
+    @Test
+    public void testSetDirections() {
+        System.out.println("setDirections");
+        /*List<Path> directions = null;
+        Itinary instance = null;
+        instance.setDirections(directions);*/
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
    
 }

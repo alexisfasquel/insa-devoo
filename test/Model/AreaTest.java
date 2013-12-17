@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.graphstream.algorithm.AStar;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
@@ -219,7 +220,7 @@ public class AreaTest {
 
     }
     
-        /**
+     /**
      * Test of loadDeliveries method, of class Area.
      * @throws java.lang.Exception
      */
@@ -234,7 +235,50 @@ public class AreaTest {
         areaT.loadDeliveries(fileDeliveries);
 
     }
+    
+    /**
+     * Test of loadDeliveries method, of class Area.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testLoadDeliveriesNoFile() throws Exception {
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
 
+    }
+    
+    /**
+     * Test of loadDeliveries method, of class Area.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testLoadDeliveriesSemantic() throws Exception {
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+
+    }
+
+    /**
+     * Test of loadDeliveries method, of class Area.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testLoadDeliveriesSyntax() throws Exception {
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+
+    }
+    
+    /**
+     * Test of loadDeliveries method, of class Area.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testLoadDeliveriesNodeNotInPlan() throws Exception {
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+
+    }
     
     /**
      * Test of computeRoadMap method, of class Area.
@@ -248,6 +292,75 @@ public class AreaTest {
         instance.loadDeliveries("testFiles/livraisonTest.xml");
         instance.computeRoadMap();
      
+    }
+
+    /**
+     * Test of getGraph method, of class Area.
+     */
+    @Test
+    public void testGetGraph() {
+        System.out.println("getGraph");
+        /*Area instance = new Area();
+        MultiGraph expResult = null;
+        MultiGraph result = instance.getGraph();
+        assertEquals(expResult, result);*/
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setWareHouse method, of class Area.
+     */
+    @Test
+    public void testSetWareHouse() {
+        System.out.println("setWareHouse");
+        /*String wareHouseId = "";
+        Area instance = new Area();
+        instance.setWareHouse(wareHouseId);*/
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of deleteDelivery method, of class Area.
+     */
+    @Test
+    public void testDeleteDelivery() {
+        System.out.println("deleteDelivery");
+        /*Itinary itinary = null;
+        String adress = "";
+        Area instance = new Area();
+        instance.deleteDelivery(itinary, adress);*/
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of GetItinary method, of class Area.
+     */
+    @Test
+    public void testGetItinary() {
+        System.out.println("GetItinary");
+        /*Area instance = new Area();
+        List<Itinary> expResult = null;
+        List<Itinary> result = instance.GetItinary();
+        assertEquals(expResult, result);*/
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getTour method, of class Area.
+     */
+    @Test
+    public void testGetTour() {
+        System.out.println("getTour");
+        /*Area instance = new Area();
+        List<Itinary> expResult = null;
+        List<Itinary> result = instance.getTour();
+        assertEquals(expResult, result);*/
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
 }
