@@ -112,7 +112,7 @@ public class Itinary {
                 calendar.add(Calendar.MINUTE, (int)(double)mRoadMap.get(i).getPathWeight("time"));
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
                 String time = sdf.format(calendar.getTime());
-                label += System.getProperty("line.separator" ) + time;
+                label += System.getProperty("line.separator") + time;
                 root.setAttribute("ui.label", label);
             }
         }

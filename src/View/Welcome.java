@@ -17,23 +17,24 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import Model.Area;
 import Model.DeliveryPoint;
 import Model.Itinary;
-import java.awt.FlowLayout;
+
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import java.util.List;
-import javax.swing.BoxLayout;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import org.graphstream.graph.Node;
 
 
@@ -61,6 +62,9 @@ public class Welcome extends JFrame {
     private JTable mListItinary;
     private DefaultTableModel mTableModel;
     
+    public void displayPopup(String title, String message) {
+        JOptionPane.showMessageDialog(this, message, title, JOptionPane.WARNING_MESSAGE);
+    }
     
     public void fillTable(DefaultTableModel pTableModel) {
     
@@ -202,7 +206,7 @@ public class Welcome extends JFrame {
        mListPanel.add(scrollpane,BorderLayout.NORTH);
        mItinaryPanel.setLayout(new BorderLayout());
        mListPanel.add(mItinaryPanel,BorderLayout.LINE_END);
-      mItinaryPanel.add(scrollpane2,BorderLayout.LINE_START);
+       mItinaryPanel.add(scrollpane2,BorderLayout.LINE_START);
        mItinaryPanel.setVisible(false);
        mItinaryPanel.add(mButAdd,BorderLayout.SOUTH);
    

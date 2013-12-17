@@ -24,6 +24,8 @@ import org.graphstream.graph.Node;
 public class Controller {
     
     private Area mArea;
+    
+    private Welcome mWelcome;
 
     private Stack<Command> mDoneStack;
     private Stack<Command> mUndoneStack;
@@ -42,7 +44,7 @@ public class Controller {
     private void startApp() {
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 
-        new Welcome (this, mArea.getGraph(), mArea);
+        mWelcome = new Welcome (this, mArea.getGraph(), mArea);
         
         //loadPlan("plan.xml");
         //loadDeliveries("livraison.xml");
@@ -58,16 +60,15 @@ public class Controller {
             // Donner chemin de fichier.
             mArea.loadMap(fileName);
         } catch (LoadingException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            mWelcome.displayPopup("Error", ex.getMessage());
         }  
     }
     
     public void loadDeliveries(String fileName) {
         try {
-            mArea.dijkstra();
             mArea.loadDeliveries(fileName);
         } catch (LoadingException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            mWelcome.displayPopup("Error", ex.getMessage());
         }
     }
     

@@ -41,11 +41,11 @@ public class MapReader extends DefaultHandler{
             SAXParser parseur = fabrique.newSAXParser();
             parseur.parse(mFile, mPlanHandler);
         } catch (SAXException ex) {
-            throw new LoadingException("Error");
+            throw new LoadingException("Error while parsing the file :" + System.getProperty("line.separator") + ex.getMessage());
         } catch (IOException ex) {
-            throw new LoadingException("Error");
+            throw new LoadingException("Error with the file:" + System.getProperty("line.separator") + ex.getMessage());
         } catch (ParserConfigurationException ex) {
-            throw new LoadingException("Error");
+            throw new LoadingException("Error with the xml parser :" + System.getProperty("line.separator") + ex.getMessage());
         }
               
     }
@@ -88,9 +88,11 @@ public class MapReader extends DefaultHandler{
                 int destination = Integer.parseInt(attributes.getValue("destination"));
 
                 Edge edge = new Edge(mNode.getId(), destination, name, speed, lenght);
-                mEdges.add(edge);
-                     
-            }
+                mEdges.add(edge);  
+            
+           } else if(!qName.equals("Reseau")){
+               throw new SAXException("File not containings the correct format for a map");
+           }
         }
 
         @Override

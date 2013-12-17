@@ -37,11 +37,12 @@ public class DeliveryLoader {
             parseur.parse(mFile, mDeliveryHandler);
             
         } catch (ParserConfigurationException ex) {
-            throw new LoadingException("Error");
+            //throw new LoadingException("Error");
         } catch (SAXException ex) {
-            throw new LoadingException("Error");
+            System.out.println(ex.getMessage());
+            //throw new LoadingException("Error");
         } catch (IOException ex) {
-            throw new LoadingException("Error");
+            //throw new LoadingException("Error");
         }
     }
     

@@ -84,16 +84,16 @@ public class Area{
     public void loadMap(String filePath) 
             throws LoadingException {
         
-        MapReader planReader = new MapReader(filePath);
+        MapReader mapReader = new MapReader(filePath);
         
-        planReader.process();
+        mapReader.process();
         
-        List<MapReader.Node> nodes = planReader.getNodes();
+        List<MapReader.Node> nodes = mapReader.getNodes();
         for (int i = 0; i < nodes.size(); i++) {
             Node node = mGraph.addNode(String.valueOf(nodes.get(i).getId()));
             node.addAttribute("xy", nodes.get(i).getX(), nodes.get(i).getY());
         }
-        List<MapReader.Edge> edges = planReader.getEdges();
+        List<MapReader.Edge> edges = mapReader.getEdges();
         for (int i = 0; i < edges.size(); i++) {
             
                 Edge edge = mGraph.addEdge(String.valueOf(i), String.valueOf(edges.get(i).getNodeIdL()), String.valueOf(edges.get(i).getNodeIdR()), true);
@@ -110,7 +110,6 @@ public class Area{
     }
     
     public void loadDeliveries(String filePath) throws LoadingException{
-        System.out.println(filePath);
         for (int i = 0; i < mTour.size(); i++) {
             mTour.get(i).removeDeliveryPoints();
         }
