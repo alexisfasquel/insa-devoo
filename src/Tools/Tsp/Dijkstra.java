@@ -9,6 +9,7 @@ package Tools.Tsp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,20 +23,20 @@ import org.graphstream.graph.implementations.MultiGraph;
  * @author admin
  */
 public class Dijkstra {
-    private final List<Node> nodes;
     private final List<Edge> edges;
     private Set<Node> settledNodes;
     private Set<Node> unSettledNodes;
     private Map<Node, Node> predecessors;
     private Map<Node, Double> distance;
+    private MultiGraph mGraph;
     
     public Dijkstra(MultiGraph graph) {
+        mGraph = graph;
         // create a copy of the array so that we can operate on this array
-        this.nodes = new ArrayList<>(graph.getNodeSet());
         this.edges = new ArrayList<>(graph.getEdgeSet());
     }
     
-    public void execute(Node source) {
+    public Path execute(Node source, Node destination) {
         settledNodes = new HashSet<>();
         unSettledNodes = new HashSet<>();
         distance = new HashMap<>();
@@ -47,7 +48,11 @@ public class Dijkstra {
             settledNodes.add(node);
             unSettledNodes.remove(node);
             findMinimalDistances(node);
+            if(node.equals(destination)) {
+                break;
+            }
         }
+        return getPath(destination);
     }
         
     private void findMinimalDistances(Node node) {
@@ -65,24 +70,18 @@ public class Dijkstra {
     }
     
     private Double getDistance(Node node, Node target) {
-        for (Edge edge : edges) {
-          if (edge.getSourceNode().equals(node)
-              && edge.getTargetNode().equals(target)) {
-            return edge.getAttribute("time");
-          }
-        }
-        throw new RuntimeException("Should not happen");
+        Edge edge = node.getEdgeToward(target);
+        return edge.getAttribute("time");
     }
   
     private List<Node> getNeighbors(Node node) {
-        List<Node> neighbors = new ArrayList<>();
-        for (Edge edge : edges) {
-          if (edge.getSourceNode().equals(node)
-              && !isSettled(edge.getTargetNode())) {
-            neighbors.add(edge.getTargetNode());
-          }
+        Iterator<Node> neighbors = node.getNeighborNodeIterator();
+        List<Node> neighborhood = new ArrayList<>();
+        while (neighbors.hasNext()) {
+            Node neighbor = neighbors.next();
+            neighborhood.add(neighbor);
         }
-        return neighbors;
+        return neighborhood;
     }
 
   private Node getMinimum(Set<Node> vertexes) {
@@ -115,15 +114,17 @@ public class Dijkstra {
   /*
    * This method returns the path from the source to the selected target and
    * NULL if no path exists   */
-  public Path getPath(Node target) {
+  private Path getPath(Node target) {
     Path path = new Path();
     Node step = target;
     // check if a path exists
     if (predecessors.get(step) == null) {
       return null;
     }
-    path.add(step, step.getEdgeBetween(predecessors.get(step)));
-    while (predecessors.get(step) != null) {
+    Node node;
+    
+    path.add(step, step.getEdgeFrom(predecessors.get(step)));
+    while (predecessors.get(predecessors.get(step)) != null) {
       step = predecessors.get(step);
       path.add(step, step.getEdgeBetween(predecessors.get(step)));
     }
@@ -132,7 +133,6 @@ public class Dijkstra {
  
     return path;
   }
-
-
     
 }
+   

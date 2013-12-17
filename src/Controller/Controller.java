@@ -43,10 +43,14 @@ public class Controller {
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 
         new Welcome (this, mArea.getGraph(), mArea);
+        
         //loadPlan("plan.xml");
         //loadDeliveries("livraison.xml");
         //computeRoadMap();
     }
+    
+    
+    
     
     
     public void loadPlan(String fileName) {
@@ -60,6 +64,7 @@ public class Controller {
     
     public void loadDeliveries(String fileName) {
         try {
+            mArea.dijkstra();
             mArea.loadDeliveries(fileName);
         } catch (LoadingException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);

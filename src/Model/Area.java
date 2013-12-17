@@ -8,6 +8,7 @@ package Model;
 
 import Tools.Reader.DeliveryLoader;
 import Tools.Reader.MapReader;
+import Tools.Tsp.Dijkstra;
 import Tools.Tsp.RegularGraph;
 import Tools.Tsp.SolutionState;
 import Tools.Tsp.TSP;
@@ -121,6 +122,18 @@ public class Area{
     
     public List<Itinary> GetItinary(){
         return mTour;
+    }
+    
+    public void dijkstra() {
+        Dijkstra dijkstra = new Dijkstra(mGraph);
+        Path path = dijkstra.execute(mGraph.getNode("356"), mGraph.getNode("204"));
+        for (Edge edge: path.getEachEdge()) {
+                edge.addAttribute("ui.class", "green");
+                
+        }
+        for(Node node : path.getNodePath()) {
+            node.addAttribute("ui.class", "magenta");
+        }
     }
     
 
