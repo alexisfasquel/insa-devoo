@@ -70,9 +70,9 @@ public class AreaTest {
         System.out.println("addItinary");
         Date start = new Date(79); 
         Date end = new Date(80);
-        Itinary itinary = areaT.addItinary(start, end);
-        Itinary mItinary = new Itinary(start, end, mTour.size());
-        assertEquals(mItinary, itinary );    
+        Itinary itinaryExp = areaT.addItinary(start, end);
+        Itinary itinary = areaT.getTour().get(0);
+        assertEquals(itinaryExp, itinary );    
 
     }
 
