@@ -8,7 +8,9 @@ package Controller;
 
 import Model.Area;
 import Model.Itinary;
+import java.util.Date;
 import org.graphstream.graph.Node;
+import org.graphstream.graph.implementations.MultiGraph;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -21,6 +23,11 @@ import static org.junit.Assert.*;
  * @author admin
  */
 public class CommandTest {
+    private Date mStart;
+    private Date mEnd;
+    private Add mAdd;
+    private Delete mDelete;  
+    private Area mArea;
     
     public CommandTest() {
     }
@@ -35,47 +42,42 @@ public class CommandTest {
     
     @Before
     public void setUp() {
+
+        mArea = new Area();
+        mArea.addItinary(mStart, mEnd);
+        mArea.getGraph().addNode("delivery");
+        mArea.GetItinary().get(0).addDeliveryPoint(mArea.getGraph().getNode("delivery"), "client");
+        mArea.getGraph().addNode("node");
+        mAdd= new Add(mArea, mArea.getGraph().getNode("delivery"), 0, "clientId");
     }
     
     @After
     public void tearDown() {
     }
 
-    /**
-     * Test of execute method, of class Command.
-     */
-    @Test
-    public void testExecute() throws Exception {
-        System.out.println("execute");
-        
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of reverse method, of class Command.
-     */
-    @Test
-    public void testReverse() throws Exception {
-        System.out.println("reverse");
-        
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
+   
     /**
      * Test of CheckIfDeliveryNode method, of class Command.
      */
     @Test
     public void testCheckIfDeliveryNode() {
         System.out.println("CheckIfDeliveryNode");
-        /*Node node = null;
-        Command instance = null;
-        boolean expResult = false;
-        boolean result = instance.CheckIfDeliveryNode(node);
-        assertEquals(expResult, result);*/
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        
+        boolean result = mAdd.CheckIfDeliveryNode(mArea.getGraph().getNode("delivery"));
+        boolean expResult=true;
+        assertEquals(expResult, result );   
+    }
+    
+    /**
+     * Test of CheckIfDeliveryNode method, of class Command.
+     */
+    @Test
+    public void testCheckIfDeliveryNodeFalse() {
+        System.out.println("CheckIfDeliveryNodeFalse");
+        boolean result = mAdd.CheckIfDeliveryNode(mArea.getGraph().getNode("node"));
+        boolean expResult=false;
+        assertEquals(expResult, result);   
     }
 
     /**
@@ -104,17 +106,6 @@ public class CommandTest {
         fail("The test case is a prototype.");
     }
 
-    public class CommandImpl extends Command {
-
-        public CommandImpl() {
-            super(null, null);
-        }
-
-        public void execute() throws Area.NoTourException, Area.AlreadyComputedException {
-        }
-
-        public void reverse() throws Area.NoTourException, Area.AlreadyComputedException {
-        }
-    }
+   
     
 }

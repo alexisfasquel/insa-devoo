@@ -6,15 +6,8 @@
 
 package Model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import org.graphstream.algorithm.AStar;
-import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
-import org.xml.sax.Attributes;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -28,11 +21,7 @@ import static org.junit.Assert.*;
  */
 public class AreaTest {
     private MultiGraph mGraph;
-    private ArrayList<Object> mTour;
-    private AStar mAstar;
     Area areaT;
-    private Node mWareHouse;
-    private Attributes attributes;
     
     public AreaTest() {
     }
@@ -52,8 +41,6 @@ public class AreaTest {
         mGraph.addAttribute("ui.quality");
         mGraph.addAttribute("ui.antialias");
         mGraph.addAttribute("ui.stylesheet", "url('./map_style.css')");
-        mTour = new ArrayList<>(1);
-        mAstar = new AStar(mGraph);
 
     }
     
@@ -132,10 +119,7 @@ public class AreaTest {
            caught = t;
         }
         assertNotNull(caught);
-        assertSame(LoadingException.class, caught.getClass());
-        
-
-        
+        assertSame(LoadingException.class, caught.getClass());  
         
     }
     
@@ -162,6 +146,8 @@ public class AreaTest {
         
     }
     
+    
+    
     /**
      * Test of loadMap method, of class Area.
      * @throws java.lang.Exception
@@ -180,7 +166,6 @@ public class AreaTest {
         }
         assertNotNull(caught);
         assertSame(LoadingException.class, caught.getClass());
-        
         
     }
     
@@ -205,7 +190,6 @@ public class AreaTest {
         assertNotNull(caught);
         assertSame(LoadingException.class, caught.getClass());
         
-        
     }
     
  /**
@@ -216,7 +200,6 @@ public class AreaTest {
     public void testLoadMapNullSpeed() throws Exception {
         System.out.println("loadMapNullSpeed");
         
-         // case 5 : Negative number
         String filePath = "testFiles/planNullSpeed.xml";
         
         Throwable caught = null;
@@ -249,8 +232,7 @@ public class AreaTest {
         }
         assertNotNull(caught);
         assertSame(LoadingException.class, caught.getClass());
-        
-        
+          
     }
     
     /**
@@ -272,7 +254,6 @@ public class AreaTest {
         assertNotNull(caught);
         assertSame(LoadingException.class, caught.getClass());
         
-        
     }
     
     /**
@@ -293,7 +274,6 @@ public class AreaTest {
         }
         assertNotNull(caught);
         assertSame(LoadingException.class, caught.getClass());
-        
         
     }
 
@@ -466,20 +446,6 @@ public class AreaTest {
         instance.loadDeliveries("testFiles/livraisonTest.xml");
         instance.computeRoadMap();
      
-    }
-
-    /**
-     * Test of getGraph method, of class Area.
-     */
-    @Test
-    public void testGetGraph() {
-        System.out.println("getGraph");
-        /*Area instance = new Area();
-        MultiGraph expResult = null;
-        MultiGraph result = instance.getGraph();
-        assertEquals(expResult, result);*/
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
 

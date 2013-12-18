@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.graphstream.graph.Node;
-import org.graphstream.graph.Path;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -53,8 +52,7 @@ public class ItinaryTest {
         mEnd = new Date(80);
         mItinary = new Itinary(mStart, mEnd, 1);
         mGraph = new MultiGraph("map");
-       
-        
+
     }
     
     
@@ -100,9 +98,9 @@ public class ItinaryTest {
         System.out.println("addDeliveryPoint");
         mGraph.addNode("node");
         String idClient = "3";
-        boolean expResult = true;
         boolean result = mItinary.addDeliveryPoint(mGraph.getNode("node"), idClient);
-        assertEquals(expResult, result);
+        DeliveryPoint dp = mGraph.getNode("node").getAttribute("delivery");
+        assertNotNull(dp);
   
     }
 
