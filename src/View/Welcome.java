@@ -17,9 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JOptionPane;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 
 import org.graphstream.graph.implementations.MultiGraph;
@@ -35,6 +32,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.graphstream.graph.Node;
 
 
@@ -62,7 +60,9 @@ public class Welcome extends JFrame {
     private JTable mListItinary;
     private DefaultTableModel mTableModel;
     
-    public void displayPopup(String title, String message) {
+
+    public void displayPopup(String message, String title) {
+        
         JOptionPane.showMessageDialog(this, message, title, JOptionPane.WARNING_MESSAGE);
     }
     
