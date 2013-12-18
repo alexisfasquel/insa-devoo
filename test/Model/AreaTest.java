@@ -91,13 +91,8 @@ public class AreaTest {
     @Test
     public void testLoadMap() throws Exception {
         System.out.println("loadMap");
-        
-        // case 1 : Correct file
         String filePath = "plan.xml";
         areaT.loadMap(filePath);
-        
-        
-        
     }
     
      /**
@@ -129,8 +124,6 @@ public class AreaTest {
     public void testLoadMapSyntax() throws Exception {
         System.out.println("loadMapSyntax");
         
-
-         // case 3 : Syntaxic Error
         String filePath = "testFiles/planSyntax.xml";
         Throwable caught = null;
         try {
@@ -146,17 +139,38 @@ public class AreaTest {
         
     }
     
+    
     /**
      * Test of loadMap method, of class Area.
      * @throws java.lang.Exception
      */
     @Test
-    public void testLoadMapSemantic() throws Exception {
-        System.out.println("loadMapSemantic");
+    public void testLoadMapNodeWithoutEdge() throws Exception {
+        System.out.println("loadMapNodeWithoutEdge");
         
-
-        // case 4 : Semantic Error
-        String filePath = "testFiles/planSemantic.xml";
+        String filePath = "testFiles/planNodeWithoutEdge.xml";
+        
+        Throwable caught = null;
+        try {
+           areaT.loadMap(filePath);
+        } catch (LoadingException t) {
+           caught = t;
+        }
+        assertNotNull(caught);
+        assertSame(LoadingException.class, caught.getClass());
+        
+        
+    }
+    
+    /**
+     * Test of loadMap method, of class Area.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testLoadMapNodeNotInPlan() throws Exception {
+        System.out.println("loadMapNodeWithoutEdge");
+        
+        String filePath = "testFiles/planNodeNotInPlan.xml";
         
         Throwable caught = null;
         try {
@@ -177,11 +191,10 @@ public class AreaTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testLoadMapNegativeNb() throws Exception {
-        System.out.println("loadMapNegativeNb");
+    public void testLoadMapNegativeSpeed() throws Exception {
+        System.out.println("loadMapNegativeSpeed");
         
-         // case 5 : Negative number
-        String filePath = "testFiles/planNegativeNb.xml";
+        String filePath = "testFiles/planNegativeSpeed.xml";
         
         Throwable caught = null;
         try {
@@ -195,7 +208,94 @@ public class AreaTest {
         
     }
     
- 
+ /**
+     * Test of loadMap method, of class Area.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testLoadMapNullSpeed() throws Exception {
+        System.out.println("loadMapNullSpeed");
+        
+         // case 5 : Negative number
+        String filePath = "testFiles/planNullSpeed.xml";
+        
+        Throwable caught = null;
+        try {
+           areaT.loadMap(filePath);
+        } catch (LoadingException t) {
+           caught = t;
+        }
+        assertNotNull(caught);
+        assertSame(LoadingException.class, caught.getClass());
+        
+        
+    }
+    
+    /**
+     * Test of loadMap method, of class Area.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testLoadMapNullDistance() throws Exception {
+        System.out.println("loadMapNullDistance");
+        
+        String filePath = "testFiles/planNullDistance.xml";
+        
+        Throwable caught = null;
+        try {
+           areaT.loadMap(filePath);
+        } catch (LoadingException t) {
+           caught = t;
+        }
+        assertNotNull(caught);
+        assertSame(LoadingException.class, caught.getClass());
+        
+        
+    }
+    
+    /**
+     * Test of loadMap method, of class Area.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testLoadMapNegativeDistance() throws Exception {
+        System.out.println("loadMapNegativeDistance");
+        
+        String filePath = "testFiles/planNegativeDistance.xml";
+        
+        Throwable caught = null;
+        try {
+           areaT.loadMap(filePath);
+        } catch (LoadingException t) {
+           caught = t;
+        }
+        assertNotNull(caught);
+        assertSame(LoadingException.class, caught.getClass());
+        
+        
+    }
+    
+    /**
+     * Test of loadMap method, of class Area.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testLoadMapOnlyEdgeOut() throws Exception {
+        System.out.println("loadMapNegativeDistance");
+
+        String filePath = "testFiles/planOnlyEdgeOut.xml";
+        
+        Throwable caught = null;
+        try {
+           areaT.loadMap(filePath);
+        } catch (LoadingException t) {
+           caught = t;
+        }
+        assertNotNull(caught);
+        assertSame(LoadingException.class, caught.getClass());
+        
+        
+    }
 
 
     /**
@@ -206,7 +306,6 @@ public class AreaTest {
     public void testLoadDeliveriesWithoutPlan() throws Exception {
         System.out.println("loadDeliveriesWithoutPlan");
         
-        //Chargement livraison sans avoir chargé de plan
         String fileDeliveries = "null.xml";
         
         Throwable caught = null;
@@ -228,11 +327,58 @@ public class AreaTest {
     public void testLoadDeliveries() throws Exception {
         System.out.println("loadDeliveries");
         
-        //Cas normal
         String filePlan = "testFiles/planTest.xml";
         areaT.loadMap(filePlan);
         String fileDeliveries = "testFiles/livraisonTest.xml";
         areaT.loadDeliveries(fileDeliveries);
+
+    }
+    
+     /**
+     * Test of loadDeliveries method, of class Area.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testLoadDeliveriesWrongTimeScale() throws Exception {
+        System.out.println("loadDeliveriesWrongTimeScale");
+        
+        String filePlan = "testFiles/planTest.xml";
+        areaT.loadMap(filePlan);
+        
+        String filePath = "testFiles/livraisonWrongTimeScale.xml";
+       
+        Throwable caught = null;
+        try {
+           areaT.loadMap(filePath);
+        } catch (LoadingException t) {
+           caught = t;
+        }
+        assertNotNull(caught);
+        assertSame(LoadingException.class, caught.getClass());
+
+    }
+    
+    /**
+     * Test of loadDeliveries method, of class Area.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testLoadDeliveriesNegativeAdress() throws Exception {
+        System.out.println("loadDeliveriesNegativeAdress");
+        
+        String filePlan = "testFiles/planTest.xml";
+        areaT.loadMap(filePlan);
+        
+        String filePath = "testFiles/livraisonNegativeAdress.xml";
+       
+        Throwable caught = null;
+        try {
+           areaT.loadMap(filePath);
+        } catch (LoadingException t) {
+           caught = t;
+        }
+        assertNotNull(caught);
+        assertSame(LoadingException.class, caught.getClass());
 
     }
     
@@ -242,21 +388,25 @@ public class AreaTest {
      */
     @Test
     public void testLoadDeliveriesNoFile() throws Exception {
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("loadDeliveriesNoFile");
+        
+        String filePlan = "testFiles/planTest.xml";
+        areaT.loadMap(filePlan);
+        
+        String filePath = "null.xml";
+        
+        Throwable caught = null;
+        try {
+           areaT.loadDeliveries(filePath);
+        } catch (LoadingException t) {
+           caught = t;
+        }
+        assertNotNull(caught);
+        assertSame(LoadingException.class, caught.getClass());
 
     }
     
-    /**
-     * Test of loadDeliveries method, of class Area.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testLoadDeliveriesSemantic() throws Exception {
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-
-    }
+    
 
     /**
      * Test of loadDeliveries method, of class Area.
@@ -264,8 +414,20 @@ public class AreaTest {
      */
     @Test
     public void testLoadDeliveriesSyntax() throws Exception {
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("loadDeliveriesSyntax");
+        
+        String filePlan = "testFiles/planTest.xml";
+        areaT.loadMap(filePlan);
+
+        String filePath = "testFiles/livraisonSyntax.xml";
+        Throwable caught = null;
+        try {
+           areaT.loadMap(filePath);
+        } catch (LoadingException t) {
+           caught = t;
+        }
+        assertNotNull(caught);
+        assertSame(LoadingException.class, caught.getClass());
 
     }
     
@@ -275,8 +437,20 @@ public class AreaTest {
      */
     @Test
     public void testLoadDeliveriesNodeNotInPlan() throws Exception {
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("loadDeliveriesNodeNotInPlan");
+        
+        String filePlan = "testFiles/planTest.xml";
+        areaT.loadMap(filePlan);
+
+        String filePath = "testFiles/livraisonNodeNotInPlan.xml";
+        Throwable caught = null;
+        try {
+           areaT.loadMap(filePath);
+        } catch (LoadingException t) {
+           caught = t;
+        }
+        assertNotNull(caught);
+        assertSame(LoadingException.class, caught.getClass());
 
     }
     
@@ -308,59 +482,14 @@ public class AreaTest {
         fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of setWareHouse method, of class Area.
-     */
-    @Test
-    public void testSetWareHouse() {
-        System.out.println("setWareHouse");
-        /*String wareHouseId = "";
-        Area instance = new Area();
-        instance.setWareHouse(wareHouseId);*/
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of deleteDelivery method, of class Area.
      */
     @Test
     public void testDeleteDelivery() {
-        System.out.println("deleteDelivery");
-        /*Itinary itinary = null;
-        String adress = "";
-        Area instance = new Area();
-        instance.deleteDelivery(itinary, adress);*/
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        // go to see Test of deleteDelivery, of class Itinary
     }
 
-    /**
-     * Test of GetItinary method, of class Area.
-     */
-    @Test
-    public void testGetItinary() {
-        System.out.println("GetItinary");
-        /*Area instance = new Area();
-        List<Itinary> expResult = null;
-        List<Itinary> result = instance.GetItinary();
-        assertEquals(expResult, result);*/
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getTour method, of class Area.
-     */
-    @Test
-    public void testGetTour() {
-        System.out.println("getTour");
-        /*Area instance = new Area();
-        List<Itinary> expResult = null;
-        List<Itinary> result = instance.getTour();
-        assertEquals(expResult, result);*/
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
     
 }

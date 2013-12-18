@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Reseau>
 <Noeud id="0" x="51" y="37">
-<TronconSortant nomRue="v0" vitesse="4,400000" longueur="300,200000" destination="1"/>
+<TronconSortant nomRue="v0" vitesse="0,00000" longueur="300,200000" destination="1"/>
 <TronconSortant nomRue="h0" vitesse="4,300000" longueur="116,400000" destination="20"/>
 </Noeud>
 <Noeud id="1" x="26" y="65">
@@ -9,12 +9,13 @@
 <TronconSortant nomRue="v0" vitesse="4,200000" longueur="408,700000" destination="2"/>
 </Noeud>
 <Noeud id="2" x="23" y="116">
-<TronconSortant nomRue="v0" vitesse="4,700000" longueur="408,700000" destination="1"/>
+<TronconSortant nomRue="v0" vitesse="4,700000" longueur="-408,700000" destination="1"/>
 <TronconSortant nomRue="v0" vitesse="3,800000" longueur="291,200000" destination="3"/>
 <TronconSortant nomRue="h2" vitesse="4,000000" longueur="364,300000" destination="22"/>
 </Noeud>
 <Noeud id="3" x="33" y="151">
 <TronconSortant nomRue="v0" vitesse="3,800000" longueur="291,200000" destination="2"/>
+<TronconSortant nomRue="v0" vitesse="4,100000" longueur="338,300000" destination="4"/>
 <TronconSortant nomRue="h3" vitesse="4,000000" longueur="376,000000" destination="23"/>
 </Noeud>
 <Noeud id="4" x="28" y="193">
@@ -86,7 +87,7 @@
 <TronconSortant nomRue="v0" vitesse="4,500000" longueur="232,100000" destination="19"/>
 </Noeud>
 <Noeud id="19" x="24" y="762">
-
+<TronconSortant nomRue="v0" vitesse="4,300000" longueur="232,100000" destination="18"/>
 </Noeud>
 <Noeud id="20" x="65" y="41">
 <TronconSortant nomRue="h0" vitesse="4,300000" longueur="116,400000" destination="0"/>

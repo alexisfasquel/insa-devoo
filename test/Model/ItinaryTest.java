@@ -106,45 +106,19 @@ public class ItinaryTest {
   
     }
 
-    /**
-     * Test of getStart method, of class Itinary.
-     */
-    @Test
-    public void testGetStart() {
-        System.out.println("getStart");
-        /*Itinary instance = null;
-        Date expResult = null;
-        Date result = instance.getStart();
-        assertEquals(expResult, result);*/
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getEnd method, of class Itinary.
-     */
-    @Test
-    public void testGetEnd() {
-        System.out.println("getEnd");
-       /* Itinary instance = null;
-        Date expResult = null;
-        Date result = instance.getEnd();
-        assertEquals(expResult, result);*/
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
+ 
     /**
      * Test of removeDeliveryPoint method, of class Itinary.
      */
     @Test
     public void testRemoveDeliveryPoint() {
         System.out.println("removeDeliveryPoint");
-       /* Node intersection = null;
-        Itinary instance = null;
-        instance.removeDeliveryPoint(intersection);*/
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Node node = mGraph.addNode("42");
+        mItinary.addDeliveryPoint(node, "35");
+        mItinary.removeDeliveryPoint(node);
+        int result = mItinary.getDeliveryNb();
+        int expResult=0;
+        assertEquals(expResult, result);
     }
 
     /**
@@ -153,22 +127,18 @@ public class ItinaryTest {
     @Test
     public void testRemoveDeliveryPoints() {
         System.out.println("removeDeliveryPoints");
-        /*Itinary instance = null;
-        instance.removeDeliveryPoints();*/
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of finalize method, of class Itinary.
-     */
-    @Test
-    public void testFinalize() throws Exception {
-        System.out.println("finalize");
-        /*Itinary instance = null;
-        instance.finalize();*/
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Node node1 = mGraph.addNode("41");
+        Node node2 = mGraph.addNode("42");
+        Node node3 = mGraph.addNode("43");
+        mItinary.addDeliveryPoint(node1, "31");
+        mItinary.addDeliveryPoint(node2, "32");
+        mItinary.addDeliveryPoint(node3, "33");
+        mItinary.removeDeliveryPoint(node1);
+        mItinary.removeDeliveryPoint(node2);
+        mItinary.removeDeliveryPoint(node3);
+        int result = mItinary.getDeliveryNb();
+        int expResult=0;
+        assertEquals(expResult, result);
     }
 
     /**
