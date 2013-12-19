@@ -59,23 +59,35 @@ public class MapMouseManager extends DefaultMouseManager {
     public void mouseClicked(MouseEvent event) {
 
         GraphicElement element = view.findNodeOrSpriteAt(event.getX(), event.getY());
+        if(mSelected != null) {
+            mSelected.removeAttribute("ui.selected");
+        }
         if (element != null) {
-            if(mSelected != null) {
-                    mSelected.removeAttribute("ui.selected");
-            }
-            if (element.getSelectorType() == Selector.Type.NODE) {
-                
-                mSelected = (Node)element;
-                mSelected.addAttribute("ui.selected");
-                //mListPanel.setVisible(false);
-                //mButDeleteDel.setEnabled(false);
-            }
-            if (element.getAttribute("delivery") == null) {
-                mListPanel.setVisible(true);
+            if(element.equals(mSelected)) {
+                mSelected.removeAttribute("ui.selected");
+                mSelected = null;
+                mButDeleteDel.setEnabled(false);
+                mListPanel.setVisible(false);
             } else {
-                mButDeleteDel.setEnabled(true);
+                if (element.getSelectorType() == Selector.Type.NODE) {
+
+                    mSelected = (Node)element;
+                    mSelected.addAttribute("ui.selected");
+                    //mButDeleteDel.setEnabled(false);
+                }
+                if (element.getAttribute("delivery") == null) {
+                    mListPanel.setVisible(true);
+                    mButDeleteDel.setEnabled(false);
+                } else {
+                    mButDeleteDel.setEnabled(true);
+                    mListPanel.setVisible(false);
+                }
             }
-        } 
+        } else {
+            mButDeleteDel.setEnabled(false);
+            mListPanel.setVisible(false);
+        }
+        
     }
 
     @Override

@@ -28,8 +28,6 @@ import Model.Itinary;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -63,9 +61,8 @@ public class Welcome extends JFrame {
     private DefaultTableModel mTableModel;
     private MapMouseManager mMapListener;
 
-    public void displayPopup(String message, String title) {
-        
-        JOptionPane.showMessageDialog(this, message, title, JOptionPane.WARNING_MESSAGE);
+    public void displayPopup(String title, String message) {
+        JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
     }
     
     public void fillTable(DefaultTableModel pTableModel) {
@@ -80,8 +77,6 @@ public class Welcome extends JFrame {
             
             String startTime = currentItinary.getStart().toString();
             String endTime = currentItinary.getEnd().toString();
-            
-            
             
             //for each delivery within current itinary.
             for (int j = 0; j < currentItinary.getDeliveryNb(); j++) {
@@ -102,7 +97,6 @@ public class Welcome extends JFrame {
             }
         }
     }
-    
 
     public void fillItinaryTable(DefaultTableModel pTableModel) {
     

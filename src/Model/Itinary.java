@@ -89,8 +89,6 @@ public class Itinary {
         
     }
     
-    
-    
     public List<Node> getDeliveries() {
         return mDeliveries;
     }
