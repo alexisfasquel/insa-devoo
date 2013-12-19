@@ -32,8 +32,7 @@ import org.graphstream.graph.Node;
 
 
 /**
- *
- * Description of the class
+ * Welcome is main Frame of the application
  */
 public class Welcome extends JFrame {
     
@@ -58,7 +57,7 @@ public class Welcome extends JFrame {
 
     
     /**
-     *
+     * Create the welcome Frame
      * @param controller
      * @param graph
      * @param pArea
@@ -293,7 +292,7 @@ public class Welcome extends JFrame {
     
     
     /**
-     *
+     * Display a popup to warn the user about an error
      * @param title
      * @param message
      */
@@ -302,7 +301,7 @@ public class Welcome extends JFrame {
     }
     
     /**
-     *
+     * Fill the mTableModel with the informations about the deliveryPoint
      * @param pTableModel
      */
     public void fillTable(DefaultTableModel pTableModel) {
@@ -339,7 +338,7 @@ public class Welcome extends JFrame {
     }
 
     /**
-     *
+     * Fill the mTableModel with the informations about the itinary
      * @param pTableModel
      */
     public void fillItinaryTable(DefaultTableModel pTableModel) {
@@ -360,7 +359,7 @@ public class Welcome extends JFrame {
     }
     
     /**
-     *
+     * Select a node in the graph
      * @param node
      */
     public void selectionnerNode(Node node){

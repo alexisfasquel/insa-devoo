@@ -2,9 +2,18 @@
 
 package Model;
 
-
+/**
+ * Area where delivery can be made by a delivery person
+ */
 public class DeliveryPoint {
+    
+    /*
+    * Id of the client to deliver
+    */
    private final String mClientId;
+   /*
+    * the itinary to follow by the delivery personn
+    */
    private final Itinary mItinary;
 
     /**

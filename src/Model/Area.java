@@ -18,10 +18,8 @@ import org.graphstream.graph.Path;
 import org.graphstream.graph.implementations.MultiGraph;
 
 /**
- *
- * Description of the class
+ * Area where deliveries can be made by a delivery person
  */
-
 public class Area{
     
     private static final int MAX_TIME = 10000;
@@ -31,8 +29,10 @@ public class Area{
     
     private Node mWareHouse;
     private List<Itinary> mTour;
-    
-    
+
+    /**
+     * Create a area and initialize his attributes
+     */
     public Area() {
         
         mGraph = new MultiGraph("map");
@@ -164,7 +164,7 @@ public class Area{
     //TODO Transfor NullPointerException into our own exception
 
     /**
-     *
+     * Compute the shorter road to follow
      * @throws NoTourException
      */
         public void computeRoadMap() throws NoTourException {
@@ -318,7 +318,7 @@ public class Area{
     }
 
     /**
-     *
+     * Compute the shorter road to follow
      * @throws NoTourException
      */
     public void computeRoadMapDij() throws NoTourException {
@@ -451,15 +451,11 @@ public class Area{
     }
     
     /**
-     *
      * @return a list of itinary of <code>this</code> //ATTENTION meme focntion que GetItinary non ??
      */
     public List<Itinary> getTour() {
         return mTour;
     }
     
-    /**
-     *
-     */
     public class NoTourException extends Exception {}
 }

@@ -7,14 +7,11 @@ import Model.DeliveryPoint;
 import Model.Itinary;
 import org.graphstream.graph.Node;
 
-/**
- *
- * Description of the class
- */
+
 public abstract class Command {
     
     /**
-     *
+     * 
      */
     protected Node mNode;
 
@@ -36,7 +33,6 @@ public abstract class Command {
     abstract public void reverse() throws Area.NoTourException;
         
     /**
-     *
      * @param area
      * @param selectedNode
      */
@@ -47,8 +43,8 @@ public abstract class Command {
 
     /**
      *
-     * @param node
-     * @return
+     * @param Node
+     * @return boolean
      */
     public boolean CheckIfDeliveryNode(Node node){
         DeliveryPoint dp = node.getAttribute("delivery");
@@ -59,7 +55,7 @@ public abstract class Command {
     }
 
     /**
-     *
+     * Add a deliveryPoint from the area
      * @param itinary
      * @param cliendId
      * @throws Area.NoTourException
@@ -72,7 +68,7 @@ public abstract class Command {
     }
     
     /**
-     *
+     * Delete a deliveryPoint from the area
      * @throws Area.NoTourException
      */
     public void deleteDelivery() throws Area.NoTourException{
