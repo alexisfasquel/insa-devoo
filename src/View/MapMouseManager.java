@@ -49,6 +49,12 @@ public class MapMouseManager extends DefaultMouseManager {
     public Node getSelected() {
         return mSelected;
     }
+    public void deselect() {
+        mSelected.removeAttribute("ui.selected");
+        mSelected = null;
+    }
+   
+    
     @Override
     public void mouseClicked(MouseEvent event) {
 

@@ -277,6 +277,7 @@ public class Welcome extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = table.getSelectedRow();
                 mController.addDelivery(mMapListener.getSelected(), selectedRow);
+                mMapListener.deselect();
                 if(mController.CheckUndo()){
                     mButUnDo.setEnabled(true);
                     mButAdd.setEnabled(false);
@@ -333,6 +334,7 @@ public class Welcome extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mController.DeleteDelivery(mMapListener.getSelected());   
+                mMapListener.deselect();
                 if(mController.CheckUndo()){
                     mButUnDo.setEnabled(true);
                 }
