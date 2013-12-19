@@ -22,7 +22,7 @@ public class Itinary {
     private final Date mEnd;
     
     private static final String[] COLORS = {"green", "magenta", "cyan"};
-    
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("HH'h'mm");
    
     public static final int GREEN = 0;
 
@@ -80,7 +80,6 @@ public class Itinary {
         DeliveryPoint dp = new DeliveryPoint(idClient, this);
         intersection.setAttribute("delivery", dp);
         intersection.setAttribute("ui.class", mColor);
-        intersection.setAttribute("ui.label", "Client ID : " + idClient + "\n");
         return mDeliveries.add(intersection);
     }
 
@@ -136,6 +135,9 @@ public class Itinary {
         if(mRoadMap != null) {
             removeDirections();
         }
+        Calendar calendar = GregorianCalendar.getInstance(); 
+        calendar.setTime(mStart);
+        
         mRoadMap = directions;
         for (int i = 0; i < mRoadMap.size(); i++) {
             for (Edge edge: mRoadMap.get(i).getEachEdge()) {
@@ -143,16 +145,44 @@ public class Itinary {
             }
             Node root = mRoadMap.get(i).getRoot();
             if(root.getAttribute("warehouse") == null) {
-                String label = root.getAttribute("ui.label");
-                Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-                calendar.setTime(mStart);   // assigns calendar to given date
-                calendar.add(Calendar.MINUTE, (int)(double)mRoadMap.get(i).getPathWeight("time"));
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-                String time = sdf.format(calendar.getTime());
-                label += System.getProperty("line.separator") + time;
-                root.setAttribute("ui.label", label);
+                calendar.add(Calendar.SECOND, (int)(double)mRoadMap.get(i).getPathWeight("time"));
+                String time = " " + sdf.format(calendar.getTime()) + " \n";
+                root.setAttribute("ui.label", time);
             }
         }
+    }
+    
+    public String getDirections() {
+        String res = "";
+        for (int i = 0; i < mRoadMap.size(); i++) {
+            List<Edge> edges = mRoadMap.get(i).getEdgePath();
+            
+            String name = (String)edges.get(0).getAttribute("name");
+            res = "Prendre la rue : " + name + "\n";
+            for (int j = 1; j < edges.size(); j++) {
+                String nextName = (String)edges.get(j).getAttribute("name");
+                if(name.equals(nextName)) {
+                    continue;
+                } else {
+                    name = nextName;
+                    res += "Prendre la rue : " + name + "\n";
+                }
+            }
+            if(i < mRoadMap.size() - 1) {
+                res += "Arrivé au point de livraison " + mRoadMap.get(i+1).getRoot().getId() + " : " + mRoadMap.get(i+1).getRoot().getAttribute("time");
+            }
+        }
+        return res;
+    }
+    
+    public float getAngle(Node source, Node target) {
+        float angle = 0;//(float) Math.toDegrees(Math.atan2(target..g - x, target.y - y));
+
+        if(angle < 0){
+            angle += 360;
+        }
+
+        return angle;
     }
     
     private void removeDirections() {

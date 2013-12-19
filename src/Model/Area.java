@@ -119,15 +119,15 @@ public class Area{
         for (int i = 0; i < edges.size(); i++) {
             
                 Edge edge = mGraph.addEdge(String.valueOf(i), String.valueOf(edges.get(i).getNodeIdL()), String.valueOf(edges.get(i).getNodeIdR()), true);
-                if(edges.get(i).getweight() > 110) {
+                edge.addAttribute("name", edges.get(i).getName());
+                
+                edge.setAttribute("ui.label", edges.get(i).getName());
+                if(edges.get(i).getweight() > 90) {
                     
+                } else if(edges.get(i).getweight() < 60) {
                     edge.addAttribute("ui.class", "boulevard" ); 
                     
-                } else if(edges.get(i).getweight() < 90) {
-                    
-                    
                 } else {
-                    
                     edge.addAttribute("ui.class", "avenue" );
                 }
                 edge.addAttribute("time", edges.get(i).getweight());
@@ -427,7 +427,9 @@ public class Area{
             }
             offset += size;
             itinary.setDirections(directions);
+            System.out.println(itinary.getDirections());
         }
+        
         
     }
     
