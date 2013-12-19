@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package Controller;
 
@@ -17,7 +12,7 @@ import org.graphstream.graph.Node;
 
 /**
  *
- * @author mattramo
+ * Description of the class
  */
 public class Controller {
     
@@ -26,6 +21,9 @@ public class Controller {
     private Stack<Command> mDoneStack;
     private Stack<Command> mUndoneStack;
     
+    /**
+     *
+     */
     public Controller(){
         mArea = new Area();
         mUndoneStack = new Stack();
@@ -42,6 +40,10 @@ public class Controller {
         //computeRoadMap();
     }
     
+    /**
+     * Give the path to the map file to load.
+     * @param fileName name of the map file to load
+     */
     public void loadPlan(String fileName) {
         try {
             // Donner chemin de fichier.
@@ -52,6 +54,10 @@ public class Controller {
         }  
     }
     
+    /**
+     * Give the path to the deliveries file to load.
+     * @param fileName name of the deliveries file to load
+     */
     public void loadDeliveries(String fileName) {
         try {
             //mArea.dijkstra();
@@ -62,6 +68,9 @@ public class Controller {
         }
     }
     
+    /**
+     *
+     */
     public void computeRoadMap() {
         try {
             mArea.computeRoadMapDij();
@@ -71,6 +80,9 @@ public class Controller {
         }
     }
     
+    /**
+     *
+     */
     public void reDo() {
         Command command = mUndoneStack.pop();
         try {
@@ -81,6 +93,9 @@ public class Controller {
         mDoneStack.push(command);
     }
     
+    /**
+     *
+     */
     public void unDo() {
         Command command = mDoneStack.pop();
         try {
@@ -91,6 +106,11 @@ public class Controller {
         mUndoneStack.push(command);
     }
     
+    /**
+     *
+     * @param selected
+     * @param itinary
+     */
     public void addDelivery(Node selected, int itinary){
         Add add = new Add(mArea, selected, itinary, "tet");
         try {
@@ -102,14 +122,24 @@ public class Controller {
         
      }
     
+    /**
+     * @return true if the done stack isn't empty.
+     */
     public boolean CheckUndo(){
         return !mDoneStack.empty();
     }
     
+    /**
+     * @return true if the undone stack isn't empty.
+     */
     public boolean CheckRedo(){
         return !mUndoneStack.empty();
     }
     
+    /**
+     *
+     * @param selected
+     */
     public void DeleteDelivery(Node selected){
         Delete delete = new Delete(mArea, selected);
         try {
@@ -120,6 +150,10 @@ public class Controller {
         mDoneStack.push(delete);
     }
     
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args){
         Controller mController = new Controller();
         mController.startApp();
