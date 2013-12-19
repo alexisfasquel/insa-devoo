@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package Tools.Reader;
 import Model.LoadingException;
@@ -22,7 +17,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  *
- * @author Aleks
+ * Description of the class
  */
 
 
@@ -31,10 +26,18 @@ public class MapReader extends DefaultHandler{
     private PlanHandler mPlanHandler = new PlanHandler();
     private File mFile;
     
+    /**
+     *
+     * @param filePath
+     */
     public MapReader(String filePath) {
         mFile = new File(filePath);
     }
     
+    /**
+     *
+     * @throws LoadingException
+     */
     public void process() throws LoadingException {
         try {
             SAXParserFactory fabrique = SAXParserFactory.newInstance();
@@ -50,26 +53,44 @@ public class MapReader extends DefaultHandler{
               
     }
 
-    
+    /**
+     * @return a list of nodes  of <code>this</code>
+     */
     public List<Node> getNodes() {
         return mPlanHandler.mNodes;
     }
 
+    /**
+     * @return a list of edges  of <code>this</code>
+     */
     public List<Edge> getEdges() {
         return mPlanHandler.mEdges;
     }
-    
-     public static class PlanHandler extends DefaultHandler{
+
+    /**
+     *
+     */
+    public static class PlanHandler extends DefaultHandler{
 
         private List<Node> mNodes = new ArrayList<Node>();
         private List<Edge> mEdges = new ArrayList<Edge>();
         private Node mNode;
 
-
+        /**
+         *
+         */
         public PlanHandler() {
             super();
         }
 
+        /**
+         *
+         * @param uri
+         * @param localName
+         * @param qName
+         * @param attributes
+         * @throws SAXException
+         */
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
            if (qName.equals("Noeud")) {
@@ -95,6 +116,13 @@ public class MapReader extends DefaultHandler{
            }
         }
 
+        /**
+         *
+         * @param uri
+         * @param localName
+         * @param qName
+         * @throws SAXException
+         */
         @Override
         public void endElement(String uri, String localName, String qName) throws SAXException {
             if (qName.equals("Noeud")) {
@@ -103,34 +131,64 @@ public class MapReader extends DefaultHandler{
         }
     }
     
+    /**
+     *
+     */
     public static class Node {
             private final int mId, mX, mY;
 
-            public Node(int id, int x, int y) {
+        /**
+         * Create a Node with its geographical coordinates and its identification
+         * @param id  the number of the identification of a specif node
+         * @param x   geographical coordinate
+         * @param y   geographical coordinate
+         */
+        public Node(int id, int x, int y) {
                 mId = id;
                 mX = x;
                 mY = y;
             }
 
-            public int getId() {
+        /**
+         * @return the id of <code>this</code>
+         */
+        public int getId() {
                 return mId;
             }
 
-            public int getX() {
+        /**
+         * @return the geographical coordinate X of  <code>this</code>
+         */
+        public int getX() {
                 return mX;
             }
 
-            public int getY() {
+        /**
+         * @return the geographical coordinate Y of  <code>this</code>
+         */
+        public int getY() {
                 return mY;
             }
 
         }
-        public static class Edge {
+
+    /**
+     *
+     */
+    public static class Edge {
             private final int mNodeIdStart, mNodeIdFinish;
             private final double mSpeed, mLength;
             private final String mName;
 
-            public Edge(int nodeIdStart, int nodeIdFinish, String name, double speed, double lenght) {
+        /**
+         *
+         * @param nodeIdStart
+         * @param nodeIdFinish
+         * @param name
+         * @param speed
+         * @param lenght
+         */
+        public Edge(int nodeIdStart, int nodeIdFinish, String name, double speed, double lenght) {
                 mNodeIdStart = nodeIdStart;
                 mNodeIdFinish = nodeIdFinish;
                 mName = name;
@@ -138,19 +196,31 @@ public class MapReader extends DefaultHandler{
                 mLength = lenght;
             }
 
-            public String getName() {
+        /**
+         * @return the name of <code>this</code>
+         */
+        public String getName() {
                 return mName;
             }
 
-            public double getweight() {
+        /**
+         * @return the weight of <code>this</code>
+         */
+        public double getweight() {
                 return mLength/mSpeed;
             }
-            
-            public int getNodeIdL() {
+
+        /**
+         * @return the id of the start of <code>this</code>
+         */
+        public int getNodeIdL() {
                 return mNodeIdStart;
             }
 
-            public int getNodeIdR() {
+        /**
+         * @return the id of the start of <code>this</code>
+         */
+        public int getNodeIdR() {
                 return mNodeIdFinish;
             }        
         }

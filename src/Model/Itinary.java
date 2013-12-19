@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package Model;
 
@@ -18,8 +13,9 @@ import org.graphstream.graph.Path;
 
 /**
  *
- * @author Aleks
+ * Description of the class
  */
+
 public class Itinary {
     
     private final Date mStart;
@@ -27,8 +23,11 @@ public class Itinary {
     
     private static final String[] COLORS = {"green", "magenta", "cyan"};
     
+   
     public static final int GREEN = 0;
+
     public static final int MAGENTA = 1;
+
     public static final int CYAN = 2;
     
     private List<Node> mDeliveries;
@@ -36,26 +35,47 @@ public class Itinary {
     
     private final String mColor;
     
+    /**
+     * Create an itinary with a date of start and end, a color and a list of 
+     * deliveries.
+     * @param start     date of the start of the new itinary to create
+     * @param end       date of the end of the new itinary to create
+     * @param colorId   id of the color for this itinary
+     */
     public Itinary(Date start, Date end, int colorId){
         mStart = start;
         mEnd = end;
         mDeliveries = new ArrayList<>();
         mColor = COLORS[colorId];
     }
-    
-    
+
+    /**
+     * @return the number of the deliveries of <code>this</code>
+     */
     public int getDeliveryNb() {
         return mDeliveries.size();
     }
     
+    /**
+     * @return the date of the start of <code>this</code>
+     */
     public Date getStart() {
         return mStart;
     }
     
+    /**
+     * @return the date of the end of <code>this</code>
+     */
     public Date getEnd() {
         return mEnd;
     }
     
+    /**
+     * Create a new delivery point and add it to a list of deliveries.
+     * @param intersection 
+     * @param idClient     the number which is the identification of a specific client
+     * @return the list of deliveries with the new delivery point added.
+     */
     public boolean addDeliveryPoint(Node intersection, String idClient) {
         DeliveryPoint dp = new DeliveryPoint(idClient, this);
         intersection.setAttribute("delivery", dp);
@@ -63,6 +83,11 @@ public class Itinary {
         intersection.setAttribute("ui.label", "Client ID : " + idClient + "\n");
         return mDeliveries.add(intersection);
     }
+
+    /**
+     * Delete a delivery point of a list of deliveries.
+     * @param intersection
+     */
     public void removeDeliveryPoint(Node intersection) {
         mDeliveries.remove(intersection);
         intersection.removeAttribute("delivery");
@@ -70,6 +95,9 @@ public class Itinary {
         intersection.removeAttribute("ui.label");
     }
     
+    /**
+     *
+     */
     public void removeDeliveryPoints() {
         if(mRoadMap != null) {
             removeDirections();
@@ -82,6 +110,10 @@ public class Itinary {
         mDeliveries = new ArrayList<>();
     }
 
+    /**
+     *
+     * @throws Throwable
+     */
     @Override
     protected void finalize() throws Throwable {
         System.out.println("Itinary removed !");
@@ -89,10 +121,17 @@ public class Itinary {
         
     }
     
+    /**
+     * @return a list of deliveries of <code>this</code>
+     */
     public List<Node> getDeliveries() {
         return mDeliveries;
     }
     
+    /**
+     * Replace an old list of directions by a new one.
+     * @param directions
+     */
     public void setDirections(List<Path> directions) {
         if(mRoadMap != null) {
             removeDirections();

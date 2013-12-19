@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package View;
 
@@ -38,7 +33,7 @@ import org.graphstream.graph.Node;
 
 /**
  *
- * @author mattramo
+ * Description of the class
  */
 public class Welcome extends JFrame {
     
@@ -61,10 +56,19 @@ public class Welcome extends JFrame {
     private DefaultTableModel mTableModel;
     private MapMouseManager mMapListener;
 
+    /**
+     *
+     * @param title
+     * @param message
+     */
     public void displayPopup(String title, String message) {
         JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
     }
     
+    /**
+     *
+     * @param pTableModel
+     */
     public void fillTable(DefaultTableModel pTableModel) {
     alreadyLoad = true;
     List<Itinary> currentTour = mArea.getTour();
@@ -98,6 +102,10 @@ public class Welcome extends JFrame {
         }
     }
 
+    /**
+     *
+     * @param pTableModel
+     */
     public void fillItinaryTable(DefaultTableModel pTableModel) {
     
     List<Itinary> currentTour = mArea.getTour();
@@ -115,6 +123,10 @@ public class Welcome extends JFrame {
         }
     }
     
+    /**
+     *
+     * @param node
+     */
     public void selectionnerNode(Node node){
         DeliveryPoint dp = node.getAttribute("delivery");
         for(int i =0;i<mTableModel.getRowCount();i++){
@@ -125,9 +137,13 @@ public class Welcome extends JFrame {
             }
         }
     }
-    
-    
-        
+
+    /**
+     *
+     * @param controller
+     * @param graph
+     * @param pArea
+     */
     public Welcome(Controller controller, MultiGraph graph, Area pArea ) {
         
         mController = controller;

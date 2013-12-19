@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 package Controller;
 
@@ -13,22 +9,47 @@ import org.graphstream.graph.Node;
 
 /**
  *
- * @author Eleonore
+ * Description of the class
  */
 public abstract class Command {
     
+    /**
+     *
+     */
     protected Node mNode;
+
+    /**
+     *
+     */
     protected Area mArea;
     
+    /**
+     *
+     * @throws Area.NoTourException
+     */
     abstract public void execute() throws Area.NoTourException;
+
+    /**
+     *
+     * @throws Area.NoTourException
+     */
     abstract public void reverse() throws Area.NoTourException;
         
+    /**
+     *
+     * @param area
+     * @param selectedNode
+     */
     public Command (Area area, Node selectedNode) {
         mNode = selectedNode;
         mArea = area;
     }
 
-   
+    /**
+     *
+     * @param node
+     * @return
+     */
     public boolean CheckIfDeliveryNode(Node node){
         DeliveryPoint dp = node.getAttribute("delivery");
         if(dp == null){
@@ -36,14 +57,24 @@ public abstract class Command {
         }
         return true;
     }
-          
-      public void add(Itinary itinary, String cliendId) throws Area.NoTourException {
+
+    /**
+     *
+     * @param itinary
+     * @param cliendId
+     * @throws Area.NoTourException
+     */
+    public void add(Itinary itinary, String cliendId) throws Area.NoTourException {
         mArea.addDelivery(itinary, cliendId, mNode.getId());
         //mArea.addDelivery(itinary, intersection.getId(), idClient);
         mArea.computeRoadMapDij();//Beug dans undo de delivery
         
     }
     
+    /**
+     *
+     * @throws Area.NoTourException
+     */
     public void deleteDelivery() throws Area.NoTourException{
           DeliveryPoint dp = mNode.getAttribute("delivery");
           mArea.deleteDelivery(dp.getItinary(), mNode.getId());

@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Model;
 
 import Tools.Reader.DeliveryLoader;
@@ -25,9 +19,8 @@ import org.graphstream.graph.implementations.MultiGraph;
 
 /**
  *
- * @author Aleks
+ * Description of the class
  */
-
 
 public class Area{
     
@@ -38,6 +31,7 @@ public class Area{
     
     private Node mWareHouse;
     private List<Itinary> mTour;
+    
     
     public Area() {
         
@@ -54,25 +48,51 @@ public class Area{
         mAstar.setCosts(new TimeCost());
     }
     
+    /**
+     * @return a Multigraph of <code>this</code>
+     */
     public MultiGraph getGraph() {
         return mGraph;
     }
     
+    /**
+     * Change the parameter wareHouseId
+     * @param wareHouseId 
+     */
     public void setWareHouse(String wareHouseId) {
         mWareHouse = mGraph.getNode(wareHouseId);
         mWareHouse.addAttribute("warehouse");
         mWareHouse.addAttribute("ui.class", "warehouse");
     }
     
+    /**
+     * Create a new itineray and add it to the liste of itinary mTour.
+     * @param start date of the start of the new itinary to add
+     * @param end   date of the end of the new itinary to add
+     * @return the new itinary which have been created and added to mTour
+     */
     public Itinary addItinary(Date start, Date end) {
         Itinary itinary = new Itinary(start, end, mTour.size());
         mTour.add(itinary);
         return itinary;
     }
     
+    /**
+     * Add a delivery point to an itinary.
+     * @param idClient the number which is the identification of a specific client
+     * @param itinary  the list of the deliveries with a start and an end
+     * @param adress   the adress of the delivery to add
+     */
     public void addDelivery(Itinary itinary, String idClient, String adress) {
         itinary.addDeliveryPoint(mGraph.getNode(adress), idClient);
     }
+
+    /**
+     * Delete a delivery point to an itinary. Warning when this delivery point is 
+     * the last of the itinary.
+     * @param itinary  the list of the deliveries with a start and an end
+     * @param adress   the adress of the delivery to add
+     */
     public void deleteDelivery(Itinary itinary, String adress) {
         itinary.removeDeliveryPoint(mGraph.getNode(adress));
         if(itinary.getDeliveries().isEmpty()) {
@@ -81,6 +101,12 @@ public class Area{
         }
     }
     
+    /**
+     * Load a map into the application.
+     * @param filePath            the path to the xml file of a plan to load
+     * @throws LoadingException   when the xml file doesn't exist,
+     * the numbers are negatives, there are syntaxic or semantic errors
+     */
     public void loadMap(String filePath) 
             throws LoadingException {
         
@@ -109,6 +135,14 @@ public class Area{
         }
     }
     
+    /**
+     * Load a list of deliveries into the application.
+     * @param filePath            the path to the xml file of a plan to load
+     * @throws LoadingException   when the xml file doesn't exist,
+     * the numbers are negatives, there are syntaxic or semantic errors or the file
+     * of deliveries doesn't correspond to the plan loaded before.
+     */
+   
     public void loadDeliveries(String filePath) throws LoadingException{
         for (int i = 0; i < mTour.size(); i++) {
             mTour.get(i).removeDeliveryPoints();
@@ -119,13 +153,21 @@ public class Area{
         
     }
     
+    /**
+     * @return a list of itinary of <code>this</code>
+     */
     public List<Itinary> GetItinary(){
         return mTour;
     }
     
     
     //TODO Transfor NullPointerException into our own exception
-    public void computeRoadMap() throws NoTourException {
+
+    /**
+     *
+     * @throws NoTourException
+     */
+        public void computeRoadMap() throws NoTourException {
         if (mTour == null) {
             throw new NoTourException();
         }
@@ -274,8 +316,11 @@ public class Area{
         
         
     }
-          
-    
+
+    /**
+     *
+     * @throws NoTourException
+     */
     public void computeRoadMapDij() throws NoTourException {
         
         if (mTour.isEmpty() == true) {
@@ -405,9 +450,16 @@ public class Area{
         
     }
     
+    /**
+     *
+     * @return a list of itinary of <code>this</code> //ATTENTION meme focntion que GetItinary non ??
+     */
     public List<Itinary> getTour() {
         return mTour;
     }
     
+    /**
+     *
+     */
     public class NoTourException extends Exception {}
 }

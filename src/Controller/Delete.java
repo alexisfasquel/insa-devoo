@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package Controller;
 
@@ -14,12 +9,17 @@ import org.graphstream.graph.Node;
 
 /**
  *
- * @author Eleonore
+ * Decription of the class
  */
 public class Delete extends Command{
 
     private DeliveryPoint mDeliveryPoint;
     
+    /**
+     *
+     * @param area
+     * @param selectedNode
+     */
     public Delete(Area area, Node selectedNode) {
         super(area, selectedNode);
         mDeliveryPoint = selectedNode.getAttribute("delivery");

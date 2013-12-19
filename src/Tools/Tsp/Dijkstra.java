@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Tools.Tsp;
 
 import java.util.ArrayList;
@@ -18,7 +14,7 @@ import org.graphstream.graph.Path;
 
 /**
  *
- * @author admin
+ * Description of the class
  */
 public class Dijkstra {
 
@@ -29,6 +25,12 @@ public class Dijkstra {
 
     private Dijkstra() {}
 
+    /**
+     *
+     * @param source
+     * @param destination
+     * @return
+     */
     public static Path execute(Node source, Node destination) {
         settledNodes = new HashSet<>();
         unSettledNodes = new HashSet<>();

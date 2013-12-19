@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package View;
 
 import Controller.Controller;
@@ -22,7 +18,7 @@ import org.graphstream.ui.swingViewer.util.DefaultMouseManager;
 
 /**
  *
- * @author Aleks
+ * @Description of the class
  */
 public class MapMouseManager extends DefaultMouseManager {
 
@@ -32,6 +28,12 @@ public class MapMouseManager extends DefaultMouseManager {
 
     private Node mSelected;
     
+    /**
+     *
+     * @param controller
+     * @param ButDeleteDel
+     * @param ListPanel
+     */
     public MapMouseManager(Controller controller, JButton ButDeleteDel, JPanel ListPanel) {
         super();
         mController = controller;
@@ -39,22 +41,40 @@ public class MapMouseManager extends DefaultMouseManager {
         mListPanel = ListPanel;
     }
 
+    /**
+     *
+     * @param event
+     */
     @Override
     public void mouseDragged(MouseEvent event) {
     }
 
+    /**
+     *
+     * @param event
+     */
     @Override
     protected void mouseButtonPress(MouseEvent event) {}
 
+    /**
+     * @return th node selected of <code>this</code>
+     */
     public Node getSelected() {
         return mSelected;
     }
+
+    /**
+     * 
+     */
     public void deselect() {
         mSelected.removeAttribute("ui.selected");
         mSelected = null;
     }
-   
-    
+
+    /**
+     *
+     * @param event
+     */
     @Override
     public void mouseClicked(MouseEvent event) {
 
@@ -90,14 +110,26 @@ public class MapMouseManager extends DefaultMouseManager {
         
     }
 
+    /**
+     *
+     * @param event
+     */
     @Override
     public void mouseReleased(MouseEvent event) {
     }
 
+    /**
+     *
+     * @param event
+     */
     @Override
     public void mousePressed(MouseEvent event) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
 
