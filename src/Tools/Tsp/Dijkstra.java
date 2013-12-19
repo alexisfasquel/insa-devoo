@@ -8,8 +8,6 @@ package Tools.Tsp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Collections;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -123,9 +121,7 @@ public class Dijkstra {
         Path path = new Path();
         for(int i=edges.size()-1; i>=0; i--) 
         {
-            path.add(nodes.get(i+1), edges.get(i));
-            System.out.println(i);
-            
+            path.add(nodes.get(i+1), edges.get(i));            
         }
 
         return path;
