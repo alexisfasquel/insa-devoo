@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.graphstream.graph.Node;
-import org.graphstream.graph.Path;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -53,8 +52,7 @@ public class ItinaryTest {
         mEnd = new Date(80);
         mItinary = new Itinary(mStart, mEnd, 1);
         mGraph = new MultiGraph("map");
-       
-        
+
     }
     
     
@@ -100,10 +98,58 @@ public class ItinaryTest {
         System.out.println("addDeliveryPoint");
         mGraph.addNode("node");
         String idClient = "3";
-        boolean expResult = true;
         boolean result = mItinary.addDeliveryPoint(mGraph.getNode("node"), idClient);
-        assertEquals(expResult, result);
+        DeliveryPoint dp = mGraph.getNode("node").getAttribute("delivery");
+        assertNotNull(dp);
   
+    }
+
+ 
+    /**
+     * Test of removeDeliveryPoint method, of class Itinary.
+     */
+    @Test
+    public void testRemoveDeliveryPoint() {
+        System.out.println("removeDeliveryPoint");
+        Node node = mGraph.addNode("42");
+        mItinary.addDeliveryPoint(node, "35");
+        mItinary.removeDeliveryPoint(node);
+        int result = mItinary.getDeliveryNb();
+        int expResult=0;
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of removeDeliveryPoints method, of class Itinary.
+     */
+    @Test
+    public void testRemoveDeliveryPoints() {
+        System.out.println("removeDeliveryPoints");
+        Node node1 = mGraph.addNode("41");
+        Node node2 = mGraph.addNode("42");
+        Node node3 = mGraph.addNode("43");
+        mItinary.addDeliveryPoint(node1, "31");
+        mItinary.addDeliveryPoint(node2, "32");
+        mItinary.addDeliveryPoint(node3, "33");
+        mItinary.removeDeliveryPoint(node1);
+        mItinary.removeDeliveryPoint(node2);
+        mItinary.removeDeliveryPoint(node3);
+        int result = mItinary.getDeliveryNb();
+        int expResult=0;
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of setDirections method, of class Itinary.
+     */
+    @Test
+    public void testSetDirections() {
+        System.out.println("setDirections");
+        /*List<Path> directions = null;
+        Itinary instance = null;
+        instance.setDirections(directions);*/
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
    
