@@ -30,7 +30,7 @@ public abstract class Command {
 
    
     public boolean CheckIfDeliveryNode(Node node){
-        DeliveryPoint dp =node.getAttribute("delivery");
+        DeliveryPoint dp = node.getAttribute("delivery");
         if(dp == null){
             return false;
         }
@@ -40,14 +40,14 @@ public abstract class Command {
       public void add(Itinary itinary, String cliendId) throws Area.NoTourException, Area.AlreadyComputedException{
         mArea.addDelivery(itinary, cliendId, mNode.getId());
         //mArea.addDelivery(itinary, intersection.getId(), idClient);
-        mArea.computeRoadMap();//Beug dans undo de delivery
+        mArea.computeRoadMapDij();//Beug dans undo de delivery
         
     }
     
     public void deleteDelivery() throws Area.AlreadyComputedException, Area.NoTourException{
           DeliveryPoint dp = mNode.getAttribute("delivery");
           mArea.deleteDelivery(dp.getItinary(), mNode.getId());
-          mArea.computeRoadMap();
+          mArea.computeRoadMapDij();
           
     }
     

@@ -27,16 +27,11 @@ public class Controller {
 
     private Stack<Command> mDoneStack;
     private Stack<Command> mUndoneStack;
-    private Node CurrentNodeSelected;
     
     public Controller(){
         mArea = new Area();
         mUndoneStack = new Stack();
         mDoneStack = new Stack();
-    }
-
-    public void setCurrentNodeSelected(Node CurrentNodeSelected) {
-        this.CurrentNodeSelected = CurrentNodeSelected;
     }
     
     private void startApp() {
@@ -105,8 +100,8 @@ public class Controller {
         mUndoneStack.push(command);
     }
     
-    public void addDelivery(int itinary){
-        Add add = new Add(mArea, CurrentNodeSelected, itinary, "tet");
+    public void addDelivery(Node selected, int itinary){
+        Add add = new Add(mArea, selected, itinary, "tet");
         try {
             add.execute();
         } catch (Area.NoTourException ex) {
@@ -124,8 +119,8 @@ public class Controller {
     public boolean CheckRedo(){
         return !mUndoneStack.empty();
     }
-    public void DeleteDelivery(){
-        Delete delete = new Delete(mArea, CurrentNodeSelected);
+    public void DeleteDelivery(Node selected){
+        Delete delete = new Delete(mArea, selected);
         try {
             delete.execute();
         } catch (Area.AlreadyComputedException ex) {

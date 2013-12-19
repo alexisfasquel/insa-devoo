@@ -44,14 +44,16 @@ node.cyan
     fill-color: cyan;
     z-index: 4;
 }
-node.selected
+
+node.selected 
 {
-    size: 12px;
-    fill-color: black;
+    size: 15px;
+    fill-color: red;    
 }
 
-node:clicked 
+node:selected 
 {
+    size: 15px;
     fill-color: red;
 }
 

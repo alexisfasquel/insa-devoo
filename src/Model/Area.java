@@ -77,6 +77,10 @@ public class Area{
     }
     public void deleteDelivery(Itinary itinary, String adress) {
         itinary.removeDeliveryPoint(mGraph.getNode(adress));
+        if(itinary.getDeliveries().isEmpty()) {
+            mTour.remove(itinary);
+            
+        }
     }
     
     public void loadMap(String filePath) 
@@ -309,7 +313,7 @@ public class Area{
                 Node delivery = timeFrame.get(j);
                 int target = j+offset;
                 
-                // If last itinary...
+                // If we're looping over the last time frame
                 if (i == mTour.size() - 1) { 
                     // We'll have to add the warehouse as a succesor
                     Path p = Dijkstra.execute(delivery, mWareHouse);
@@ -317,27 +321,29 @@ public class Area{
                     TspGraph.addSucc(target, 0);
                     TspGraph.addCost(target, 0, (int)(double)p.getPathWeight("time"));
                     
-                } else {     
-                    //If we' looping over the first time frame...
-                    if(i == 0) {    // then we want to add the delivery as a successor of the warehouse
-                        Path p = Dijkstra.execute(mWareHouse, delivery);
-                        paths[0][target] = p;
-                        TspGraph.addSucc(0, target);
-                        TspGraph.addCost(0, target, (int)(double)p.getPathWeight("time"));
-                    }
-                    
-                    // Then we add as successors each delivery point from the next itinary
-                    List<Node> nextTimeFrame = mTour.get(i+1).getDeliveries();
-                    for (int k = 0; k < nextTimeFrame.size(); k++) {
-                        int id = k + offset + timeFrame.size();
-                        Path p = Dijkstra.execute(delivery, nextTimeFrame.get(k));
-                        paths[target][id] = p;
-                        TspGraph.addSucc(target, id);
-                        TspGraph.addCost(target, id, (int)(double)p.getPathWeight("time"));
-                    }
+                } else if (mTour.size() > 1) {      // Not the last ?
+                    // More than one itinary ? 
+                    if(mTour.size() > 1) {     
+                        //Then we add as successors each delivery point from the next itinary
+                        List<Node> nextTimeFrame = mTour.get(i+1).getDeliveries();
+                        for (int k = 0; k < nextTimeFrame.size(); k++) {
+                            int id = k + offset + timeFrame.size();
+                            Path p = Dijkstra.execute(delivery, nextTimeFrame.get(k));
+                            paths[target][id] = p;
+                            TspGraph.addSucc(target, id);
+                            TspGraph.addCost(target, id, (int)(double)p.getPathWeight("time"));
+                        }
+                    } 
+                }
+                // If we're looping over the first time frame...
+                if(i == 0) {    // then we want to add the delivery as a successor of the warehouse
+                    Path p = Dijkstra.execute(mWareHouse, delivery);
+                    paths[0][target] = p;
+                    TspGraph.addSucc(0, target);
+                    TspGraph.addCost(0, target, (int)(double)p.getPathWeight("time"));
                 }
                 
-                //And in any case, each delivery point of an itinary is a successor of the others
+                // Then, each delivery point of an itinary is a successor of the others
                 for (int k = 0; k < timeFrame.size(); k++) {
                     int succ = k+offset;
                     //... Except for itself, rtfm

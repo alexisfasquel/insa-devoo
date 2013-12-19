@@ -61,7 +61,7 @@ public class Welcome extends JFrame {
     private JTable mDelTable;
     private JTable mListItinary;
     private DefaultTableModel mTableModel;
-    
+    private MapMouseManager mMapListener;
 
     public void displayPopup(String message, String title) {
         
@@ -69,7 +69,7 @@ public class Welcome extends JFrame {
     }
     
     public void fillTable(DefaultTableModel pTableModel) {
-    
+    alreadyLoad = true;
     List<Itinary> currentTour = mArea.getTour();
     
     
@@ -132,27 +132,9 @@ public class Welcome extends JFrame {
         }
     }
     
-    private Node findNode(int index){
-      
-         Object dpSelected = mDelTable.getValueAt(index, 1);
-         List<Itinary> currentTour = mArea.getTour();     
-     //for each itinary.
-        for (int i = 0; i < mArea.getTour().size(); i++) {
-             Itinary currentItinary = currentTour.get(i);
-             for (int j = 0; j < currentItinary.getDeliveryNb(); j++) {
-                DeliveryPoint dp=currentItinary.getDeliveries().get(j).getAttribute("delivery");
-                 if(dp.getNclient() == dpSelected.toString() ){
-                     return currentItinary.getDeliveries().get(j);
-                 }
-            }
-            
-        }
-        return null;
+    
         
-    }
-
-        
-        public Welcome(Controller controller, MultiGraph graph, Area pArea ) {
+    public Welcome(Controller controller, MultiGraph graph, Area pArea ) {
         
         mController = controller;
         mArea = pArea;
@@ -169,7 +151,6 @@ public class Welcome extends JFrame {
         mButtonsPanel = new JPanel();
         mListPanel = new JPanel();
         mItinaryPanel= new JPanel();
-  //      mItinaryPanel = new JPanel();
         
         mButLoadDelivery = new JButton(" Charger livraisons");
         mButLoadDelivery.setEnabled(false);
@@ -209,18 +190,17 @@ public class Welcome extends JFrame {
        mItinaryPanel.setLayout(new BorderLayout());
        mListPanel.add(mItinaryPanel,BorderLayout.LINE_END);
        mItinaryPanel.add(scrollpane2,BorderLayout.LINE_START);
-       mItinaryPanel.setVisible(false);
        mItinaryPanel.add(mButAdd,BorderLayout.SOUTH);
    
-       
+       mItinaryPanel.setVisible(false);
     
         
         //Initing and adding the graph viewer
         Viewer v = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_SWING_THREAD);
         
         mMap = v.addDefaultView(false);
-        
-        mMap.setMouseManager(new MapMouseManager(mController,mButDeleteDel,mItinaryPanel));
+        mMapListener = new MapMouseManager(mController,mButDeleteDel,mItinaryPanel);
+        mMap.setMouseManager(mMapListener);
         
         mButtonsPanel.add(mButLoadPlan);
         mButtonsPanel.add(mButLoadDelivery);
@@ -269,56 +249,17 @@ public class Welcome extends JFrame {
                 if (retval == JFileChooser.APPROVE_OPTION){
                     
                     if ( alreadyLoad ) {
-                        mController.loadDeliveries(mFcArea.getSelectedFile().getPath());  
-                        mButComputeItinary.setEnabled(true);
-                    
                         mTableModel.setRowCount(0);
-                    
+                        //mItinaryModel.setRowCount(0);
                     }
-                    else {
-                        mController.loadDeliveries(mFcArea.getSelectedFile().getPath());  
-                        mButComputeItinary.setEnabled(true);
-                    }
+                    mController.loadDeliveries(mFcArea.getSelectedFile().getPath());  
+                    mButComputeItinary.setEnabled(true);
                     
                     fillTable(mTableModel);
-                   
+                    //fillItinaryTable(mItinaryModel);
             
                 }
             }
-        });
-        
-        mDelTable.addMouseListener(new MouseListener() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("marche");
-                int index;
-                index = mDelTable.getSelectedRow();
-                Node node = findNode(index);
-                mController.setCurrentNodeSelected( node);
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-               // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-          
         });
         
         mItinaryTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -335,7 +276,7 @@ public class Welcome extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = table.getSelectedRow();
-                mController.addDelivery(selectedRow);
+                mController.addDelivery(mMapListener.getSelected(), selectedRow);
                 if(mController.CheckUndo()){
                     mButUnDo.setEnabled(true);
                     mButAdd.setEnabled(false);
@@ -391,7 +332,7 @@ public class Welcome extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                mController.DeleteDelivery();   
+                mController.DeleteDelivery(mMapListener.getSelected());   
                 if(mController.CheckUndo()){
                     mButUnDo.setEnabled(true);
                 }
@@ -399,7 +340,6 @@ public class Welcome extends JFrame {
  
             
         });
-        
         
         mItinaryPanel.addComponentListener ( new ComponentAdapter ()
         {

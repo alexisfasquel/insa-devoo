@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package View;
 
 import Controller.Controller;
@@ -25,12 +24,15 @@ import org.graphstream.ui.swingViewer.util.DefaultMouseManager;
  *
  * @author Aleks
  */
-public class MapMouseManager extends DefaultMouseManager{
+public class MapMouseManager extends DefaultMouseManager {
+
     private Controller mController;
     private JButton mButDeleteDel;
     private JPanel mListPanel;
 
-    public MapMouseManager(Controller controller, JButton ButDeleteDel,JPanel ListPanel) {
+    private Node mSelected;
+    
+    public MapMouseManager(Controller controller, JButton ButDeleteDel, JPanel ListPanel) {
         super();
         mController = controller;
         mButDeleteDel = ButDeleteDel;
@@ -38,42 +40,53 @@ public class MapMouseManager extends DefaultMouseManager{
     }
 
     @Override
-    public void mouseDragged(MouseEvent event) {}
+    public void mouseDragged(MouseEvent event) {
+    }
 
     @Override
     protected void mouseButtonPress(MouseEvent event) {}
 
+    public Node getSelected() {
+        return mSelected;
+    }
     @Override
     public void mouseClicked(MouseEvent event) {
+
         GraphicElement element = view.findNodeOrSpriteAt(event.getX(), event.getY());
         if (element != null) {
-            if(element.getSelectorType() == Selector.Type.NODE) {
-                mController.setCurrentNodeSelected((Node) element);
-                 Object attribute = element.getAttribute("delivery");
-                if(attribute == null) {
-                    element.setAttribute("ui.class", "selected");
-                    mListPanel.setVisible(true);                 
-                    }else{  
-                    mButDeleteDel.setEnabled(true);
-                }
-                
+            if(mSelected != null) {
+                    mSelected.removeAttribute("ui.selected");
             }
-        }
+            if (element.getSelectorType() == Selector.Type.NODE) {
+                
+                mSelected = (Node)element;
+                mSelected.addAttribute("ui.selected");
+                //mListPanel.setVisible(false);
+                //mButDeleteDel.setEnabled(false);
+            }
+            if (element.getAttribute("delivery") == null) {
+                mListPanel.setVisible(true);
+            } else {
+                mButDeleteDel.setEnabled(true);
+            }
+        } 
     }
-    
-    @Override
-    public void mouseReleased(MouseEvent event) {}
 
     @Override
-    public void mousePressed(MouseEvent event) {}
+    public void mouseReleased(MouseEvent event) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent event) {
+    }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        
+
         GraphicElement element = view.findNodeOrSpriteAt(e.getX(), e.getY());
-        
-        if(curElement != null) {
-            if(element == null) {
+
+        if (curElement != null) {
+            if (element == null) {
                 curElement.addAttribute("ui.style", "text-mode: hidden;");
                 curElement = null;
                 return;
@@ -83,14 +96,14 @@ public class MapMouseManager extends DefaultMouseManager{
             curElement.addAttribute("ui.style", "text-mode: hidden;");
             curElement = null;
         } else if (element != null) {
-            if(element.getSelectorType() == Selector.Type.NODE) {
+            if (element.getSelectorType() == Selector.Type.NODE) {
                 Object attribute = element.getAttribute("delivery");
-                if(attribute != null) {
+                if (attribute != null) {
                     curElement = element;
                     curElement.addAttribute("ui.style", "text-mode: normal;");
                 }
             }
         }
     }
-    
+
 }
