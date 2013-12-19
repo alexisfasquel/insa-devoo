@@ -17,19 +17,29 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 /**
  *
- * @author Aleks
+ * Description of the class
  */
+
+
 public class DeliveryLoader {
     
     private final DeliveryHandler mDeliveryHandler;
     private final File mFile;
-    
-    
+
+    /**
+     *
+     * @param filePath
+     * @param area
+     */
     public DeliveryLoader(String filePath, Area area) {
         mFile = new File(filePath);
         mDeliveryHandler = new DeliveryHandler(area);
     }
     
+    /**
+     *
+     * @throws LoadingException
+     */
     public void process() throws LoadingException {
         try {
             SAXParserFactory fabrique = SAXParserFactory.newInstance();
@@ -44,19 +54,33 @@ public class DeliveryLoader {
             throw new LoadingException("Error with the file:" + System.getProperty("line.separator") + ex.getMessage());
         }
     }
-    
-    
+
+    /**
+     *
+     */
     public static class DeliveryHandler extends DefaultHandler{
         
         private Area mArea;
         
         private Itinary mItinary;
         
+        /**
+         *
+         * @param area
+         */
         public DeliveryHandler(Area area){
             super();
             mArea = area;
         }
    
+        /**
+         *
+         * @param uri
+         * @param localName
+         * @param qName
+         * @param attributes
+         * @throws SAXException
+         */
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
             
