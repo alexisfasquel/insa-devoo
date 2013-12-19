@@ -447,6 +447,28 @@ public class AreaTest {
         instance.computeRoadMap();
      
     }
+    
+    /**
+     * Test of computeRoadMap method, of class Area.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testComputeRoadMapOutOfTimeScale() throws Exception {
+        System.out.println("testComputeRoadMapOutOfTimeScale");
+        areaT.loadMap("testFiles/planTest.xml");
+        areaT.computeRoadMap();
+        
+        String filePath = "testFiles/livraisonOutOfTimeScale.xml";
+        Throwable caught = null;
+        try {
+           areaT.loadDeliveries(filePath);
+        } catch (LoadingException t) {
+           caught = t;
+        }
+        assertNotNull(caught);
+        assertSame(LoadingException.class, caught.getClass());
+     
+    }
 
 
     /**

@@ -42,7 +42,6 @@ public class CommandTest {
     
     @Before
     public void setUp() {
-
         mArea = new Area();
         mArea.addItinary(mStart, mEnd);
         mArea.getGraph().addNode("delivery");
@@ -80,31 +79,7 @@ public class CommandTest {
         assertEquals(expResult, result);   
     }
 
-    /**
-     * Test of add method, of class Command.
-     */
-    @Test
-    public void testAdd() throws Exception {
-        System.out.println("add");
-        /*Itinary itinary = null;
-        String cliendId = "";
-        Command instance = null;
-        instance.add(itinary, cliendId);*/
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of deleteDelivery method, of class Command.
-     */
-    @Test
-    public void testDeleteDelivery() throws Exception {
-        System.out.println("deleteDelivery");
-        /*Command instance = null;
-        instance.deleteDelivery();*/
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+    
 
    
     
