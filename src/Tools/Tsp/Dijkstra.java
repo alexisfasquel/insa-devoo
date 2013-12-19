@@ -69,7 +69,7 @@ public class Dijkstra {
     * @return the time beetween two nodes
     */
     private static Double getDistance(Node node, Node target) {
-        Edge edge = node.getEdgeToward(target);
+        Edge edge = node.getEdgeFrom(target);
         return edge.getAttribute("time");
     }
 
@@ -117,19 +117,27 @@ public class Dijkstra {
      * This method returns the path from the source to the selected target and
      * NULL if no path exists   */
     private static Path getPath(Node target) {
-        Path path = new Path();
+        Path inversePath = new Path();
         Node step = target;
         // check if a path exists
         if (predecessors.get(step) == null) {
             return null;
         }
-        path.add(step, step.getEdgeFrom(predecessors.get(step)));
+        inversePath.add(step, step.getEdgeFrom(predecessors.get(step)));
         while (predecessors.get(predecessors.get(step)) != null) {
             step = predecessors.get(step);
-            path.add(step, step.getEdgeBetween(predecessors.get(step)));
+            inversePath.add(step, step.getEdgeFrom(predecessors.get(step)));
         }
-    // Put it into the correct order
-        //Collections.reverse(path);
+        // Put it into the correct order
+        
+        List<Edge> edges = inversePath.getEdgePath();
+        List<Node> nodes = inversePath.getNodePath();
+        
+        Path path = new Path();
+        for(int i=edges.size()-1; i>=0; i--) 
+        {
+            path.add(nodes.get(i+1), edges.get(i));            
+        }
 
         return path;
     }

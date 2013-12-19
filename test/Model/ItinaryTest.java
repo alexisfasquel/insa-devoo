@@ -139,18 +139,6 @@ public class ItinaryTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of setDirections method, of class Itinary.
-     */
-    @Test
-    public void testSetDirections() {
-        System.out.println("setDirections");
-        /*List<Path> directions = null;
-        Itinary instance = null;
-        instance.setDirections(directions);*/
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
    
 }
