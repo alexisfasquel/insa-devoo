@@ -6,29 +6,41 @@ import java.util.ArrayList;
  *
  */
 
-public class RegularGraph implements Graph {
+public class RegularGraph1 implements Graph {
 	private final int mNbVertices;
-	private int mMaxArcCost = Integer.MAX_VALUE;
-	private int mMinArcCost = Integer.MIN_VALUE;
+	private int mMaxArcCost = Integer.MIN_VALUE;
+	private int mMinArcCost = Integer.MAX_VALUE;
 	private int[][] mCost; 
-	private ArrayList<ArrayList<Integer>> mSucc; 
+	private ArrayList<ArrayList<Integer>> mSucc;
 
 	/**
 	 * Creates a graph such that each vertex is connected to the next <code>d</code> vertices (modulo <code>n</code>) and
 	 * such that the cost of each arc is a randomly chosen integer ranging between <code>min</code> and <code>max</code>
-	 * @param n a number of vertices such that <code>n > 0</code>
-	 * @param d a degree such that <code>0 < d < n</code>
-	 * @param min a minimal arc cost such that <code>0 < min</code>
-	 * @param max a maximal arc cost such that <code>min < max</code>
+	 * @param nbVertices a number of vertices such that <code>n > 0</code>
 	 */
-	public RegularGraph(int n, int min, int max, int [][]costs, ArrayList<ArrayList<Integer>> succ){
-		mNbVertices = n;
-		mMinArcCost = min;
-		mMaxArcCost = max;
-		mCost = costs;
-		mSucc = succ;
+	public RegularGraph1(int nbVertices){
+            mNbVertices = nbVertices;
+            mCost = new int[nbVertices][nbVertices];
+            mSucc = new ArrayList<>();
+            for (int i = 0; i < nbVertices; i++) {
+                mSucc.add(new ArrayList<Integer>());
+            }
 	}
 
+        public void addCost(int i, int j, int cost) {
+            mCost[i][j] = cost;
+            if(mMaxArcCost < cost) {
+                mMaxArcCost = cost;
+            }
+            if (mMinArcCost > cost) {
+                mMinArcCost = cost;
+            } 
+       }
+        
+        public void addSucc(int target, int succ) throws ArrayIndexOutOfBoundsException{
+            mSucc.get(target).add(succ);
+        }
+        
         
         @Override
 	public int getMaxArcCost() {

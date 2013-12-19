@@ -7,8 +7,6 @@
 package Controller;
 
 import Model.Area;
-import Model.DeliveryPoint;
-import Model.Itinary;
 import Model.LoadingException;
 import View.Welcome;
 import java.util.Stack;
@@ -66,6 +64,7 @@ public class Controller {
     
     public void loadDeliveries(String fileName) {
         try {
+            //mArea.dijkstra();
             mArea.loadDeliveries(fileName);
         } catch (LoadingException ex) {
             mWelcome.displayPopup("Error", ex.getMessage());
@@ -74,7 +73,7 @@ public class Controller {
     
     public void computeRoadMap() {
         try {
-            mArea.computeRoadMap();
+            mArea.computeRoadMapDij();
         } catch (Area.NoTourException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Area.AlreadyComputedException ex) {

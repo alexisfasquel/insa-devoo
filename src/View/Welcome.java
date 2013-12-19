@@ -33,6 +33,8 @@ import java.awt.event.MouseListener;
 
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import org.graphstream.graph.Node;
 
 
@@ -317,8 +319,8 @@ public class Welcome extends JFrame {
             }
 
           
-        })
-               ;
+        });
+        
         mItinaryTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
             @Override

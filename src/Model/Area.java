@@ -10,12 +10,12 @@ import Tools.Reader.DeliveryLoader;
 import Tools.Reader.MapReader;
 import Tools.Tsp.Dijkstra;
 import Tools.Tsp.RegularGraph;
+import Tools.Tsp.RegularGraph1;
 import Tools.Tsp.SolutionState;
 import Tools.Tsp.TSP;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Stack;
 import org.graphstream.algorithm.AStar;
 import org.graphstream.algorithm.AStar.Costs;
 import org.graphstream.graph.Edge;
@@ -40,8 +40,6 @@ public class Area{
     
     private Node mWareHouse;
     private List<Itinary> mTour;
-    
-    private Node selected;
     
     public Area() {
         
@@ -123,19 +121,7 @@ public class Area{
         return mTour;
     }
     
-    public void dijkstra() {
-        Dijkstra dijkstra = new Dijkstra(mGraph);
-        Path path = dijkstra.execute(mGraph.getNode("356"), mGraph.getNode("204"));
-        for (Edge edge: path.getEachEdge()) {
-                edge.addAttribute("ui.class", "green");
-                
-        }
-        for(Node node : path.getNodePath()) {
-            node.addAttribute("ui.class", "magenta");
-        }
-    }
     
-
     //TODO Transfor NullPointerException into our own exception
     public void computeRoadMap() throws NoTourException, AlreadyComputedException {
         if (mTour == null) {
@@ -167,7 +153,7 @@ public class Area{
         Path[][] paths = new Path[nbVertices][nbVertices];
         
         //Offset to compute the index through the double loop
-        int offset = 1;
+        int offset = 1;     
         for (int i = 0; i < mTour.size(); i++) {
             
             // Getting the list of deliveryPoint of the current time frame
@@ -290,7 +276,118 @@ public class Area{
         
         
     }
+          
+    
+    public void computeRoadMapDij() throws NoTourException, AlreadyComputedException {
+        if (mTour == null) {
+            throw new NoTourException();
+        } else if (mComputed) {
+            //throw new AlreadyComputedException();
+        }
+        
+        //Computing the number of vertices
+        
+        int nbVertices = 1;     // Not forgetting the warehouse 
+        for (int i = 0; i < mTour.size(); i++) {
+            int size = mTour.get(i).getDeliveryNb();
+            nbVertices += size;
+        }
+        
+        //Building the needed TSP graph
+        
+        RegularGraph1 TspGraph = new RegularGraph1(nbVertices);
+        Path[][] paths = new Path[nbVertices][nbVertices];
+        
+        int offset = 1;     //Offset to compute the index through the double loop
+        for (int i = 0; i < mTour.size(); i++) {
             
+            // Getting the list of deliveryPoint of the current time frame
+            List<Node> timeFrame = mTour.get(i).getDeliveries();
+            
+            // Now, for each delivery point..
+            for (int j = 0; j < timeFrame.size(); j++) {
+                Node delivery = timeFrame.get(j);
+                int target = j+offset;
+                
+                // If last itinary...
+                if (i == mTour.size() - 1) { 
+                    // We'll have to add the warehouse as a succesor
+                    Path p = Dijkstra.execute(delivery, mWareHouse);
+                    paths[target][0] = p;
+                    TspGraph.addSucc(target, 0);
+                    TspGraph.addCost(target, 0, (int)(double)p.getPathWeight("time"));
+                    
+                } else {     
+                    //If we' looping over the first time frame...
+                    if(i == 0) {    // then we want to add the delivery as a successor of the warehouse
+                        Path p = Dijkstra.execute(mWareHouse, delivery);
+                        paths[0][target] = p;
+                        TspGraph.addSucc(0, target);
+                        TspGraph.addCost(0, target, (int)(double)p.getPathWeight("time"));
+                    }
+                    
+                    // Then we add as successors each delivery point from the next itinary
+                    List<Node> nextTimeFrame = mTour.get(i+1).getDeliveries();
+                    for (int k = 0; k < nextTimeFrame.size(); k++) {
+                        int id = k + offset + timeFrame.size();
+                        Path p = Dijkstra.execute(delivery, nextTimeFrame.get(k));
+                        paths[target][id] = p;
+                        TspGraph.addSucc(target, id);
+                        TspGraph.addCost(target, id, (int)(double)p.getPathWeight("time"));
+                    }
+                }
+                
+                //And in any case, each delivery point of an itinary is a successor of the others
+                for (int k = 0; k < timeFrame.size(); k++) {
+                    int succ = k+offset;
+                    //... Except for itself, rtfm
+                    if (j != k) {
+                        Path p = Dijkstra.execute(delivery, timeFrame.get(k));
+                        paths[target][succ] = p;
+                        TspGraph.addSucc(target, succ);
+                        TspGraph.addCost(target, succ, (int)(double)p.getPathWeight("time"));
+                    }
+                }
+            }
+            offset += timeFrame.size();
+        }
+        
+        //Computing solution
+        
+        TSP solver = new TSP(TspGraph);
+        SolutionState solve = solver.solve(MAX_TIME, TspGraph.getMaxArcCost()*nbVertices);
+        int[] next = solver.getNext();
+        int[] solution = new int[next.length+1];
+        
+        
+        for (int i = 0; i < next.length; i++) {
+            solution[i] = i;
+            solution[i+1] = next[i];
+        }
+        
+        for (int i = 0; i < solution.length; i++) {
+            System.out.println(solution[i]);
+        }
+        
+        //Translating the solution into smth usefull
+        offset = 0;
+        for (int i = 0; i < mTour.size(); i++) {
+            Itinary itinary = mTour.get(i);
+            int size = itinary.getDeliveryNb();
+            List<Path> directions = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                directions.add(paths[solution[j+offset]][solution[j+offset+1]]);
+            }
+            if(i == mTour.size() - 1) {
+                directions.add(paths[solution[nbVertices-1]][solution[nbVertices]]);
+            }
+            offset += size;
+            itinary.setDirections(directions);
+        }
+        
+    }
+    
+    
     private static class TimeCost implements Costs {
 
         @Override
