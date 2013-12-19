@@ -13,8 +13,7 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
 
 /**
- *
- * Description of the class
+ * Implements the Dijkstra algorithm
  */
 public class Dijkstra {
 
@@ -26,10 +25,9 @@ public class Dijkstra {
     private Dijkstra() {}
 
     /**
-     *
-     * @param source
-     * @param destination
-     * @return
+     * @param source the start node
+     * @param destination the end node
+     * @return The path between the two nodes
      */
     public static Path execute(Node source, Node destination) {
         settledNodes = new HashSet<>();
@@ -47,9 +45,14 @@ public class Dijkstra {
                 break;
             }
         }
+        
         return getPath(destination);
     }
 
+    /*
+    * Find the minimal distance between a node and his neighbors
+    * @param node
+    */
     private static void findMinimalDistances(Node node) {
         List<Node> adjacentNodes = getNeighbors(node);
         for (Node target : adjacentNodes) {
@@ -62,11 +65,18 @@ public class Dijkstra {
 
     }
 
+    /*
+    * @return the time beetween two nodes
+    */
     private static Double getDistance(Node node, Node target) {
         Edge edge = node.getEdgeToward(target);
         return edge.getAttribute("time");
     }
 
+    /*
+    * Find the neighbors of a node
+    * @return neighborhood
+    */
     private static List<Node> getNeighbors(Node node) {
         Iterator<Node> neighbors = node.getNeighborNodeIterator();
         List<Node> neighborhood = new ArrayList<>();
@@ -76,7 +86,7 @@ public class Dijkstra {
         }
         return neighborhood;
     }
-
+    
     private static Node getMinimum(Set<Node> vertexes) {
         Node minimum = null;
         for (Node vertex : vertexes) {
@@ -91,6 +101,9 @@ public class Dijkstra {
         return minimum;
     }
 
+    /*
+    * @return d the shortest distance to the node
+    */
     private static Double getShortestDistance(Node destination) {
         Double d = distance.get(destination);
         if (d == null) {

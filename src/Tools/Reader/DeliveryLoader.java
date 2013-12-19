@@ -15,19 +15,18 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
 /**
- *
- * Description of the class
+ * DeliveryLoader is used to parse the livraison.xml files
+ * and load the deliveryPoint in our app
  */
-
-
 public class DeliveryLoader {
     
     private final DeliveryHandler mDeliveryHandler;
     private final File mFile;
 
     /**
-     *
+     * Create a DeliveryLoader
      * @param filePath
      * @param area
      */
@@ -37,7 +36,6 @@ public class DeliveryLoader {
     }
     
     /**
-     *
      * @throws LoadingException
      */
     public void process() throws LoadingException {

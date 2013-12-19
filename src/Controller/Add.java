@@ -5,10 +5,7 @@ import Model.Area;
 import Model.Itinary;
 import org.graphstream.graph.Node;
 
-/**
- *
- * Description of the class
- */
+
 public class Add extends Command {
 
     private Itinary mItinary;
@@ -36,7 +33,7 @@ public class Add extends Command {
     }
     
     /**
-     *
+     * 
      * @throws Area.NoTourException
      */
     public void reverse() throws Area.NoTourException {

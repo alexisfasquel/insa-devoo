@@ -7,10 +7,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.graphstream.graph.Node;
 
-/**
- *
- * Decription of the class
- */
 public class Delete extends Command{
 
     private DeliveryPoint mDeliveryPoint;

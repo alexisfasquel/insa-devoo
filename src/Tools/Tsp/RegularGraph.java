@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 
 public class RegularGraph implements Graph {
+    
 	private final int mNbVertices;
 	private int mMaxArcCost = Integer.MAX_VALUE;
 	private int mMinArcCost = Integer.MIN_VALUE;

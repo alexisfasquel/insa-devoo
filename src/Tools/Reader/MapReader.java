@@ -16,8 +16,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- *
- * Description of the class
+ * MapReader is used to parse the plan.xml files
+ * and load the Area in our app
  */
 
 

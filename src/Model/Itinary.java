@@ -12,10 +12,8 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
 
 /**
- *
- * Description of the class
+ * A itinary is the shorter road to follow in a scale of time
  */
-
 public class Itinary {
     
     private final Date mStart;
@@ -95,7 +93,7 @@ public class Itinary {
     }
     
     /**
-     *
+     * Remove all the delivery points
      */
     public void removeDeliveryPoints() {
         if(mRoadMap != null) {
@@ -152,6 +150,9 @@ public class Itinary {
         }
     }
     
+    /*
+    * Getting the directions
+    */
     public String getDirections() {
         String res = "";
         for (int i = 0; i < mRoadMap.size(); i++) {
@@ -185,6 +186,9 @@ public class Itinary {
         return angle;
     }
     
+    /*
+    * Remove the directions
+    */
     private void removeDirections() {
         
         for (int i = 0; i < mRoadMap.size(); i++) {

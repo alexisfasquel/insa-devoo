@@ -12,7 +12,6 @@ import org.graphstream.graph.Node;
 
 /**
  *
- * Description of the class
  */
 public class Controller {
     
@@ -22,7 +21,7 @@ public class Controller {
     private Stack<Command> mUndoneStack;
     
     /**
-     *
+     * Create a controller
      */
     public Controller(){
         mArea = new Area();
@@ -30,6 +29,9 @@ public class Controller {
         mDoneStack = new Stack();
     }
     
+    /*
+    * Start the application
+    */
     private void startApp() {
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 
@@ -69,7 +71,7 @@ public class Controller {
     }
     
     /**
-     *
+     * Ask to the area to compute the shortest road
      */
     public void computeRoadMap() {
         try {
@@ -81,7 +83,7 @@ public class Controller {
     }
     
     /**
-     *
+     * Redo the last commande made by the user
      */
     public void reDo() {
         Command command = mUndoneStack.pop();
@@ -94,7 +96,7 @@ public class Controller {
     }
     
     /**
-     *
+     * Undo the last commande made by the user
      */
     public void unDo() {
         Command command = mDoneStack.pop();
@@ -107,7 +109,7 @@ public class Controller {
     }
     
     /**
-     *
+     * Ask the area to add a deliveryPoint to the area
      * @param selected
      * @param itinary
      */
@@ -137,7 +139,7 @@ public class Controller {
     }
     
     /**
-     *
+     * Ask the area to delete a deliveryPoint from the area
      * @param selected
      */
     public void DeleteDelivery(Node selected){
