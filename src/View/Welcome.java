@@ -56,88 +56,7 @@ public class Welcome extends JFrame {
     private DefaultTableModel mTableModel;
     private MapMouseManager mMapListener;
 
-    /**
-     *
-     * @param title
-     * @param message
-     */
-    public void displayPopup(String title, String message) {
-        JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
-    }
     
-    /**
-     *
-     * @param pTableModel
-     */
-    public void fillTable(DefaultTableModel pTableModel) {
-    alreadyLoad = true;
-    List<Itinary> currentTour = mArea.getTour();
-    
-    
-     //for each itinary.
-        for (int i = 0; i < mArea.getTour().size(); i++) {
-            
-            Itinary currentItinary = currentTour.get(i);
-            
-            String startTime = currentItinary.getStart().toString();
-            String endTime = currentItinary.getEnd().toString();
-            
-            //for each delivery within current itinary.
-            for (int j = 0; j < currentItinary.getDeliveryNb(); j++) {
-                
-               Node address = currentItinary.getDeliveries().get(j);
-               
-               
-               String deliveryAddress = address.getId();
-               
-               DeliveryPoint delPt = address.getAttribute("delivery");
-               String idClient = delPt.getNclient();
-               
-               String[] tempRow = {idClient, deliveryAddress, startTime, endTime};
-               pTableModel.addRow(tempRow);
-     
-               
-                    
-            }
-        }
-    }
-
-    /**
-     *
-     * @param pTableModel
-     */
-    public void fillItinaryTable(DefaultTableModel pTableModel) {
-    
-    List<Itinary> currentTour = mArea.getTour();
-    
-    
-     //for each itinary.
-        for (int i = 0; i < mArea.getTour().size(); i++) {
-            
-            Itinary currentItinary = currentTour.get(i);
-            String startTime = currentItinary.getStart().toString();
-            String endTime = currentItinary.getEnd().toString();
-            String[] tempRow = {startTime, endTime};
-            pTableModel.addRow(tempRow);
-     
-        }
-    }
-    
-    /**
-     *
-     * @param node
-     */
-    public void selectionnerNode(Node node){
-        DeliveryPoint dp = node.getAttribute("delivery");
-        for(int i =0;i<mTableModel.getRowCount();i++){
-            if(dp.getNclient()==mTableModel.getValueAt(1, i)){
-                mTableModel.setColumnCount(i);
-            }else{
-                i++;
-            }
-        }
-    }
-
     /**
      *
      * @param controller
@@ -372,6 +291,88 @@ public class Welcome extends JFrame {
         this.setVisible(true);
         }
     
+    
+    /**
+     *
+     * @param title
+     * @param message
+     */
+    public void displayPopup(String title, String message) {
+        JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
+    }
+    
+    /**
+     *
+     * @param pTableModel
+     */
+    public void fillTable(DefaultTableModel pTableModel) {
+    alreadyLoad = true;
+    List<Itinary> currentTour = mArea.getTour();
+    
+    
+     //for each itinary.
+        for (int i = 0; i < mArea.getTour().size(); i++) {
+            
+            Itinary currentItinary = currentTour.get(i);
+            
+            String startTime = currentItinary.getStart().toString();
+            String endTime = currentItinary.getEnd().toString();
+            
+            //for each delivery within current itinary.
+            for (int j = 0; j < currentItinary.getDeliveryNb(); j++) {
+                
+               Node address = currentItinary.getDeliveries().get(j);
+               
+               
+               String deliveryAddress = address.getId();
+               
+               DeliveryPoint delPt = address.getAttribute("delivery");
+               String idClient = delPt.getNclient();
+               
+               String[] tempRow = {idClient, deliveryAddress, startTime, endTime};
+               pTableModel.addRow(tempRow);
+     
+               
+                    
+            }
+        }
+    }
+
+    /**
+     *
+     * @param pTableModel
+     */
+    public void fillItinaryTable(DefaultTableModel pTableModel) {
+    
+    List<Itinary> currentTour = mArea.getTour();
+    
+    
+     //for each itinary.
+        for (int i = 0; i < mArea.getTour().size(); i++) {
+            
+            Itinary currentItinary = currentTour.get(i);
+            String startTime = currentItinary.getStart().toString();
+            String endTime = currentItinary.getEnd().toString();
+            String[] tempRow = {startTime, endTime};
+            pTableModel.addRow(tempRow);
+     
+        }
+    }
+    
+    /**
+     *
+     * @param node
+     */
+    public void selectionnerNode(Node node){
+        DeliveryPoint dp = node.getAttribute("delivery");
+        for(int i =0;i<mTableModel.getRowCount();i++){
+            if(dp.getNclient()==mTableModel.getValueAt(1, i)){
+                mTableModel.setColumnCount(i);
+            }else{
+                i++;
+            }
+        }
+    }
     
     
    

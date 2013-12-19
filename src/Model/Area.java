@@ -36,15 +36,11 @@ public class Area{
     public Area() {
         
         mGraph = new MultiGraph("map");
-        
         mGraph.addAttribute("ui.quality");
         mGraph.addAttribute("ui.antialias");
         mGraph.addAttribute("ui.stylesheet", "url('./map_style.css')");
-        
         mTour = new ArrayList<>();
-        
         mAstar = new AStar(mGraph);
-        
         mAstar.setCosts(new TimeCost());
     }
     
@@ -124,11 +120,15 @@ public class Area{
             
                 Edge edge = mGraph.addEdge(String.valueOf(i), String.valueOf(edges.get(i).getNodeIdL()), String.valueOf(edges.get(i).getNodeIdR()), true);
                 if(edges.get(i).getweight() > 110) {
-                    edge.addAttribute("ui.class", "boulevard" );    
-                } else if(edges.get(i).getweight() < 80) {
+                    
+                    edge.addAttribute("ui.class", "boulevard" ); 
+                    
+                } else if(edges.get(i).getweight() < 90) {
+                    
                     
                 } else {
-                    edge.addAttribute("ui.class", "avenue" );    
+                    
+                    edge.addAttribute("ui.class", "avenue" );
                 }
                 edge.addAttribute("time", edges.get(i).getweight());
 
