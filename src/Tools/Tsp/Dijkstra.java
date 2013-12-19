@@ -61,7 +61,7 @@ public class Dijkstra {
     }
 
     private static Double getDistance(Node node, Node target) {
-        Edge edge = node.getEdgeToward(target);
+        Edge edge = node.getEdgeFrom(target);
         return edge.getAttribute("time");
     }
 
@@ -111,7 +111,7 @@ public class Dijkstra {
         inversePath.add(step, step.getEdgeFrom(predecessors.get(step)));
         while (predecessors.get(predecessors.get(step)) != null) {
             step = predecessors.get(step);
-            inversePath.add(step, step.getEdgeBetween(predecessors.get(step)));
+            inversePath.add(step, step.getEdgeFrom(predecessors.get(step)));
         }
         // Put it into the correct order
         
