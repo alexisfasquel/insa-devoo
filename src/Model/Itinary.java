@@ -159,7 +159,7 @@ public class Itinary {
             List<Edge> edges = mRoadMap.get(i).getEdgePath();
             
             String name = (String)edges.get(0).getAttribute("name");
-            res = "Prendre la rue : " + name + "\n";
+            res += "Prendre la rue : " + name + "\n";
             for (int j = 1; j < edges.size(); j++) {
                 String nextName = (String)edges.get(j).getAttribute("name");
                 if(name.equals(nextName)) {
@@ -169,9 +169,7 @@ public class Itinary {
                     res += "Prendre la rue : " + name + "\n";
                 }
             }
-            if(i < mRoadMap.size() - 1) {
-                res += "Arrivé au point de livraison " + mRoadMap.get(i+1).getRoot().getId() + " : " + mRoadMap.get(i+1).getRoot().getAttribute("time");
-            }
+            res += "Arrivé au point de livraison " + mRoadMap.get(i).getRoot().getId() + " : " + mRoadMap.get(i).getRoot().getAttribute("ui.label") + "\n";
         }
         return res;
     }
