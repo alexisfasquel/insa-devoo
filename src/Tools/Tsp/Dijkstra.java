@@ -8,6 +8,8 @@ package Tools.Tsp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Collections;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -102,19 +104,31 @@ public class Dijkstra {
      * This method returns the path from the source to the selected target and
      * NULL if no path exists   */
     private static Path getPath(Node target) {
-        Path path = new Path();
+        Path inversePath = new Path();
         Node step = target;
         // check if a path exists
         if (predecessors.get(step) == null) {
             return null;
         }
-        path.add(step, step.getEdgeFrom(predecessors.get(step)));
+        inversePath.add(step, step.getEdgeFrom(predecessors.get(step)));
         while (predecessors.get(predecessors.get(step)) != null) {
             step = predecessors.get(step);
-            path.add(step, step.getEdgeBetween(predecessors.get(step)));
+            inversePath.add(step, step.getEdgeBetween(predecessors.get(step)));
         }
-    // Put it into the correct order
-        //Collections.reverse(path);
+        // Put it into the correct order
+        
+        List<Edge> edges = (List<Edge>) inversePath.getEdgeSet();
+        List<Node> nodes = (List<Node>) inversePath.getNodeSet();
+        Collections.reverse(edges);
+        Collections.reverse(nodes);
+        
+        Path path = new Path();
+        for(int i=0; i<edges.size(); i++) 
+        {
+            path.add(nodes.get(i), edges.get(i));
+        }
+        
+        
 
         return path;
     }
