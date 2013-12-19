@@ -1,30 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 package Model;
 
 
-/**
- *
- * @author Aleks
- */
 public class DeliveryPoint {
    private final String mClientId;
    private final Itinary mItinary;
-   
-   public DeliveryPoint(String clientId, Itinary itinary){
+
+    /**
+     * Create a delivery point with the client id and the itinary.
+     * @param clientId the number which is the identification of a specific client
+     * @param itinary  the list of the deliveries with a start and an end
+     */
+    public DeliveryPoint(String clientId, Itinary itinary){
        super();
        mClientId = clientId;
        mItinary = itinary;
    }
    
+    /**
+     * @return the id of a client of <code>this</code>
+     */
     public final String getNclient() {
         return mClientId;
     }
     
+    /**
+     * @return the itinary of <code>this</code>
+     */
     public final Itinary getItinary() {
         return mItinary;
     }
