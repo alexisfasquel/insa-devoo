@@ -117,18 +117,16 @@ public class Dijkstra {
         }
         // Put it into the correct order
         
-        List<Edge> edges = (List<Edge>) inversePath.getEdgeSet();
-        List<Node> nodes = (List<Node>) inversePath.getNodeSet();
-        Collections.reverse(edges);
-        Collections.reverse(nodes);
+        List<Edge> edges = inversePath.getEdgePath();
+        List<Node> nodes = inversePath.getNodePath();
         
         Path path = new Path();
-        for(int i=0; i<edges.size(); i++) 
+        for(int i=edges.size()-1; i>=0; i--) 
         {
-            path.add(nodes.get(i), edges.get(i));
+            path.add(nodes.get(i+1), edges.get(i));
+            System.out.println(i);
+            
         }
-        
-        
 
         return path;
     }
