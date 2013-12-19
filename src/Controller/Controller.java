@@ -22,9 +22,7 @@ import org.graphstream.graph.Node;
 public class Controller {
     
     private Area mArea;
-    
     private Welcome mWelcome;
-
     private Stack<Command> mDoneStack;
     private Stack<Command> mUndoneStack;
     
@@ -44,15 +42,12 @@ public class Controller {
         //computeRoadMap();
     }
     
-    
-    
-    
-    
     public void loadPlan(String fileName) {
         try {
             // Donner chemin de fichier.
             mArea.loadMap(fileName);
         } catch (LoadingException ex) {
+            
             mWelcome.displayPopup("Error", ex.getMessage());
         }  
     }
@@ -62,7 +57,8 @@ public class Controller {
             //mArea.dijkstra();
             mArea.loadDeliveries(fileName);
         } catch (LoadingException ex) {
-            mWelcome.displayPopup("Error", ex.getMessage());
+              
+           mWelcome.displayPopup("Error", ex.getMessage());
         }
     }
     
@@ -71,8 +67,7 @@ public class Controller {
             mArea.computeRoadMapDij();
         } catch (Area.NoTourException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Area.AlreadyComputedException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            mWelcome.displayPopup("Error", "Pas de demande de livraisons faites");
         }
     }
     
@@ -81,8 +76,6 @@ public class Controller {
         try {
             command.execute();
         } catch (Area.NoTourException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Area.AlreadyComputedException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
         mDoneStack.push(command);
@@ -94,8 +87,6 @@ public class Controller {
             command.reverse();
         } catch (Area.NoTourException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Area.AlreadyComputedException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
         mUndoneStack.push(command);
     }
@@ -106,12 +97,11 @@ public class Controller {
             add.execute();
         } catch (Area.NoTourException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Area.AlreadyComputedException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
         mDoneStack.push(add);
         
      }
+    
     public boolean CheckUndo(){
         return !mDoneStack.empty();
     }
@@ -119,12 +109,11 @@ public class Controller {
     public boolean CheckRedo(){
         return !mUndoneStack.empty();
     }
+    
     public void DeleteDelivery(Node selected){
         Delete delete = new Delete(mArea, selected);
         try {
             delete.execute();
-        } catch (Area.AlreadyComputedException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Area.NoTourException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -135,6 +124,4 @@ public class Controller {
         Controller mController = new Controller();
         mController.startApp();
     }
-    
-
 }

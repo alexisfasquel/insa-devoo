@@ -25,11 +25,11 @@ public class Add extends Command {
         cliendId = clientId;
     }
     
-    public void execute() throws Area.NoTourException, Area.AlreadyComputedException{
+    public void execute() throws Area.NoTourException {
         add(mItinary, cliendId);
     }
     
-    public void reverse() throws Area.NoTourException, Area.AlreadyComputedException{
+    public void reverse() throws Area.NoTourException {
          deleteDelivery();
     }
     

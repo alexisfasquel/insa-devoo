@@ -20,8 +20,8 @@ public abstract class Command {
     protected Node mNode;
     protected Area mArea;
     
-    abstract public void execute() throws Area.NoTourException, Area.AlreadyComputedException;
-    abstract public void reverse() throws Area.NoTourException, Area.AlreadyComputedException;
+    abstract public void execute() throws Area.NoTourException;
+    abstract public void reverse() throws Area.NoTourException;
         
     public Command (Area area, Node selectedNode) {
         mNode = selectedNode;
@@ -37,14 +37,14 @@ public abstract class Command {
         return true;
     }
           
-      public void add(Itinary itinary, String cliendId) throws Area.NoTourException, Area.AlreadyComputedException{
+      public void add(Itinary itinary, String cliendId) throws Area.NoTourException {
         mArea.addDelivery(itinary, cliendId, mNode.getId());
         //mArea.addDelivery(itinary, intersection.getId(), idClient);
         mArea.computeRoadMapDij();//Beug dans undo de delivery
         
     }
     
-    public void deleteDelivery() throws Area.AlreadyComputedException, Area.NoTourException{
+    public void deleteDelivery() throws Area.NoTourException{
           DeliveryPoint dp = mNode.getAttribute("delivery");
           mArea.deleteDelivery(dp.getItinary(), mNode.getId());
           mArea.computeRoadMapDij();

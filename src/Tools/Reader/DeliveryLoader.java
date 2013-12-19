@@ -37,12 +37,11 @@ public class DeliveryLoader {
             parseur.parse(mFile, mDeliveryHandler);
             
         } catch (ParserConfigurationException ex) {
-            //throw new LoadingException("Error");
+            throw new LoadingException("Error with the xml parser :" + System.getProperty("line.separator") + ex.getMessage());
         } catch (SAXException ex) {
-            System.out.println(ex.getMessage());
-            //throw new LoadingException("Error");
+            throw new LoadingException("Error while parsing the file :" + System.getProperty("line.separator") + ex.getMessage());
         } catch (IOException ex) {
-            //throw new LoadingException("Error");
+            throw new LoadingException("Error with the file:" + System.getProperty("line.separator") + ex.getMessage());
         }
     }
     

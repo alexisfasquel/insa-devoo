@@ -26,12 +26,12 @@ public class Delete extends Command{
     }
     
     @Override
-    public void execute() throws Area.AlreadyComputedException, Area.NoTourException{
+    public void execute() throws Area.NoTourException{
            deleteDelivery();
     }
     
     @Override
-    public void reverse() throws Area.NoTourException, Area.AlreadyComputedException {
+    public void reverse() throws Area.NoTourException {
         add(mDeliveryPoint.getItinary(), mDeliveryPoint.getNclient());
     }
     
