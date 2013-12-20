@@ -5,8 +5,6 @@ import Model.Area;
 import Model.LoadingException;
 import View.Welcome;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.graphstream.graph.Node;
 
 
@@ -51,7 +49,6 @@ public class Controller {
             // Donner chemin de fichier.
             mArea.loadMap(fileName);
         } catch (LoadingException ex) {
-            
             mWelcome.displayPopup("Error", ex.getMessage());
         }  
     }
@@ -77,7 +74,6 @@ public class Controller {
         try {
             mArea.computeRoadMapDij();
         } catch (Area.NoTourException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             mWelcome.displayPopup("Error", "Pas de demande de livraisons faites");
         }
     }
@@ -90,7 +86,9 @@ public class Controller {
         try {
             command.execute();
         } catch (Area.NoTourException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            mWelcome.displayPopup("Error", "Pas de demande de livraisons faites");
+        } catch (LoadingException ex) {
+            mWelcome.displayPopup("Error", ex.getMessage());
         }
         mDoneStack.push(command);
     }
@@ -103,7 +101,9 @@ public class Controller {
         try {
             command.reverse();
         } catch (Area.NoTourException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            mWelcome.displayPopup("Error", "Pas de demande de livraisons faites");
+        } catch (LoadingException ex) {
+            mWelcome.displayPopup("Error", ex.getMessage());
         }
         mUndoneStack.push(command);
     }
@@ -118,7 +118,9 @@ public class Controller {
         try {
             add.execute();
         } catch (Area.NoTourException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            mWelcome.displayPopup("Error", "Pas de demande de livraisons faites");
+        } catch (LoadingException ex) {
+            mWelcome.displayPopup("Error", ex.getMessage());
         }
         mDoneStack.push(add);
         
@@ -147,7 +149,7 @@ public class Controller {
         try {
             delete.execute();
         } catch (Area.NoTourException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            mWelcome.displayPopup("Error", ex.getMessage());
         }
         mDoneStack.push(delete);
     }

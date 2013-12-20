@@ -3,8 +3,7 @@ package Controller;
 
 import Model.Area;
 import Model.DeliveryPoint;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import Model.LoadingException;
 import org.graphstream.graph.Node;
 
 public class Delete extends Command{
@@ -27,7 +26,7 @@ public class Delete extends Command{
     }
     
     @Override
-    public void reverse() throws Area.NoTourException {
+    public void reverse() throws Area.NoTourException, LoadingException {
         add(mDeliveryPoint.getItinary(), mDeliveryPoint.getNclient());
     }
     

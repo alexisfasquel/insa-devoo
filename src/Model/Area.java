@@ -44,6 +44,7 @@ public class Area{
         mGraph.addAttribute("ui.quality");
         mGraph.addAttribute("ui.antialias");
         mGraph.addAttribute("ui.stylesheet", "url('./map_style.css')");
+        
         mTour = new ArrayList<>();
         mAstar = new AStar(mGraph);
         mAstar.setCosts(new TimeCost());

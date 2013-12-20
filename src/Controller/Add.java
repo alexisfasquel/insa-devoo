@@ -3,6 +3,7 @@ package Controller;
 
 import Model.Area;
 import Model.Itinary;
+import Model.LoadingException;
 import org.graphstream.graph.Node;
 
 
@@ -28,7 +29,7 @@ public class Add extends Command {
      *
      * @throws Area.NoTourException
      */
-    public void execute() throws Area.NoTourException {
+    public void execute() throws Area.NoTourException, LoadingException {
         add(mItinary, cliendId);
     }
     

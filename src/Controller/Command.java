@@ -25,13 +25,13 @@ public abstract class Command {
      *
      * @throws Area.NoTourException
      */
-    abstract public void execute() throws Area.NoTourException;
+    abstract public void execute() throws Area.NoTourException, LoadingException;
 
     /**
      *
      * @throws Area.NoTourException
      */
-    abstract public void reverse() throws Area.NoTourException;
+    abstract public void reverse() throws Area.NoTourException, LoadingException;
         
     /**
      * @param area
