@@ -56,6 +56,10 @@ public class Area{
      * @param wareHouseId 
      */
     public void setWareHouse(String wareHouseId) {
+        if(mWareHouse != null) {
+            mWareHouse.removeAttribute("warehouse");
+            mWareHouse.removeAttribute("ui.class");   
+        }
         mWareHouse = mGraph.getNode(wareHouseId);
         mWareHouse.addAttribute("warehouse");
         mWareHouse.addAttribute("ui.class", "warehouse");
