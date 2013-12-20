@@ -92,7 +92,7 @@ public class Area{
     public void addDelivery(Itinary itinary, String idClient, String adress) throws LoadingException {
         Node node = mGraph.getNode(adress);
         if((node == null)) {
-            
+            throw new LoadingException("Pas de d'intersection à l'adresse spécifiée");
         }
         itinary.addDeliveryPoint(mGraph.getNode(adress), idClient);
     }
@@ -120,6 +120,9 @@ public class Area{
     public void loadMap(String filePath) 
             throws LoadingException {
         
+        if(mMapLoaded) {
+            mGraph = new SingleGraph("map");
+        }
         MapReader mapReader = new MapReader(filePath);
         
         mapReader.process();
@@ -130,6 +133,7 @@ public class Area{
                 Node node = mGraph.addNode(String.valueOf(nodes.get(i).getId()));
                 node.addAttribute("xy", nodes.get(i).getX(), nodes.get(i).getY());
             } catch(IdAlreadyInUseException e) {
+                mGraph = new SingleGraph("map");
                 throw new LoadingException("Deux intersections ont la même adresse...");
             }
         }
@@ -139,12 +143,13 @@ public class Area{
                 try {
                     edge = mGraph.addEdge(String.valueOf(i), String.valueOf(edges.get(i).getNodeIdL()), String.valueOf(edges.get(i).getNodeIdR()), true);
                 } catch (ElementNotFoundException e) {
+                    mGraph = new SingleGraph("map");
                     throw new LoadingException("Erreur de chargement du plan. \nUne route est attachée a une intersection inexistante...");
                 } catch(EdgeRejectedException e) {
+                    mGraph = new SingleGraph("map");
                     throw new LoadingException("Erreur de chargement du plan. \nPlus d'une route est attaché entre deux intersections...");
-                }
+                } 
                 edge.addAttribute("name", edges.get(i).getName());
-                edge.setAttribute("ui.label", edges.get(i).getName());
                 edge.addAttribute("time", edges.get(i).getweight());
                 if(edges.get(i).getweight() > 90) {
                     

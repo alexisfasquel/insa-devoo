@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -106,8 +108,11 @@ public class DeliveryLoader {
             } else if(qName.equals("Livraison")) {
                     String cliendId = attributes.getValue("client");
                     String deliveryAdress = attributes.getValue("adresse");
-             
+                try {             
                     mArea.addDelivery(mItinary, cliendId, deliveryAdress);
+                } catch (LoadingException ex) {
+                    throw new SAXException(ex.getMessage());
+                }
             }
         }
     }

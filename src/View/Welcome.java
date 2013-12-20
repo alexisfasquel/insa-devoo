@@ -35,7 +35,7 @@ import org.graphstream.graph.implementations.SingleGraph;
  */
 public class Welcome extends JFrame {
     
-    private boolean alreadyLoad;
+    private static boolean mAlreadyLoad;
     private Controller mController;
     private Area mArea;
     private View mMap;
@@ -148,11 +148,12 @@ public class Welcome extends JFrame {
         
         
         // Gerstion des action.
-        
         mButLoadPlan.addActionListener(new ActionListener() {
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(mAlreadyLoad && !warning())
+                    return; 
                 JFileChooser mFcArea = new JFileChooser();
 
                 int retval = mFcArea.showOpenDialog(frame);
@@ -167,15 +168,17 @@ public class Welcome extends JFrame {
         });
         
         mButLoadDelivery.addActionListener(new ActionListener() {
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(mAlreadyLoad && !warning())
+                    return;
                 JFileChooser mFcArea = new JFileChooser();
 
                 int retval = mFcArea.showOpenDialog(frame);
                 if (retval == JFileChooser.APPROVE_OPTION){
                     
-                    if ( alreadyLoad ) {
+                    if ( mAlreadyLoad ) {
                         mTableModel.setRowCount(0);
                         //mItinaryModel.setRowCount(0);
                     }
@@ -299,12 +302,21 @@ public class Welcome extends JFrame {
         JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
     }
     
+    public boolean warning() {
+        int showConfirmDialog = JOptionPane.showConfirmDialog(this, "Attention, vous aller supprimer la tournée en cours\nEtes vous sur ?", "Attention !", JOptionPane.YES_NO_OPTION);
+        if(showConfirmDialog == JOptionPane.YES_OPTION) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     /**
      * Fill the mTableModel with the informations about the deliveryPoint
      * @param pTableModel
      */
     public void fillTable(DefaultTableModel pTableModel) {
-    alreadyLoad = true;
+    mAlreadyLoad = true;
     List<Itinary> currentTour = mArea.getTour();
     
     

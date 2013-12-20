@@ -5,6 +5,7 @@ package Controller;
 import Model.Area;
 import Model.DeliveryPoint;
 import Model.Itinary;
+import Model.LoadingException;
 import org.graphstream.graph.Node;
 
 
@@ -60,7 +61,7 @@ public abstract class Command {
      * @param cliendId
      * @throws Area.NoTourException
      */
-    public void add(Itinary itinary, String cliendId) throws Area.NoTourException {
+    public void add(Itinary itinary, String cliendId) throws LoadingException, Area.NoTourException {
         mArea.addDelivery(itinary, cliendId, mNode.getId());
         //mArea.addDelivery(itinary, intersection.getId(), idClient);
         mArea.computeRoadMapDij();//Beug dans undo de delivery
