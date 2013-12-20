@@ -160,7 +160,7 @@ public class Area{
                 }
         }
         for (Node node : mGraph.getNodeSet()) {
-            if(node.getEdgeSet().size() < 2 || node.getEnteringEdgeSet().isEmpty()) {
+            if( node.getEnteringEdgeSet().isEmpty() || node.getLeavingEdgeSet().isEmpty()) {
                 throw new LoadingException("Erreur de chargement du plan. \n Une intersection est depourvu de accès...");
             }
         }
