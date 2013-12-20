@@ -29,6 +29,7 @@ public class Add extends Command {
      *
      * @throws Area.NoTourException
      */
+    @Override
     public void execute() throws Area.NoTourException, LoadingException {
         add(mItinary, cliendId);
     }
@@ -37,6 +38,7 @@ public class Add extends Command {
      * 
      * @throws Area.NoTourException
      */
+    @Override
     public void reverse() throws Area.NoTourException {
          deleteDelivery();
     }

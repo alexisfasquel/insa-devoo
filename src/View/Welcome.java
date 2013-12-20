@@ -55,13 +55,18 @@ public class Welcome extends JFrame {
     private MapMouseManager mMapListener;
 
     
+    public void reload() {
+        mTableModel.setRowCount(0);
+        fillTable(mTableModel);
+    }
+    
     /**
      * Create the welcome Frame
      * @param controller
      * @param graph
      * @param pArea
      */
-    public Welcome(Controller controller, SingleGraph graph, Area pArea ) {
+    public Welcome(Controller controller, SingleGraph graph, Area pArea) {
         
         mController = controller;
         mArea = pArea;
@@ -99,9 +104,8 @@ public class Welcome extends JFrame {
        String colNames2[] = {"dateDébut", "DateFin"};
      
         
-       final DefaultTableModel mTableModel = new DefaultTableModel(colNames, 0);
-       final JTable mDelTable = new JTable(mTableModel);
-     
+       mTableModel = new DefaultTableModel(colNames, 0);
+       mDelTable = new JTable(mTableModel);
        
        
        final DefaultTableModel mItinaryModel = new DefaultTableModel(colNames2, 0);
@@ -142,7 +146,6 @@ public class Welcome extends JFrame {
     
         this.getContentPane().add(mListPanel, BorderLayout.LINE_END);
         
-      //  this.getContentPane().add( mItinaryPanel,FlowLayout.RIGHT);
       
         final JFrame frame = this;
         
@@ -152,17 +155,18 @@ public class Welcome extends JFrame {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(mAlreadyLoad && !warning())
-                    return; 
+                //Initing and adding the graph viewer
+                if(mAlreadyLoad) {
+                    if(!warning())
+                        return;
+                }
                 JFileChooser mFcArea = new JFileChooser();
 
                 int retval = mFcArea.showOpenDialog(frame);
                 if (retval == JFileChooser.APPROVE_OPTION){
 
-                    
-                    mController.loadPlan(mFcArea.getSelectedFile().getPath());
                     mButLoadDelivery.setEnabled(true);
-
+                    mController.loadPlan(mFcArea.getSelectedFile().getPath());
                 }
              }
         });
@@ -171,21 +175,23 @@ public class Welcome extends JFrame {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(mAlreadyLoad && !warning())
-                    return;
+                if(mAlreadyLoad) {
+                    if(!warning())
+                        return;
+                }
                 JFileChooser mFcArea = new JFileChooser();
 
                 int retval = mFcArea.showOpenDialog(frame);
                 if (retval == JFileChooser.APPROVE_OPTION){
                     
-                    if ( mAlreadyLoad ) {
+                    if (mAlreadyLoad) {
                         mTableModel.setRowCount(0);
                         //mItinaryModel.setRowCount(0);
                     }
                     mController.loadDeliveries(mFcArea.getSelectedFile().getPath());  
                     mButComputeItinary.setEnabled(true);
                     
-                    fillTable(mTableModel);
+                    reload();
                     //fillItinaryTable(mItinaryModel);
             
                 }
@@ -205,10 +211,17 @@ public class Welcome extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                String idclient = (String)JOptionPane.showInputDialog(frame,
+                    "Cliend id ?",
+                    JOptionPane.PLAIN_MESSAGE);
+                if(idclient.isEmpty() || idclient.equals("-1")) {
+                    return;
+                }
                 int selectedRow = table.getSelectedRow();
-                mController.addDelivery(mMapListener.getSelected(), selectedRow);
+                mController.addDelivery(mMapListener.getSelected(), selectedRow, idclient);
+                reload();
                 mMapListener.deselect();
-                if(mController.CheckUndo()){
+                if (mController.CheckUndo()) {
                     mButUnDo.setEnabled(true);
                     mButAdd.setEnabled(false);
                     mItinaryPanel.setVisible(false);
@@ -221,7 +234,6 @@ public class Welcome extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                    
                 mController.computeRoadMap();
             }
         });
@@ -230,8 +242,7 @@ public class Welcome extends JFrame {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-            
-               mController.reDo(); 
+                mController.reDo(); 
                 if(!mController.CheckRedo()){
                 mButReDo.setEnabled(false);
             }
@@ -242,6 +253,7 @@ public class Welcome extends JFrame {
             }
         });
       
+        
         
         mButUnDo.addActionListener(new ActionListener() { 
             
@@ -265,6 +277,7 @@ public class Welcome extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 mController.DeleteDelivery(mMapListener.getSelected());   
                 mMapListener.deselect();
+                reload();
                 if(mController.CheckUndo()){
                     mButUnDo.setEnabled(true);
                 }

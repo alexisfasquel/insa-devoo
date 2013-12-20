@@ -121,9 +121,7 @@ public class Area{
     public void loadMap(String filePath) 
             throws LoadingException {
         
-        if(mMapLoaded) {
-            mGraph = new SingleGraph("map");
-        }
+        
         MapReader mapReader = new MapReader(filePath);
         
         mapReader.process();
@@ -134,7 +132,7 @@ public class Area{
                 Node node = mGraph.addNode(String.valueOf(nodes.get(i).getId()));
                 node.addAttribute("xy", nodes.get(i).getX(), nodes.get(i).getY());
             } catch(IdAlreadyInUseException e) {
-                mGraph = new SingleGraph("map");
+                
                 throw new LoadingException("Deux intersections ont la même adresse...");
             }
         }
@@ -144,10 +142,10 @@ public class Area{
                 try {
                     edge = mGraph.addEdge(String.valueOf(i), String.valueOf(edges.get(i).getNodeIdL()), String.valueOf(edges.get(i).getNodeIdR()), true);
                 } catch (ElementNotFoundException e) {
-                    mGraph = new SingleGraph("map");
+                   
                     throw new LoadingException("Erreur de chargement du plan. \nUne route est attachée a une intersection inexistante...");
                 } catch(EdgeRejectedException e) {
-                    mGraph = new SingleGraph("map");
+                   
                     throw new LoadingException("Erreur de chargement du plan. \nPlus d'une route est attaché entre deux intersections...");
                 } 
                 edge.addAttribute("name", edges.get(i).getName());
@@ -162,7 +160,7 @@ public class Area{
                 }
         }
         for (Node node : mGraph.getNodeSet()) {
-            if(node.getDegree() < 2 || node.getEnteringEdgeSet().isEmpty()) {
+            if(node.getEdgeSet().size() < 2 || node.getEnteringEdgeSet().isEmpty()) {
                 throw new LoadingException("Erreur de chargement du plan. \n Une intersection est depourvu de accès...");
             }
         }

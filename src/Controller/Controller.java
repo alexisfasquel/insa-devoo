@@ -47,6 +47,8 @@ public class Controller {
     public void loadPlan(String fileName) {
         try {
             // Donner chemin de fichier.
+            mDoneStack = new Stack<Command>();
+            mUndoneStack = new Stack<Command>();
             mArea.loadMap(fileName);
         } catch (LoadingException ex) {
             mWelcome.displayPopup("Error", ex.getMessage());
@@ -59,7 +61,8 @@ public class Controller {
      */
     public void loadDeliveries(String fileName) {
         try {
-            //mArea.dijkstra();
+            mDoneStack = new Stack<Command>();
+            mUndoneStack = new Stack<Command>();
             mArea.loadDeliveries(fileName);
         } catch (LoadingException ex) {
               
@@ -85,6 +88,7 @@ public class Controller {
         Command command = mUndoneStack.pop();
         try {
             command.execute();
+            mWelcome.reload();
         } catch (Area.NoTourException ex) {
             mWelcome.displayPopup("Error", "Pas de demande de livraisons faites");
         } catch (LoadingException ex) {
@@ -100,6 +104,7 @@ public class Controller {
         Command command = mDoneStack.pop();
         try {
             command.reverse();
+            mWelcome.reload();
         } catch (Area.NoTourException ex) {
             mWelcome.displayPopup("Error", "Pas de demande de livraisons faites");
         } catch (LoadingException ex) {
@@ -113,8 +118,8 @@ public class Controller {
      * @param selected
      * @param itinary
      */
-    public void addDelivery(Node selected, int itinary){
-        Add add = new Add(mArea, selected, itinary, "tet");
+    public void addDelivery(Node selected, int itinary, String idclient){
+        Add add = new Add(mArea, selected, itinary, idclient);
         try {
             add.execute();
         } catch (Area.NoTourException ex) {
