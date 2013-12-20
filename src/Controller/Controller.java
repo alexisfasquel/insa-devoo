@@ -6,8 +6,6 @@ import Model.LoadingException;
 import View.Welcome;
 import java.io.IOException;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.graphstream.graph.Node;
 
 

@@ -142,10 +142,12 @@ public class Itinary {
                 edge.addAttribute("ui.class", mColor);
             }
             Node root = mRoadMap.get(i).getRoot();
+            if(i==0) {
+                continue;
+            }
             if(root.getAttribute("warehouse") == null) {
                 
                 calendar.add(Calendar.SECOND, (int)(double)mRoadMap.get(i).getPathWeight("time"));
-                
                 String time = sdf.format(calendar.getTime());
                 root.setAttribute("ui.label", time);
             }
@@ -171,8 +173,11 @@ public class Itinary {
                     res += "Prendre la rue : " + name + "\n";
                 }
             }
+            
             res += "Arrivé au point de livraison " + mRoadMap.get(i).getRoot().getId() + " : " + mRoadMap.get(i).getRoot().getAttribute("ui.label") + "\n";
+            
         }
+        System.out.println(res);
         return res;
     }
     

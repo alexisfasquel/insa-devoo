@@ -2,15 +2,9 @@
 package View;
 
 import Controller.Controller;
-import Model.DeliveryPoint;
-import Model.Itinary;
 import java.awt.event.MouseEvent;
-import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.graphicGraph.stylesheet.Selector;
@@ -25,6 +19,7 @@ public class MapMouseManager extends DefaultMouseManager {
     private Controller mController;
     private JButton mButDeleteDel;
     private JPanel mListPanel;
+    private Welcome w;
 
     private Node mSelected;
     
@@ -34,8 +29,9 @@ public class MapMouseManager extends DefaultMouseManager {
      * @param ButDeleteDel
      * @param ListPanel
      */
-    public MapMouseManager(Controller controller, JButton ButDeleteDel, JPanel ListPanel) {
+    public MapMouseManager(Controller controller, JButton ButDeleteDel, JPanel ListPanel, Welcome w) {
         super();
+        this.w = w;
         mController = controller;
         mButDeleteDel = ButDeleteDel;
         mListPanel = ListPanel;
@@ -77,7 +73,9 @@ public class MapMouseManager extends DefaultMouseManager {
      */
     @Override
     public void mouseClicked(MouseEvent event) {
-
+        if(!w.isLoaded()) {
+            return;
+        }
         GraphicElement element = view.findNodeOrSpriteAt(event.getX(), event.getY());
         if(mSelected != null) {
             mSelected.removeAttribute("ui.selected");
@@ -90,7 +88,7 @@ public class MapMouseManager extends DefaultMouseManager {
                 mListPanel.setVisible(false);
             } else {
                 if (element.getSelectorType() == Selector.Type.NODE) {
-
+                
                     mSelected = (Node)element;
                     mSelected.addAttribute("ui.selected");
                     //mButDeleteDel.setEnabled(false);
@@ -99,6 +97,7 @@ public class MapMouseManager extends DefaultMouseManager {
                     mListPanel.setVisible(true);
                     mButDeleteDel.setEnabled(false);
                 } else {
+                    //w.select(mSelected.getId());
                     mButDeleteDel.setEnabled(true);
                     mListPanel.setVisible(false);
                 }

@@ -40,6 +40,7 @@ import org.graphstream.graph.implementations.SingleGraph;
 public class Welcome extends JFrame {
     
     private static boolean mAlreadyLoad;
+    private static boolean mPlanLoaded;
     private Controller mController;
     private Area mArea;
     private View mMap;
@@ -61,9 +62,28 @@ public class Welcome extends JFrame {
     private static final SimpleDateFormat sdf = new SimpleDateFormat("HH'h'mm");
 
     
+    
+    public boolean isLoaded() {
+        return mAlreadyLoad;
+    }
+    
     public void reload() {
         mTableModel.setRowCount(0);
         fillTable(mTableModel);
+    }
+    
+    public void select(String adress) {
+        int i = 0;
+        
+        while(true) {
+            String valueAt = (String)mTableModel.getValueAt(i, 1);
+            if(valueAt == null) {
+                return;
+            } else if(valueAt.equals(adress)) {
+                mDelTable.setRowSelectionInterval(i, i);
+                return;
+            }
+        }
     }
     
     /**
@@ -139,7 +159,7 @@ public class Welcome extends JFrame {
         Viewer v = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_SWING_THREAD);
         
         mMap = v.addDefaultView(false);
-        mMapListener = new MapMouseManager(mController,mButDeleteDel,mItinaryPanel);
+        mMapListener = new MapMouseManager(mController,mButDeleteDel,mItinaryPanel, this);
         mMap.setMouseManager(mMapListener);
         
         mButtonsPanel.add(mButLoadPlan);
@@ -166,7 +186,7 @@ public class Welcome extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Initing and adding the graph viewer
-                if(mAlreadyLoad) {
+                if(mPlanLoaded) {
                     if(!warning())
                         return;
                 }
@@ -177,6 +197,7 @@ public class Welcome extends JFrame {
 
                     mButLoadDelivery.setEnabled(true);
                     mController.loadPlan(mFcArea.getSelectedFile().getPath());
+                    mPlanLoaded = true;
                 }
              }
         });
@@ -200,7 +221,7 @@ public class Welcome extends JFrame {
                     }
                     mController.loadDeliveries(mFcArea.getSelectedFile().getPath());  
                     mButComputeItinary.setEnabled(true);
-                    
+                    mAlreadyLoad = true;
                     reload();
                     //fillItinaryTable(mItinaryModel);
             
@@ -352,7 +373,7 @@ public class Welcome extends JFrame {
      * @param pTableModel
      */
     public void fillTable(DefaultTableModel pTableModel) {
-    mAlreadyLoad = true;
+    
     List<Itinary> currentTour = mArea.getTour();
     
     

@@ -125,6 +125,11 @@ public class Area{
     public void loadMap(String filePath) 
             throws LoadingException {
         
+        mGraph.clear();
+        mGraph.addAttribute("ui.quality");
+        mGraph.addAttribute("ui.antialias");
+        mGraph.addAttribute("ui.stylesheet", "url('./map_style.css')");
+        mGraph.addAttribute("ui.style", "fill-color: rgb(247, 243, 232)");
         
         MapReader mapReader = new MapReader(filePath);
         
@@ -478,6 +483,7 @@ public class Area{
             }
             offset += size;
             itinary.setDirections(directions);
+            itinary.getDirections();
         }
         
     }
