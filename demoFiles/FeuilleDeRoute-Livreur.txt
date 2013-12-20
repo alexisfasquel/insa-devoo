@@ -1,0 +1,95 @@
+Prendre la rue : v17
+Prendre la rue : h12
+Prendre la rue : v15
+Prendre la rue : h11
+Prendre la rue : v14
+Prendre la rue : h6
+Prendre la rue : v12
+Prendre la rue : h5
+Prendre la rue : v10
+Arrivé au point de livraison 354 : null
+Prendre la rue : v10
+Prendre la rue : h5
+Prendre la rue : v6
+Prendre la rue : h4
+Arrivé au point de livraison 204 : 08h37
+Prendre la rue : h4
+Prendre la rue : v6
+Prendre la rue : h5
+Prendre la rue : v16
+Arrivé au point de livraison 104 : 08h54
+Prendre la rue : v16
+Prendre la rue : h9
+Prendre la rue : v15
+Prendre la rue : h10
+Prendre la rue : v12
+Prendre la rue : h12
+Prendre la rue : v11
+Prendre la rue : h15
+Prendre la rue : v10
+Prendre la rue : h16
+Arrivé au point de livraison 326 : 10h20
+Prendre la rue : h16
+Prendre la rue : v12
+Arrivé au point de livraison 236 : 10h23
+Prendre la rue : v12
+Prendre la rue : h14
+Prendre la rue : v11
+Prendre la rue : h12
+Prendre la rue : v8
+Prendre la rue : h10
+Prendre la rue : v6
+Prendre la rue : h8
+Prendre la rue : v4
+Prendre la rue : h7
+Prendre la rue : v3
+Prendre la rue : h2
+Arrivé au point de livraison 257 : 10h51
+Prendre la rue : h2
+Prendre la rue : v3
+Prendre la rue : h7
+Prendre la rue : v2
+Prendre la rue : h12
+Prendre la rue : v1
+Arrivé au point de livraison 42 : 11h10
+Prendre la rue : v1
+Prendre la rue : h11
+Arrivé au point de livraison 34 : 11h15
+Prendre la rue : h11
+Prendre la rue : v1
+Prendre la rue : h16
+Prendre la rue : v2
+Arrivé au point de livraison 11 : 14h08
+Prendre la rue : v2
+Prendre la rue : h16
+Prendre la rue : v4
+Prendre la rue : h15
+Prendre la rue : v7
+Prendre la rue : h12
+Prendre la rue : v8
+Prendre la rue : h11
+Prendre la rue : v9
+Prendre la rue : h5
+Prendre la rue : v8
+Prendre la rue : h2
+Prendre la rue : v9
+Prendre la rue : h1
+Arrivé au point de livraison 57 : 14h38
+Prendre la rue : h1
+Prendre la rue : v9
+Prendre la rue : h2
+Prendre la rue : v8
+Prendre la rue : h5
+Prendre la rue : v9
+Arrivé au point de livraison 161 : 14h52
+Prendre la rue : v9
+Prendre la rue : h10
+Prendre la rue : v15
+Prendre la rue : h9
+Prendre la rue : v17
+Prendre la rue : h10
+Arrivé au point de livraison 189 : 15h08
+Prendre la rue : v19
+Prendre la rue : h12
+Prendre la rue : v17
+Arrivé au point de livraison 390 : 15h15
