@@ -91,12 +91,15 @@ edge.boulevard
 edge.green 
 {
     fill-color: green;
+    z-index: 3;
 }
 edge.magenta
 {
     fill-color: magenta;
+    z-index: 3;
 }
 edge.cyan
 {
     fill-color: cyan;
+    z-index: 3;
 }

@@ -45,13 +45,34 @@ public class Area{
     public Area() {
         
         mGraph = new SingleGraph("map");
-        mGraph.addAttribute("ui.quality");
-        mGraph.addAttribute("ui.antialias");
-        mGraph.addAttribute("ui.stylesheet", "url('./map_style.css')");
+        clearMap();
         
         mTour = new ArrayList<>();
         mAstar = new AStar(mGraph);
         mAstar.setCosts(new TimeCost());
+    }
+    
+    public void clearDeliveries() {
+        for (int i = 0; i < mTour.size(); i++) {
+            mTour.get(i).removeDeliveryPoints();
+        }
+        if(mWareHouse != null) {
+            mWareHouse.removeAttribute("warehouse");
+            mWareHouse.removeAttribute("ui.class"); 
+        }
+        mWareHouse = null;
+        mTour = new ArrayList<>();
+        mGraph.removeAttribute("ui.stylesheet");
+        mGraph.addAttribute("ui.stylesheet", "url('./map_style.css')");
+    }
+    
+    public void clearMap() {
+        mWareHouse = null;
+        mTour = new ArrayList<>();
+        mGraph.clear();
+        mGraph.addAttribute("ui.quality");
+        mGraph.addAttribute("ui.antialias");
+        mGraph.addAttribute("ui.stylesheet", "url('./map_style.css')");
     }
     
     /**
@@ -125,11 +146,7 @@ public class Area{
     public void loadMap(String filePath) 
             throws LoadingException {
         
-        mGraph.clear();
-        mGraph.addAttribute("ui.quality");
-        mGraph.addAttribute("ui.antialias");
-        mGraph.addAttribute("ui.stylesheet", "url('./map_style.css')");
-        mGraph.addAttribute("ui.style", "fill-color: rgb(247, 243, 232)");
+        clearMap();
         
         MapReader mapReader = new MapReader(filePath);
         
@@ -188,9 +205,7 @@ public class Area{
         if(!mMapLoaded) {
             throw new LoadingException("Erreur de chargement des livraions : \nPas de plan chargé...");
         }
-        for (int i = 0; i < mTour.size(); i++) {
-            mTour.get(i).removeDeliveryPoints();
-        }
+        clearDeliveries();
         mTour = new ArrayList<>();
         DeliveryLoader deliveryReader = new DeliveryLoader(filePath, this);
         deliveryReader.process();
@@ -335,14 +350,12 @@ public class Area{
             offset += timeFrame.size();
         }
         
-        
         //Computing solution
         RegularGraph g = new RegularGraph(nbVertices, minArcCost, maxArcCost, costs, succ);
         TSP solver = new TSP(g);
         SolutionState solve = solver.solve(MAX_TIME, maxArcCost*nbVertices);
         int[] next = solver.getNext();
         int[] solution = new int[next.length+1];
-        
         
         
         for (int i = 0; i < next.length; i++) {
@@ -369,8 +382,6 @@ public class Area{
             offset += size;
             itinary.setDirections(directions);
         }
-        
-        
     }
 
     /**

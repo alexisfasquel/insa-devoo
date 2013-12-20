@@ -52,6 +52,7 @@ public class Controller {
             mUndoneStack = new Stack<Command>();
             mArea.loadMap(fileName);
         } catch (LoadingException ex) {
+            mArea.clearMap();
             mWelcome.displayPopup("Error", ex.getMessage());
         }  
     }
@@ -66,7 +67,7 @@ public class Controller {
             mUndoneStack = new Stack<Command>();
             mArea.loadDeliveries(fileName);
         } catch (LoadingException ex) {
-              
+            mArea.clearDeliveries();
            mWelcome.displayPopup("Error", ex.getMessage());
         }
     }
