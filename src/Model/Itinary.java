@@ -143,7 +143,11 @@ public class Itinary {
             }
             Node root = mRoadMap.get(i).getRoot();
             if(root.getAttribute("warehouse") == null) {
+                System.out.println(calendar.getTime());
                 calendar.add(Calendar.SECOND, (int)(double)mRoadMap.get(i).getPathWeight("time"));
+                System.out.println("Ici");
+                System.out.println(mRoadMap.get(i).getPathWeight("time"));
+                System.out.println(calendar.getTime());
                 String time = sdf.format(calendar.getTime());
                 root.setAttribute("ui.label", time);
             }
