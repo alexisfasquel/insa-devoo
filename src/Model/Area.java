@@ -13,9 +13,12 @@ import java.util.List;
 import org.graphstream.algorithm.AStar;
 import org.graphstream.algorithm.AStar.Costs;
 import org.graphstream.graph.Edge;
+import org.graphstream.graph.EdgeRejectedException;
+import org.graphstream.graph.ElementNotFoundException;
+import org.graphstream.graph.IdAlreadyInUseException;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
-import org.graphstream.graph.implementations.MultiGraph;
+import org.graphstream.graph.implementations.SingleGraph;
 
 /**
  * Area where deliveries can be made by a delivery person
@@ -25,7 +28,9 @@ public class Area{
     private static final int MAX_TIME = 10000;
     private AStar mAstar;
     
-    MultiGraph mGraph;
+    private boolean mMapLoaded = false;
+    
+    SingleGraph mGraph;
     
     private Node mWareHouse;
     private List<Itinary> mTour;
@@ -35,7 +40,7 @@ public class Area{
      */
     public Area() {
         
-        mGraph = new MultiGraph("map");
+        mGraph = new SingleGraph("map");
         mGraph.addAttribute("ui.quality");
         mGraph.addAttribute("ui.antialias");
         mGraph.addAttribute("ui.stylesheet", "url('./map_style.css')");
@@ -45,9 +50,9 @@ public class Area{
     }
     
     /**
-     * @return a Multigraph of <code>this</code>
+     * @return a SingleGraph of <code>this</code>
      */
-    public MultiGraph getGraph() {
+    public SingleGraph getGraph() {
         return mGraph;
     }
     
@@ -82,8 +87,13 @@ public class Area{
      * @param idClient the number which is the identification of a specific client
      * @param itinary  the list of the deliveries with a start and an end
      * @param adress   the adress of the delivery to add
+     * @throws Model.LoadingException
      */
-    public void addDelivery(Itinary itinary, String idClient, String adress) {
+    public void addDelivery(Itinary itinary, String idClient, String adress) throws LoadingException {
+        Node node = mGraph.getNode(adress);
+        if((node == null)) {
+            
+        }
         itinary.addDeliveryPoint(mGraph.getNode(adress), idClient);
     }
 
@@ -116,16 +126,26 @@ public class Area{
         
         List<MapReader.Node> nodes = mapReader.getNodes();
         for (int i = 0; i < nodes.size(); i++) {
-            Node node = mGraph.addNode(String.valueOf(nodes.get(i).getId()));
-            node.addAttribute("xy", nodes.get(i).getX(), nodes.get(i).getY());
+            try {
+                Node node = mGraph.addNode(String.valueOf(nodes.get(i).getId()));
+                node.addAttribute("xy", nodes.get(i).getX(), nodes.get(i).getY());
+            } catch(IdAlreadyInUseException e) {
+                throw new LoadingException("Deux intersections ont la même adresse...");
+            }
         }
         List<MapReader.Edge> edges = mapReader.getEdges();
         for (int i = 0; i < edges.size(); i++) {
-            
-                Edge edge = mGraph.addEdge(String.valueOf(i), String.valueOf(edges.get(i).getNodeIdL()), String.valueOf(edges.get(i).getNodeIdR()), true);
+                Edge edge;
+                try {
+                    edge = mGraph.addEdge(String.valueOf(i), String.valueOf(edges.get(i).getNodeIdL()), String.valueOf(edges.get(i).getNodeIdR()), true);
+                } catch (ElementNotFoundException e) {
+                    throw new LoadingException("Erreur de chargement du plan. \nUne route est attachée a une intersection inexistante...");
+                } catch(EdgeRejectedException e) {
+                    throw new LoadingException("Erreur de chargement du plan. \nPlus d'une route est attaché entre deux intersections...");
+                }
                 edge.addAttribute("name", edges.get(i).getName());
-                
                 edge.setAttribute("ui.label", edges.get(i).getName());
+                edge.addAttribute("time", edges.get(i).getweight());
                 if(edges.get(i).getweight() > 90) {
                     
                 } else if(edges.get(i).getweight() < 60) {
@@ -134,9 +154,13 @@ public class Area{
                 } else {
                     edge.addAttribute("ui.class", "avenue" );
                 }
-                edge.addAttribute("time", edges.get(i).getweight());
-
         }
+        for (Node node : mGraph.getNodeSet()) {
+            if(node.getDegree() < 2 || node.getEnteringEdgeSet().isEmpty()) {
+                throw new LoadingException("Erreur de chargement du plan. \n Une intersection est depourvu de accès...");
+            }
+        }
+        mMapLoaded = true;
     }
     
     /**
@@ -148,6 +172,9 @@ public class Area{
      */
    
     public void loadDeliveries(String filePath) throws LoadingException{
+        if(!mMapLoaded) {
+            throw new LoadingException("Erreur de chargement des livraions : \nPas de plan chargé...");
+        }
         for (int i = 0; i < mTour.size(); i++) {
             mTour.get(i).removeDeliveryPoints();
         }

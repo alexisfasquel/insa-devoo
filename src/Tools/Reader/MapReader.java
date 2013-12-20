@@ -5,12 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import org.xml.sax.*;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -23,8 +20,8 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class MapReader extends DefaultHandler{
     
-    private PlanHandler mPlanHandler = new PlanHandler();
-    private File mFile;
+    private final PlanHandler mPlanHandler = new PlanHandler();
+    private final File mFile;
     
     /**
      *
@@ -107,12 +104,16 @@ public class MapReader extends DefaultHandler{
                 double speed = Float.parseFloat(attributes.getValue("vitesse").replace(",", "."));
                 double lenght = Float.parseFloat(attributes.getValue("longueur").replace(",", "."));
                 int destination = Integer.parseInt(attributes.getValue("destination"));
-
+                
+                if(speed <0 || lenght <0) {
+                    throw new SAXException("La vitesse ou la longueur d'une des routes est négative.");
+                }
+                
                 Edge edge = new Edge(mNode.getId(), destination, name, speed, lenght);
                 mEdges.add(edge);  
             
            } else if(!qName.equals("Reseau")){
-               throw new SAXException("File not containings the correct format for a map");
+               throw new SAXException("Le fichier ne contient pas le format correct d'un plan.");
            }
         }
 

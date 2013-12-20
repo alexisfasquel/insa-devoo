@@ -13,8 +13,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-
-import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import Model.Area;
@@ -29,6 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.graphstream.graph.Node;
+import org.graphstream.graph.implementations.SingleGraph;
 
 
 /**
@@ -62,7 +61,7 @@ public class Welcome extends JFrame {
      * @param graph
      * @param pArea
      */
-    public Welcome(Controller controller, MultiGraph graph, Area pArea ) {
+    public Welcome(Controller controller, SingleGraph graph, Area pArea ) {
         
         mController = controller;
         mArea = pArea;
