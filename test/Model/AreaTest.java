@@ -335,6 +335,7 @@ public class AreaTest {
         }
         assertNotNull(caught);
         assertSame(LoadingException.class, caught.getClass());
+        fail();
 
     }
     

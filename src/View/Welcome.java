@@ -22,6 +22,9 @@ import java.awt.PopupMenu;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -55,6 +58,7 @@ public class Welcome extends JFrame {
     private DefaultTableModel mTableModel;
     private MapMouseManager mMapListener;
     private JButton mButExport;
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("HH'h'mm");
 
     
     public void reload() {
@@ -357,8 +361,13 @@ public class Welcome extends JFrame {
             
             Itinary currentItinary = currentTour.get(i);
             
-            String startTime = currentItinary.getStart().toString();
-            String endTime = currentItinary.getEnd().toString();
+            Calendar calendarStart = GregorianCalendar.getInstance();
+            Calendar calendarEnd = GregorianCalendar.getInstance();
+            
+            calendarStart.setTime(currentItinary.getStart());
+            calendarEnd.setTime(currentItinary.getEnd());
+            String startTime= sdf.format(calendarStart.getTime());
+            String endTime= sdf.format(calendarEnd.getTime()); 
             
             //for each delivery within current itinary.
             for (int j = 0; j < currentItinary.getDeliveryNb(); j++) {
@@ -370,6 +379,9 @@ public class Welcome extends JFrame {
                
                DeliveryPoint delPt = address.getAttribute("delivery");
                String idClient = delPt.getNclient();
+               
+               
+               
                
                String[] tempRow = {idClient, deliveryAddress, startTime, endTime};
                pTableModel.addRow(tempRow);
@@ -393,8 +405,15 @@ public class Welcome extends JFrame {
         for (int i = 0; i < mArea.getTour().size(); i++) {
             
             Itinary currentItinary = currentTour.get(i);
-            String startTime = currentItinary.getStart().toString();
-            String endTime = currentItinary.getEnd().toString();
+            
+            Calendar calendarStart = GregorianCalendar.getInstance();
+            Calendar calendarEnd = GregorianCalendar.getInstance();
+            
+            calendarStart.setTime(currentItinary.getStart());
+            calendarEnd.setTime(currentItinary.getEnd());
+            String startTime= sdf.format(calendarStart.getTime());
+            String endTime= sdf.format(calendarEnd.getTime()); 
+            
             String[] tempRow = {startTime, endTime};
             pTableModel.addRow(tempRow);
      
