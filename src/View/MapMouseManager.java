@@ -97,7 +97,7 @@ public class MapMouseManager extends DefaultMouseManager {
                     mListPanel.setVisible(true);
                     mButDeleteDel.setEnabled(false);
                 } else {
-                    //w.select(mSelected.getId());
+                    w.select(mSelected.getId());
                     mButDeleteDel.setEnabled(true);
                     mListPanel.setVisible(false);
                 }

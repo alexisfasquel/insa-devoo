@@ -74,14 +74,13 @@ public class Welcome extends JFrame {
     
     public void select(String adress) {
         int i = 0;
-        
-        while(true) {
-            String valueAt = (String)mTableModel.getValueAt(i, 1);
-            if(valueAt == null) {
-                return;
-            } else if(valueAt.equals(adress)) {
-                mDelTable.setRowSelectionInterval(i, i);
-                return;
+        for (int j = 0; j < mArea.getTour().size(); j++) {
+            i += mArea.getTour().get(j).getDeliveryNb();
+        }
+        for (int j = 0; j < i ; j++) {
+            String valueAt = (String)mTableModel.getValueAt(j, 1);
+            if(valueAt.equals(adress)) {
+                mDelTable.setRowSelectionInterval(j, j);
             }
         }
     }
