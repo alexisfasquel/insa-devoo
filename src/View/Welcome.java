@@ -18,6 +18,7 @@ import org.graphstream.ui.swingViewer.Viewer;
 import Model.Area;
 import Model.DeliveryPoint;
 import Model.Itinary;
+import java.awt.PopupMenu;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -53,6 +54,7 @@ public class Welcome extends JFrame {
     private JTable mListItinary;
     private DefaultTableModel mTableModel;
     private MapMouseManager mMapListener;
+    private JButton mButExport;
 
     
     public void reload() {
@@ -97,6 +99,9 @@ public class Welcome extends JFrame {
         mButDeleteDel.setEnabled(false);
         mButAdd = new JButton("Ajouter Livraison");
         mButAdd.setEnabled(false);
+        mButExport = new JButton("Exporter tournée");
+        mButExport.setEnabled(false);
+        
                 
                 
        // Table
@@ -139,6 +144,7 @@ public class Welcome extends JFrame {
         mButtonsPanel.add(mButReDo);
         mButtonsPanel.add(mButUnDo);
         mButtonsPanel.add(mButDeleteDel);
+        mButtonsPanel.add(mButExport);
         
         this.getContentPane().add(mButtonsPanel, BorderLayout.PAGE_END);
         
@@ -229,12 +235,25 @@ public class Welcome extends JFrame {
             }
         });
         
+        mButExport.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser mFcArea = new JFileChooser();
+
+                int retval = mFcArea.showOpenDialog(frame);
+                if (retval == JFileChooser.APPROVE_OPTION){
+                    mController.exportTour(mFcArea.getSelectedFile().getPath());
+                }
+            }
+        });
         
         mButComputeItinary.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 mController.computeRoadMap();
+                mButExport.setEnabled(true);
             }
         });
         

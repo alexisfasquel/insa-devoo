@@ -7,6 +7,10 @@ import Tools.Tsp.RegularGraph;
 import Tools.Tsp.RegularGraph1;
 import Tools.Tsp.SolutionState;
 import Tools.Tsp.TSP;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -187,6 +191,18 @@ public class Area{
         deliveryReader.process();
         
     }
+    
+    public void exportTour(String filePath) throws IOException {
+        BufferedWriter b = new BufferedWriter(new FileWriter(new File(filePath)));
+        String res = "";
+        for (int i = 0; i < mTour.size(); i++) {
+            res += mTour.get(i).getDirections();
+        }
+        b.write(res, 0, res.length());
+        b.flush();
+        b.close();
+    }
+    
     
     /**
      * @return a list of itinary of <code>this</code>
@@ -462,9 +478,7 @@ public class Area{
             }
             offset += size;
             itinary.setDirections(directions);
-            System.out.println(itinary.getDirections());
         }
-        
         
     }
     

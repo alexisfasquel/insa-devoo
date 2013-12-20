@@ -4,7 +4,10 @@ package Controller;
 import Model.Area;
 import Model.LoadingException;
 import View.Welcome;
+import java.io.IOException;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.graphstream.graph.Node;
 
 
@@ -157,6 +160,15 @@ public class Controller {
             mWelcome.displayPopup("Error", ex.getMessage());
         }
         mDoneStack.push(delete);
+    }
+    
+    
+    public void exportTour(String path) {
+        try {
+            mArea.exportTour(path);
+        } catch (IOException ex) {
+            mWelcome.displayPopup("Error", "Le fichier demandé n'est pas trouvable");
+        }
     }
     
     /**
